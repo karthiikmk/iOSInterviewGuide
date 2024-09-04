@@ -1,0 +1,10 @@
+@Tutorials(name: "Mastering Algorithms and Data Structures for iOS Interviews") {
+    @Intro(title: "Summary") {
+        The "Mastering Algorithms and Data Structures for iOS Interviews" guide is designed to prepare aspiring iOS developers for technical interviews by covering essential algorithms and data structures. From understanding the basics of complexity analysis to exploring advanced topics like graphs and trees, this guide provides in-depth tutorials, real-world applications, and practical interview questions to bolster your problem-solving skills and iOS development knowledge.
+        }
+        @Chapter(name: "Fundamentals of Algorithms") {
+            This chapter introduces the basics of algorithmic thinking, including understanding time and space complexity, Big O notation, and the difference between recursive and iterative solutions. Essential for laying the groundwork for more complex topics covered later in the book.
+            
+            @TutorialReference(tutorial: "doc:introduction")
+        }
+}                                                                                                            
