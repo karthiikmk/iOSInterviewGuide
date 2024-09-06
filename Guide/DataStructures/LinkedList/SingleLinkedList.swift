@@ -38,7 +38,7 @@ class Node<T>: Equatable, CustomStringConvertible {
 */
 
 // Building a generic linked list
-class LinkedList<T>: CustomStringConvertible {
+class LinkedList<T: Equatable>: CustomStringConvertible {
     
     var head: Node<T>? = nil
     var tail: Node<T>? = nil
@@ -233,5 +233,19 @@ extension LinkedList {
 
     func node(after index: Int) -> Node<T>? {
         return node(at: index)?.next // important
+    }
+}
+
+extension LinkedList {
+
+    func search(value: T) -> Node<T>? {
+        var currentNode = self.head
+        while currentNode != nil {
+            if currentNode?.value == value {
+                return currentNode
+            }
+            currentNode = currentNode?.next
+        }
+        return nil
     }
 }

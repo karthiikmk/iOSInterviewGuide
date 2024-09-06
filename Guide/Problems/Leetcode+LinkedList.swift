@@ -34,6 +34,22 @@ extension LeetCode {
         }
     }
 
+    // 5, 4, 3 -> 3, 4, 5
+    func reverse(from node: ListNode) -> ListNode? {
+
+        var previousNode: ListNode? = nil
+        var currentNode: ListNode? = node // 3
+        var nextNode: ListNode? //
+
+        while currentNode != nil {
+            nextNode = currentNode?.next // nil
+            currentNode?.next = previousNode // 3 - 4 - 5 - nil
+            previousNode = currentNode // 3 - 4 - 5 - nil
+            currentNode = nextNode // nil
+        }
+        return previousNode
+    }
+
     /// - NOTE: Little tricky.
     /// assigning the head reference in current node to perform mutation and iteration
     /// where as head will not be nil, only the mutation performed via currentNode<##>
@@ -50,7 +66,9 @@ extension LeetCode {
                 currentNode = currentNode?.next
             }
         }
-        return head
+        return head // Very important.
+        // if we return currentNode, then that is just last element
+        // we should be returning the reference of the head
     }
 
     func middleElement(of node: ListNode?) -> ListNode? {
@@ -76,11 +94,13 @@ extension LeetCode {
         while fast != nil && fast?.next != nil {
             slow = slow?.next
             fast = fast?.next?.next
+
+            // Equating the reference, not value
+            // Same value can be in different node, but that couldn't be a cycle.
             if slow === fast {
                 return true
             }
         }
-
         return false
     }
 
@@ -117,6 +137,7 @@ extension LeetCode {
         }
 
         // traverse
+        // Equating the reference, not value. 
         while pointerA !== pointerB {
             pointerA = pointerA?.next
             pointerB = pointerB?.next
@@ -125,6 +146,3 @@ extension LeetCode {
         return pointerA
     }
 }
-
-
-

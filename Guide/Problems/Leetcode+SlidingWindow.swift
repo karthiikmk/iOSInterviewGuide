@@ -56,34 +56,6 @@ extension LeetCode {
         return count
     }
 
-    /// Longest Substring Without Repeating Characters
-    ///
-    /// OJ: https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
-    ///
-    /// - seealso: Sliding window
-    func lengthOfLongestSubstring(_ s: String) -> Int {
-        let chars = Array(s)
-        var maxLength = 0
-
-        var charSet = Set<Character>()
-        var left = 0 // boundaries
-        var right = 0 // boundaris
-
-        while right < chars.count {
-            let char = chars[right]
-            if charSet.contains(char) {
-                charSet.remove(chars[left])
-                left += 1
-            } else {
-                charSet.insert(char)
-                maxLength = max(maxLength, right - left + 1)
-                right += 1
-            }
-        }
-
-        return maxLength
-    }
-
     /// Using kadane's algorithm: The idea of Kadane’s algorithm is to maintain a variable max_ending_here
     /// that stores the maximum sum contiguous subarray ending at current index and
     /// a variable max_so_far stores the maximum sum of contiguous subarray found so far,

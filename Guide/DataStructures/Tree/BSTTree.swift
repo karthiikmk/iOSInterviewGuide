@@ -48,8 +48,8 @@ import Foundation
  There is always only one possible place where the new element can be inserted in the tree.
  Finding this place is usually pretty quick. It takes O(h) time, where h is the height of the tree.
 
- In-order (or depth-first): first look at the left child of a node, then at the node itself, and finally at its right child.
  Pre-order: first look at a node, then its left and right children.
+ In-order (or depth-first): first look at the left child of a node, then at the node itself, and finally at its right child.
  Post-order: first look at the left and right children and process the node itself last.
 
  A tree is balanced if depth of the two subtrees of every node never differs by not more than 1
@@ -105,12 +105,12 @@ class BinarySearchTree<T: Comparable> {
     }
 
     func search(value: T) -> BinarySearchTree<T>? {
-        if value < self.value {
+        if value == self.value {
+            return self
+        } else if value < self.value {
             return left?.search(value: value)
-        } else if value > self.value {
-            return right?.search(value: value)
         } else {
-            return self // Basecase
+            return right?.search(value: value)
         }
     }
 
@@ -132,17 +132,17 @@ extension BinarySearchTree {
     }
 
     /// - NOTE: from root to the current node<##>
+    /// Iterating upwords
     func depth() -> Int {
-        var node = self
+        var node: BinarySearchTree<T>? = self
         var edges = 0
         // if no parents, then root is reached.
-        while case let parent? = node.parent {
-            node = parent
+        while node?.parent != nil {
+            node = node?.parent
             edges += 1
         }
         return edges
     }
-
 
     /// - NOTE: Recurssing all the left nodes to the end
     func minimum() -> BinarySearchTree<T> {
@@ -183,7 +183,7 @@ extension BinarySearchTree {
                 self.right = BinarySearchTree(value)
                 self.right?.parent = parent
             }
-        } else {
+        } else { // this is important.
             // duplicate value can't inserted.
         }
     }
@@ -191,19 +191,6 @@ extension BinarySearchTree {
 
 // MARK: - Removal
 extension BinarySearchTree {
-
-    func reconnectParent(_ node: BinarySearchTree<T>?) {
-        if let parent = self.parent { // self.parent is important
-            if isLeftChild {
-                parent.left = node
-            } else {
-                parent.right = node
-            }
-        }
-        // if no parent, then that is root node.
-        // so we should reset the nodes parent, else it might keep the old parent
-        node?.parent = parent
-    }
 
     /// - NOTE: Removing the current node
     func remove() -> BinarySearchTree? {
@@ -255,23 +242,36 @@ extension BinarySearchTree {
 
         return successor
     }
+
+    private func reconnectParent(_ node: BinarySearchTree<T>?) {
+        if let parent = self.parent { // self.parent is important
+            if isLeftChild {
+                parent.left = node
+            } else {
+                parent.right = node
+            }
+        }
+        // if no parent, then that is root node.
+        // so we should reset the nodes parent, else it might keep the old parent
+        node?.parent = parent
+    }
 }
 
 // MARK: - Traversal
 extension BinarySearchTree {
 
     /// - NOTE: time 0(n), space 0(n)
-    func traverseInOrder(_ process: @escaping ((T) -> Void)) {
-        left?.traverseInOrder(process)
-        process(value)
-        right?.traverseInOrder(process)
-    }
-
-    /// - NOTE: time 0(n), space 0(n)
     func traversePreOrder(_ process: @escaping ((T) -> Void)) {
         process(value)
         left?.traversePreOrder(process)
         right?.traversePreOrder(process)
+    }
+
+    /// - NOTE: time 0(n), space 0(n)
+    func traverseInOrder(_ process: @escaping ((T) -> Void)) {
+        left?.traverseInOrder(process)
+        process(value)
+        right?.traverseInOrder(process)
     }
 
     /// - NOTE: time 0(n), space 0(n)

@@ -56,7 +56,7 @@ class ViewController: UIViewController {
 //        let quickSort = InPlaceQuickSort(array: array)
 //        quickSort.sort()
 
-        let practise = Practise()
+        let practise = LeetCode()
         practise.run()
 	}
 
@@ -240,22 +240,5 @@ class ViewController: UIViewController {
         while let task = priorityQueue.pop() {
             print("Performing task: \(task.name)")
         }
-    }
-
-    func getFib(_ position: Int) -> Int {
-        if position == 0 || position == 1 {
-            return position
-        }
-
-        let first = getFib(position - 1)
-        let second = getFib(position - 2)
-        debugPrint("firts \(first) - second \(second)")
-        return first + second
-    }
-
-    func runFixedArray() {
-
-        /// Creating fixed size array of count 10
-        // let fixedArray = FixedSizeArray(max: 10, defaultValue: 0)
     }
 }
