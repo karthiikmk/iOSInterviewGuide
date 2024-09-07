@@ -57,7 +57,9 @@ class ViewController: UIViewController {
 //        quickSort.sort()
 
         let practise = LeetCode()
-        practise.run()
+        practise.runTree()
+        // practise.runLinkedList()
+        // practise.run()
 	}
 
     /// - NOTE: Given a one-dimensional array representing a single lane with vehicles moving in either directions,

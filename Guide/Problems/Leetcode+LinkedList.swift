@@ -18,6 +18,10 @@ import Foundation
 */
 extension LeetCode {
 
+    func runLinkedList() {
+        // convertArrayToLinkedList()
+    }
+
     class ListNode: CustomStringConvertible {
         var val: Int
         var next: ListNode?
@@ -32,6 +36,56 @@ extension LeetCode {
             }
             return s
         }
+
+        func add(value: Int) {
+            // Next is nil, basically empty case.
+            guard let next = self.next else {
+                next = .init(value)
+                return
+            }
+            var previousNode: ListNode? = next
+            var currentNode: ListNode? = next
+            while currentNode != nil {
+                previousNode = currentNode
+                currentNode = currentNode?.next
+            }
+            previousNode?.next = .init(value)
+        }
+    }
+
+    func convertLinkedListToArray() -> [Int] {
+
+        let one = ListNode(1)
+        let two = ListNode(2)
+        let three = ListNode(3)
+
+        one.next = two
+        two.next = three
+        three.next = nil
+
+        print(one.description)
+
+        // convert list to array
+        var array = [Int]()
+        // traverse from head to tail
+        var currentNode: ListNode? = one
+        while currentNode != nil {
+            array.append(currentNode!.val)
+            currentNode = currentNode?.next
+        }
+        print("result array: \(array)")
+        return array
+    }
+
+    func convertArrayToLinkedList(_ array: [Int] = [1,2,3,4]) -> ListNode? {
+        guard !array.isEmpty else { return nil }
+        let node: ListNode = .init(array[0])
+        for index in 1..<array.count {
+            let value = array[index]
+            node.add(value: value)
+        }
+        print(node)
+        return node
     }
 
     // 5, 4, 3 -> 3, 4, 5

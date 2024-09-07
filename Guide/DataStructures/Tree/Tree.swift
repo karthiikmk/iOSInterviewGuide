@@ -15,6 +15,12 @@ import Foundation
 /// Leaf Nodes: Nodes that do not have any children are called leaf nodes or terminal nodes. They are the nodes at the ends of the branches in the tree.
 /// Depth and Height: The depth of a node in a tree is the length of the path from the root to that node.
 /// The height of a tree is the length of the longest path from the root to a leaf node.
+///
+/// Height: Number of edges in the longest path from the given node to a leaf node
+/// Depth: Number of edges in path from root to the given node.
+///
+/// BFS - which explores nodes level by level (level order traversal)
+/// DFS - which explores nodes by going as deep as possible before backtracking to explore other paths.
 
 class TreeNode<T> {
 
