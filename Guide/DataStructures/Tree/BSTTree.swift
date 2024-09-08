@@ -7,6 +7,17 @@
 
 import Foundation
 
+/// A binary tree is a hierarchical data structure in which each node has at most two children, referred to as the left child and the right child.
+/// The structure of a binary tree allows for efficient insertion, deletion, and traversal operations.
+/// In a binary tree, there are no specific rules or constraints on the arrangement of nodes. Nodes can be inserted in any order, and the tree might not necessarily be sorted.
+///
+/// Time Complexity:
+/// Search: O(n)
+/// Insertion: O(n)
+/// Deletion: O(n)
+/// Storage Complexity: O(n)
+///
+
 /// A binary search tree is a specific type of binary tree that follows a particular property: for each node,
 ///  all elements in its left subtree are less than the node's value, and
 ///  all elements in its right subtree are greater than the node's value.
@@ -68,123 +79,144 @@ import Foundation
  - insert, remove can start performing from the root 
 */
 
+/// - NOTE: will have only two children<##>
+class BinaryTreeNode<T> {
+
+    var value: T
+    var parent: BinaryTreeNode?
+    var left: BinaryTreeNode<T>?
+    var right: BinaryTreeNode<T>?
+
+    var isRoot: Bool { parent == nil }
+    var isLeaf: Bool { left == nil && right == nil }
+    var count: Int { (left?.count ?? 0) + 1 + (right?.count ?? 0) }
+    var isLeftChild: Bool { parent?.left === self }
+    var isRightChild: Bool { parent?.right === self }
+
+    var hasLeftChild: Bool { left != nil }
+    var hasRightChild: Bool { right != nil }
+    var hasAnyChild: Bool { hasLeftChild || hasRightChild }
+    var hasBothChildern: Bool { hasLeftChild && hasRightChild }
+
+    init(value: T) {
+        self.value = value
+    }
+}
+
 class BinarySearchTree<T: Comparable> {
 
-    let value: T
-    var parent: BinarySearchTree<T>? = nil
-    var left: BinarySearchTree<T>? = nil // first child
-    var right: BinarySearchTree<T>? = nil // second child
-
-    fileprivate var isRoot: Bool { parent == nil }
-    fileprivate var isLeaf: Bool { left == nil && right == nil }
-    fileprivate var count: Int { (left?.count ?? 0) + 1 + (right?.count ?? 0) }
-    fileprivate var isLeftChild: Bool { parent?.left === self }
-    fileprivate var isRightChild: Bool { parent?.right === self }
-
-    fileprivate var hasLeftChild: Bool { left != nil }
-    fileprivate var hasRightChild: Bool { right != nil }
-    fileprivate var hasAnyChild: Bool { hasLeftChild || hasRightChild }
-    fileprivate var hasBothChildern: Bool { hasLeftChild && hasRightChild }
+    var root: BinaryTreeNode<T>? = nil // Use this
 
     init(_ value: T) {
-        self.value = value
+        self.root = BinaryTreeNode(value: value)
     }
 
     convenience init(array: [T]) {
         precondition(array.count > 0)
-        self.init(array.first!)
-
-        for v in array.dropFirst() {
-            self.insert(value: v, with: self)
+        self.init(array[0])
+        for i in 1..<array.count {
+            insert(value: array[i])
         }
     }
 
-    // This will be added as child, so the parent is the current
     func insert(value: T) {
-        insert(value: value, with: self)
-    }
-
-    func search(value: T) -> BinarySearchTree<T>? {
-        if value == self.value {
-            return self
-        } else if value < self.value {
-            return left?.search(value: value)
-        } else {
-            return right?.search(value: value)
+        guard let root = root else {
+            self.root = BinaryTreeNode(value: value)
+            return
         }
+        insert(root, value: value)
     }
 
-    func remove(value: T) -> BinarySearchTree<T>? {
-        guard let tree = search(value: value) else { return nil }
-        return tree.remove()
+    // Search for a value in the tree
+    func search(value: T) -> BinaryTreeNode<T>? {
+        return search(root, value: value)
+    }
+
+    func remove(value: T) {
+        guard let node = search(value: value) else { return }
+        return removeNode(node)
     }
 }
 
 extension BinarySearchTree {
 
-    /// - NOTE: From root to the leaf
-    func height() -> Int {
-        if isLeaf {
-            return 0 // BaseCondition
-        } else {
-            return 1 + max((left?.height() ?? 0), (right?.height() ?? 0))
-        }
+    func height(of node: BinaryTreeNode<T>?) -> Int {
+        guard let node else { return 0 }
+        return 1 + max(height(of: node.left), height(of: node.right))
     }
 
-    /// - NOTE: from root to the current node<##>
-    /// Iterating upwords
-    func depth() -> Int {
-        var node: BinarySearchTree<T>? = self
-        var edges = 0
+    /// Going upwards towards parent
+    func depth(of node: BinaryTreeNode<T>?) -> Int {
+        var depth: Int = 0
+        var currentNode = node
+
         // if no parents, then root is reached.
-        while node?.parent != nil {
-            node = node?.parent
-            edges += 1
+        while let parent = currentNode?.parent {
+            depth += 1
+            currentNode = parent
         }
-        return edges
+        return depth
     }
 
-    /// - NOTE: Recurssing all the left nodes to the end
-    func minimum() -> BinarySearchTree<T> {
-        var node = self
-        while let next = node.left {
-            node = next
+    /// NOTE: Find the node which has minium value
+    /// As its binary search tree, the minimum always found on the left hand side
+    func findMin(of node: BinaryTreeNode<T>) -> BinaryTreeNode<T> {
+        var currentNode = node
+        while let left = currentNode.left {
+            currentNode = left
         }
-        return node
+        return currentNode
     }
 
-    func maximum() -> BinarySearchTree<T> {
-        var node = self
-        while let next = node.right {
-            node = next
+    /// NOTE: Find the node which has minium value
+    /// As its binary search tree, the minimum always found on the left hand side
+    func findMaxNode(of node: BinaryTreeNode<T>?) -> BinaryTreeNode<T>? {
+        guard let node else { return nil }
+        var currentNode = node
+        while let righ = currentNode.right {
+            currentNode = righ
         }
-        return node
+        return currentNode
     }
 }
 
 // MARK: - Insert
 extension BinarySearchTree {
 
-    /// - NOTE: A recurive function
-    private func insert(value: T, with parent: BinarySearchTree<T>) {
-        // insert as left child
-        if value < self.value {
-            if let left = self.left {
-                left.insert(value: value, with: left) // recurssion
+    private func insert(_ node: BinaryTreeNode<T>, value: T) {
+        if value < node.value {
+            if let leftChild = node.left {
+                insert(leftChild, value: value)
             } else {
-                self.left = BinarySearchTree(value)
-                left?.parent = parent
+                let newNode = BinaryTreeNode(value: value)
+                newNode.parent = node
+                node.left = newNode
             }
-        } else if value > self.value {
-            // insert as rigth child
-            if let right = self.right {
-                right.insert(value: value, with: right) // recurssion
+        } else if value > node.value {
+            if let rightChild = node.right {
+                insert(rightChild, value: value)
             } else {
-                self.right = BinarySearchTree(value)
-                self.right?.parent = parent
+                let newNode = BinaryTreeNode(value: value)
+                newNode.parent = node
+                node.right = newNode
             }
-        } else { // this is important.
-            // duplicate value can't inserted.
+        }
+    }
+}
+
+// MARK: - Search
+extension BinarySearchTree {
+
+    /// BST Search
+    private func search(_ node: BinaryTreeNode<T>?, value: T) -> BinaryTreeNode<T>? {
+        guard let node = node else { return nil }
+
+        if value == node.value {
+            return node // Basecase
+        } else if value < node.value {
+            return search(node.left, value: value)
+        } else {
+            return search(node.right, value: value)
         }
     }
 }
@@ -192,68 +224,51 @@ extension BinarySearchTree {
 // MARK: - Removal
 extension BinarySearchTree {
 
-    /// - NOTE: Removing the current node
-    func remove() -> BinarySearchTree? {
-        var replacementNode: BinarySearchTree? = nil
-
-        // This node has two children
-        if let left = self.left {
-            if let right = self.right {
-                // find the smallest child that is larger than the node
-                replacementNode = removeNodeWithTwoChildren(left, right)
-            } else {
-                // This node only has a left child. The left child replaces the node.
-                replacementNode = left
-            }
-        } else if let right = self.right {
-            // This node only has a right child. The right child replaces the node
-            replacementNode = right
-        } else {
-            // This node has no children. We just disconnect it from its parent
-            replacementNode = nil
-        }
-
-        reconnectParent(replacementNode)
-
-        // resetting
-        self.parent = nil
-        self.left = nil
-        self.right = nil
-        return replacementNode
+    func remove(node: T) {
+        guard let nodeToRemove = search(value: node) else { return }
+        removeNode(nodeToRemove)
     }
 
-    /// - NOTE: find the smallest child that is larger than the node
-    private func removeNodeWithTwoChildren(_ left: BinarySearchTree<T>, _ right: BinarySearchTree<T>) -> BinarySearchTree {
-
-        let successor = right.minimum() // right is the larger one, on that should find the least one.
-        _ = successor.remove() // cleaning up so that node can be relocated.
-
-        // reparing the left node
-        successor.left = left
-        left.parent = successor
-
-        // reparing the right node
-        if right !== successor { // minimum and larger node are not same
-            successor.right = right
-            right.parent = successor
-        } else {
-            successor.right = nil
+    private func removeNode(_ node: BinaryTreeNode<T>) {
+        // Case 1: Node has no children (Leaf)
+        if node.left == nil && node.right == nil {
+            reconnectParent(node, for: nil)
         }
-
-        return successor
+        // Case 2: Node has one child (left or right)
+        else if let left = node.left, node.right == nil {
+            reconnectParent(node, for: left)
+        } else if let right = node.right, node.left == nil {
+            reconnectParent(node, for: right)
+        }
+        // Case 3: Node has two children
+        else if let right = node.right, let left = node.left {
+            let successor = findMin(of: right)
+            removeNode(successor)
+            // left
+            successor.left = left
+            left.parent = successor
+            // Right
+            if right !== successor {
+                successor.right = right
+                right.parent = successor
+            } else {
+                successor.right = nil
+            }
+            // Reconnecting with parent
+            reconnectParent(node, for: successor)
+        }
     }
 
-    private func reconnectParent(_ node: BinarySearchTree<T>?) {
-        if let parent = self.parent { // self.parent is important
-            if isLeftChild {
-                parent.left = node
-            } else {
-                parent.right = node
+    // Helper to reconnect parent node
+    private func reconnectParent(_ node: BinaryTreeNode<T>, for replacement: BinaryTreeNode<T>?) {
+        if let parent = node.parent {
+            if parent.left === node {
+                parent.left = replacement
+            } else if parent.right === node {
+                parent.right = replacement
             }
         }
-        // if no parent, then that is root node.
-        // so we should reset the nodes parent, else it might keep the old parent
-        node?.parent = parent
+        replacement?.parent = node.parent
     }
 }
 
@@ -262,36 +277,55 @@ extension BinarySearchTree {
 
     /// - NOTE: time 0(n), space 0(n)
     func traversePreOrder(_ process: @escaping ((T) -> Void)) {
-        process(value)
-        left?.traversePreOrder(process)
-        right?.traversePreOrder(process)
+        _traversePreOrder(root, process: process)
+    }
+
+    private func _traversePreOrder(_ node: BinaryTreeNode<T>?, process: (T) -> Void) {
+        guard let node = node else { return }
+        process(node.value)
+        _traversePreOrder(node.left, process: process)
+        _traversePreOrder(node.right, process: process)
+    }
+
+    func traverseInOrder(_ process: (T) -> Void) {
+        _traverseInOrder(root, process: process)
+    }
+
+    private func _traverseInOrder(_ node: BinaryTreeNode<T>?, process: (T) -> Void) {
+        guard let node = node else { return }
+        _traverseInOrder(node.left, process: process)
+        process(node.value)
+        _traverseInOrder(node.right, process: process)
+    }
+
+    func traversePostOrder(_ process: (T) -> Void) {
+        _traversePostOrder(root, process: process)
     }
 
     /// - NOTE: time 0(n), space 0(n)
-    func traverseInOrder(_ process: @escaping ((T) -> Void)) {
-        left?.traverseInOrder(process)
-        process(value)
-        right?.traverseInOrder(process)
-    }
-
-    /// - NOTE: time 0(n), space 0(n)
-    func traversePostOrder(_ process: @escaping ((T) -> Void)) {
-        left?.traversePostOrder(process)
-        right?.traversePostOrder(process)
-        process(value)
+    private func _traversePostOrder(_ node: BinaryTreeNode<T>?, process: (T) -> Void) {
+        guard let node = node else { return }
+        _traversePostOrder(node.left, process: process)
+        _traversePostOrder(node.right, process: process)
+        process(node.value)
     }
 }
 
 extension BinarySearchTree: CustomStringConvertible {
 
     var description: String {
+        treeDescription(root)
+    }
+
+    private func treeDescription(_ node: BinaryTreeNode<T>?) -> String {
+        guard let node = node else { return "" }
         var s = ""
-        if let left = self.left {
-            s += "(\(left.description)) <- "
+        if let left = node.left {
+            s += "(\(treeDescription(left))) <- "
         }
-        s += "\(value)"
-        if let right = self.right {
-            s += " -> \(right.description)"
+        s += "\(node.value)"
+        if let right = node.right {
+            s += " -> (\(treeDescription(right)))"
         }
         return s
     }

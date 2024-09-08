@@ -201,12 +201,12 @@ class ViewController: UIViewController {
     }
 
     func testBinarySearchTree() {
-        let seven = BinarySearchTree(7)
-        let two = BinarySearchTree(2)
-        let ten = BinarySearchTree(10)
-        let one = BinarySearchTree(1)
-        let five = BinarySearchTree(5)
-        let nine = BinarySearchTree(9)
+        let seven = BinaryTreeNode(value: 7)
+        let two = BinaryTreeNode(value: 2)
+        let ten = BinaryTreeNode(value: 10)
+        let one = BinaryTreeNode(value: 1)
+        let five = BinaryTreeNode(value: 5)
+        let nine = BinaryTreeNode(value: 9)
 
         two.left = one
         two.right = five
