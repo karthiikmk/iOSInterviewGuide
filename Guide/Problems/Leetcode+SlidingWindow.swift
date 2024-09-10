@@ -12,22 +12,6 @@ import Foundation
 /// SubSequeunce - not really a contagious one.
 extension LeetCode {
 
-    /// - Discussion: Find the max number of times 1 appears consecutively (continiously).
-    ///  The numbers in an array would be 0, 1's. Eg: [0, 1, 1, 1, 0, 0, 1]
-    /// - Returns: Maximum number of times 1 appears consecutively
-    /// - Complexity: O(n)
-    /// - Seealso: Sliding Window, Kadane's Algorithm
-    func findMaxConsecutiveOnces(_ nums: [Int]) -> Int {
-
-        var maximum: Int = 0
-        var sum: Int = 0
-
-        for num in nums {
-            sum = (num == 0) ? 0 : (sum+1)
-            maximum = max(sum, maximum)
-        }
-        return maximum
-    }
 
     /// Subarray Product Less Than K
     /// Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.

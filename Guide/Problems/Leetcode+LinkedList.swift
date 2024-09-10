@@ -19,7 +19,9 @@ import Foundation
 extension LeetCode {
 
     func runLinkedList() {
-        // convertArrayToLinkedList()
+        let array = [8,10,12,16,18,25,20]
+        let list = convertArrayToLinkedList(array)
+        convertLinkedListToArray(list)
     }
 
     class ListNode: CustomStringConvertible {
@@ -37,7 +39,7 @@ extension LeetCode {
             return s
         }
 
-        func add(value: Int) {
+        func insert(value: Int) {
             // Next is nil, basically empty case.
             guard let next = self.next else {
                 next = .init(value)
@@ -53,53 +55,45 @@ extension LeetCode {
         }
     }
 
-    func convertLinkedListToArray() -> [Int] {
-
-        let one = ListNode(1)
-        let two = ListNode(2)
-        let three = ListNode(3)
-
-        one.next = two
-        two.next = three
-        three.next = nil
-
-        print(one.description)
-
-        // convert list to array
-        var array = [Int]()
-        // traverse from head to tail
-        var currentNode: ListNode? = one
-        while currentNode != nil {
-            array.append(currentNode!.val)
-            currentNode = currentNode?.next
-        }
-        print("result array: \(array)")
-        return array
-    }
-
+    @discardableResult
     func convertArrayToLinkedList(_ array: [Int] = [1,2,3,4]) -> ListNode? {
         guard !array.isEmpty else { return nil }
         let node: ListNode = .init(array[0])
         for index in 1..<array.count {
             let value = array[index]
-            node.add(value: value)
+            node.insert(value: value)
         }
-        print(node)
+        print("Array to linkedList: \(node)")
         return node
     }
 
-    // 5, 4, 3 -> 3, 4, 5
+    @discardableResult
+    func convertLinkedListToArray(_ node: ListNode?) -> [Int] {
+        guard let node else { return [] }
+        // convert list to array
+        var array = [Int]()
+        // traverse from head to tail
+        var currentNode: ListNode? = node
+        while currentNode != nil {
+            array.append(currentNode!.val)
+            currentNode = currentNode?.next
+        }
+        print("LinkedList to Array: \(array)")
+        return array
+    }
+
+    /// NOTE: We should be using three window technique here.
     func reverse(from node: ListNode) -> ListNode? {
 
         var previousNode: ListNode? = nil
-        var currentNode: ListNode? = node // 3
+        var currentNode: ListNode? = node
         var nextNode: ListNode? //
 
         while currentNode != nil {
-            nextNode = currentNode?.next // nil
-            currentNode?.next = previousNode // 3 - 4 - 5 - nil
-            previousNode = currentNode // 3 - 4 - 5 - nil
-            currentNode = nextNode // nil
+            nextNode = currentNode?.next
+            currentNode?.next = previousNode
+            previousNode = currentNode
+            currentNode = nextNode
         }
         return previousNode
     }
@@ -108,8 +102,7 @@ extension LeetCode {
     /// assigning the head reference in current node to perform mutation and iteration
     /// where as head will not be nil, only the mutation performed via currentNode<##>
     func removeDuplicates(inList head: ListNode?) -> ListNode? {
-
-        var currentNode = head // reference of head.
+        var currentNode = head
         while currentNode != nil {
             if currentNode?.val == currentNode?.next?.val {
                 /// this will udpate the next node,
@@ -120,27 +113,23 @@ extension LeetCode {
                 currentNode = currentNode?.next
             }
         }
-        return head // Very important.
         // if we return currentNode, then that is just last element
         // we should be returning the reference of the head
+        return head // *** important (Not currentNode)
     }
 
     func middleElement(of node: ListNode?) -> ListNode? {
-
         var slow = node
         var fast = node
-
         // Floyd’s Cycle Detection Algorithm
         while fast != nil && fast?.next != nil {
             slow = slow?.next // 3
             fast = fast?.next?.next // 5
         }
-
         return slow
     }
 
     func hasCycle(node: ListNode?) -> Bool {
-
         var slow = node
         var fast = node
 
@@ -148,7 +137,6 @@ extension LeetCode {
         while fast != nil && fast?.next != nil {
             slow = slow?.next
             fast = fast?.next?.next
-
             // Equating the reference, not value
             // Same value can be in different node, but that couldn't be a cycle.
             if slow === fast {

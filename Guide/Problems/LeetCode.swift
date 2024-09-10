@@ -11,6 +11,21 @@ class LeetCode {
 
     func run() {        
         lengthOfLongestConsecutiveSubstring()
+        doBasics()
+    }
+
+    func doBasics() {
+        var array = [1,2,3,4]
+        var startIndex = 0
+        var endIndex = array.count - 1
+
+        var result = [Int]()
+        while startIndex <= endIndex {
+            let index = endIndex - startIndex // reverse
+            result.append(array[index])
+            startIndex += 1
+        }
+        print("result: \(result)")
     }
 
     /// - NOTE: To complete this, need to understand how modulo and division works.
@@ -20,13 +35,13 @@ class LeetCode {
     /// Append the extracted digit to the result variable by multiplying result by 10 and adding the digit.
     /// Update the number by removing the last digit using integer division /.
     func reverse(_ x: Int) -> Int {
-        var number = x
-        var result: Int = 0
+        var number = x // 321 // 32 // 3
+        var result: Int = 0 // 123
 
         while number != 0 {
-            let digit = number % 10 // 123 % 10 = 3
-            result = result * 10 + digit // 0 * 10 + 3 = 3
-            number /= 10 // 123 / 10 = 12 - preparing for next iteration
+            let digit = number % 10 // 321 % 10 = 1 // 32 % 10 = 2 // 3 % 10 = 3
+            result = result * 10 + digit // 0 * 10 + 1 = 1 // 1 * 10 + 2 = 12 // 12 * 10 + 3 //
+            number /= 10 // 321 / 10 = 32 // 32 / 10 = 3 // 3 /10 = 0
         }
         return result
     }

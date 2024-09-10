@@ -156,6 +156,25 @@ extension LeetCode {
         return start // not sure why start
     }
 
+    /// NOTE: Do the binary search (divide & conquer)
+    func binarySearch(_ value: Int, array: [Int]) -> Bool {
+        var startIndex = 0
+        var endIndex = array.count - 1
+
+        while startIndex < endIndex {
+            let middleIndex = startIndex + (endIndex - startIndex) / 2
+            let middleValue = array[middleIndex]
+            if value == middleIndex {  // found
+                return true
+            } else if value < middleValue {
+                endIndex = middleIndex - 1
+            } else {
+                startIndex = middleIndex + 1
+            }
+        }
+        return false
+    }
+
     func plusOne(_ digits: [Int]) -> [Int] {
 
         var result: Int = 0
@@ -325,6 +344,58 @@ extension LeetCode {
 
         return array
     }
+
+
+    /// - NOTE: Given a one-dimensional array representing a single lane with vehicles moving in either directions,
+    /// Write a function to determine how many `pairs` of vehicles are moving towards each other.
+    /// Uses two-pointer technique
+    func findPairs() -> Int {
+        let array: [String] = [">", "<", ">", ">", "<"]
+        var left = 0
+        var right = 0
+        var count = 0
+
+        // Move the left pointer until it finds a ">"
+        while left < array.count {
+            if array[left] == ">" {
+                // Move the right pointer from the current position of the left pointer
+                right = left + 1
+
+                // Move the right pointer until it finds a "<" or reaches the end of the array
+                while right < array.count && array[right] != "<" {
+                    right += 1
+                }
+
+                // If a "<" is found, increment the count by the number of "<"s found between the pointers
+                if right < array.count && array[right] == "<" {
+                    count += 1
+                }
+            }
+            left += 1
+        }
+        return count
+    }
+
+    /// - Discussion: Find the max number of times 1 appears consecutively (continiously).
+    ///  The numbers in an array would be 0, 1's. Eg: [0, 1, 1, 1, 0, 0, 1]
+    /// - Returns: Maximum number of times 1 appears consecutively
+    /// - Complexity: O(n)
+    func findMaxConsecutiveOnces(_ nums: [Int]) -> Int {
+        var left = 0 // track where its started, to find the length
+        var right = 0 // iterate through the array
+        var result = 0
+
+        while right < nums.count {
+            if nums[right] == 1 {
+                let lenght = right - left + 1 // 2 - 1 + 1 = 2
+                result = max(result, lenght)
+            } else {
+                left = right + 1
+            }
+            right += 1
+        }
+        return result
+    }
 }
 
 // MARK: - SubArray (Sliding Window)
@@ -473,12 +544,17 @@ extension LeetCode {
 
 extension LeetCode {
 
-    /// NOTE: In a sorted array, find the kth position.
+    func kthSmallest(_ array: [Int], _ k: Int) -> Int? {
+        guard !array.isEmpty else { return nil }
+        guard k > 0 && k <= array.count else { return nil } // valid index
+        let sortedArray = array.sorted()  // Sort in ascending order
+        return sortedArray[k - 1]
+    }
+
     func kthLargest(_ array: [Int], _ k: Int) -> Int? {
         guard !array.isEmpty else { return nil }
-        guard k >= 0 && k < array.count else { return nil } // valid index
-
-        let sortedArray = array.sorted()
+        guard k > 0 && k <= array.count else { return nil } // valid index
+        let sortedArray = array.sorted(by: >)  // Sort in descending order
         return sortedArray[k - 1]
     }
 
@@ -495,7 +571,7 @@ extension LeetCode {
         return minHeap[0]
     }
 
-    func kthSmallest(_ array: [Int], _ k: Int) -> Int? {
+    func kthSmallestUsingHeap(_ array: [Int], _ k: Int) -> Int? {
         guard k > 0 && k <= array.count else { return nil }
 
         // Create a max-heap with the first `k` elements

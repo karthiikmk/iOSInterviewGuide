@@ -63,46 +63,52 @@ extension LeetCode {
 
         /// NOTE: BST insert
         func insert(value: Int) {
-            if value == self.value {
-                return
-            } else if value < self.value {
+            if value < self.value {
                 if let left = self.left {
                     left.insert(value: value)
                 } else {
                     self.left = TreeNode(value)
                 }
-            } else {
+            } else if value > self.value {
                 if let right = self.right {
                     right.insert(value: value)
                 } else {
                     self.right = .init(value)
                 }
+            } else {
+                /// Duplicate can't be inserted.
             }
         }
 
         var description: String {
             var s = ""
+            // Format the left subtree
             if let left = self.left {
                 s += "(\(left.description)) <- "
+            } else {
+                s += "(x) <- "
             }
+            // Add the current node value
             s += "\(value)"
+
+            // Format the right subtree
             if let right = self.right {
-                s += " -> \(right.description)"
+                s += " -> (\(right.description))"
+            } else {
+                s += " -> (x)"
             }
             return s
         }
     }
 
     func runTree() {
-        // convertUnsortedArrayToBSTTree()
-        let node: TreeNode = .init(10)
-        node.left = .init(9, .init(8), .init(7))
-        node.right = .init(11, .init(12), .init(22))
-        // convertBSTTreeToArray(node)
-        levelOrderTraversal(for: node)
+        let tree = convertArrayToBSTTree([44, 17, 32, 78, 50, 88])
+        inorderTraversal(tree)
+        reverseInorderTraversal(tree)
     }
 }
 
+// MARK: - Collection to BST
 extension LeetCode {
 
     /// NOTE: This is the basic of all
@@ -118,22 +124,22 @@ extension LeetCode {
         return node
     }
 
-    /// NOTE: Array must be sorted
-    /// Hint: As the array is already sorted, use divide and conquer
-    func convertSortedArrayToBSTTree(_ array: [Int] = [8,10,12,16,18,25,20]) -> TreeNode? {
-        let node = buildTree(array, startIndex: 0, endIndex: array.count - 1)
-        // debugPrint(node)
+    /// NOTE: Here we can use natural way of constructing tree using insert api.
+    /// Array can be either sorted or unsorted
+    func convertArrayToBSTTree(_ array: [Int] = [3,2,4,2,1]) -> TreeNode? {
+        guard !array.isEmpty else { return nil }
+        let node = TreeNode(array[0]) // customized
+        array.forEach { node.insert(value: $0) }
+        print("Unsorted Array to BST: \(node)")
         return node
     }
 
-    /// NOTE: Here we can use natural way of constructing tree using insert api.
-    func convertUnsortedArrayToBSTTree(_ array: [Int] = [3,2,4,2,1]) -> TreeNode? {
+    /// NOTE: Array must be sorted
+    /// Hint: As the array is already sorted, use divide and conquer
+    func convertSortedArrayToBSTTree(_ array: [Int] = [8,10,12,16,18,25,20]) -> TreeNode? {
         guard !array.isEmpty else { return nil }
-
-        // for now takign the first element as the start
-        let node = TreeNode(array[0])
-        array.forEach { node.insert(value: $0) }
-        print(node)
+        guard let node = buildTree(array, startIndex: 0, endIndex: array.count - 1) else { return nil }
+        print("Sorted Array to BST: \(node)")
         return node
     }
 
@@ -147,6 +153,19 @@ extension LeetCode {
         }
         return convertSortedArrayToBSTTree(array)
     }
+
+    /// NOTE: Converting normal tree to BST tree
+    /// BST should meet the constraits
+    /// Smaller values should be left of its parent, and larger on its parent right.
+    func convertTreeToBST(_ root: TreeNode) -> TreeNode? {
+        let array = inorderTraversal(root) /// Inorder traversal provides sorted array
+        let bstTree = buildTree(array, startIndex: 0, endIndex: array.count - 1)
+        return bstTree
+    }
+}
+
+// MARK: - BST to Collection
+extension LeetCode {
 
     /// NOTE: Inorder travseral is nothing but sorted array
     /// Both this and inorderTraversal are same
@@ -162,6 +181,13 @@ extension LeetCode {
         print(array)
         return array
     }
+
+    /// NOTE: BST is already sorted
+    func convertBSTTreeToLinkedList(_ root: TreeNode) -> ListNode? {
+        let array = convertBSTTreeToArray(root)
+        let linkedList = convertArrayToLinkedList(array)
+        return linkedList
+    }
 }
 
 // MARK: - Traversals
@@ -170,18 +196,33 @@ extension LeetCode {
     /// Binary Tree Inorder Traversal
     ///
     /// OJ: https://leetcode.com/problems/binary-tree-inorder-traversal/description/
+    @discardableResult
     func inorderTraversal(_ root: TreeNode?) -> [Int] {
-        
-        func _inOrderTraversal(_ node: TreeNode?, array: inout [Int]) {
-            guard let node else { return } // BaseCondition
-            _inOrderTraversal(node.left, array: &array)
-            array.append(node.value)
-            _inOrderTraversal(node.right, array: &array)
-        }
-
         var array = [Int]()
-        _inOrderTraversal(root, array: &array)
+        func _inOrderTraversal(_ node: TreeNode?) {
+            guard let node else { return } // BaseCondition
+            _inOrderTraversal(node.left)
+            array.append(node.value)
+            _inOrderTraversal(node.right)
+        }
+        _inOrderTraversal(root)
+        print("inorder traversal - \(array)")
         return array
+    }
+
+    /// NOTE: This api is more or less equivalent to Descending sorting. 
+    @discardableResult
+    func reverseInorderTraversal(_ node: TreeNode?) -> [Int] {
+        var result = [Int]()
+        func _reverseInorderTraversal(_ node: TreeNode?) {
+            guard let node else { return }
+            _reverseInorderTraversal(node.right)
+            result.append(node.value)
+            _reverseInorderTraversal(node.left)
+        }
+        _reverseInorderTraversal(node)
+        print("reverse inorder traveral - \(result)")
+        return result
     }
 
     func preorderTraversal(_ root: TreeNode?) -> [Int] {
@@ -249,7 +290,7 @@ extension LeetCode {
         }
 
         var result = [[Int]]()
-        var queue = Queue<TreeNode>() // stack
+        let queue = Queue<TreeNode>() // stack
         queue.enqueue(value: root) // push
 
         while !queue.isEmpty {
@@ -258,12 +299,8 @@ extension LeetCode {
                 let node = queue.dequeue()
                 levelsArray.append(node!.value)
 
-                if let left = node?.left {
-                    queue.enqueue(value: left)
-                }
-                if let right = node?.right {
-                    queue.enqueue(value: right)
-                }
+                if let left = node?.left { queue.enqueue(value: left) }
+                if let right = node?.right { queue.enqueue(value: right) }
             }
             result.append(levelsArray)
         }
@@ -279,10 +316,8 @@ extension LeetCode {
     func dfs(_ root: TreeNode?) {
         // Basecase
         guard let root = root else { return }
-
         // Pre-order: Process the node first
         print(root.value)
-
         // Recursively process the left and right children
         dfs(root.left)
         dfs(root.right)
@@ -292,7 +327,7 @@ extension LeetCode {
     func dfsIteratively(_ root: TreeNode?) {
         guard let root else { return }
 
-        var stack = Stack<TreeNode>()
+        let stack = Stack<TreeNode>()
         stack.push(root)
 
         while !stack.isEmpty {
@@ -316,12 +351,8 @@ extension LeetCode {
             result.append(node.value)       // Process the current node
 
             // Enqueue left and right children of the current node, if they exist
-            if let leftChild = node.left {
-                queue.append(leftChild)
-            }
-            if let rightChild = node.right {
-                queue.append(rightChild)
-            }
+            if let leftChild = node.left { queue.append(leftChild) }
+            if let rightChild = node.right { queue.append(rightChild) }
         }
 
         return result
@@ -330,7 +361,7 @@ extension LeetCode {
 
 extension LeetCode {
 
-    /// Draw and learn more deeper 
+    /// Draw and learn more deeper (same as height)
     func maxDepth(_ root: TreeNode?) -> Int {
         guard let root else { return 0 } // Basecase
         return max(maxDepth(root.left), maxDepth(root.right)) + 1
@@ -498,7 +529,7 @@ extension LeetCode {
         guard let root else { return false }
 
         var visiteds = Set<Int>()
-        var stack = Stack<TreeNode>()
+        let stack = Stack<TreeNode>()
         stack.push(root)
 
         while !stack.isEmpty {
@@ -634,7 +665,6 @@ extension LeetCode {
     /// NOTE: Find sum between range
     /// inorder is needed as its sorted. applying range condition is easy on sorted form.
     func rangeSumBST(_ root: TreeNode?, _ low: Int, _ high: Int) -> Int {
-
         var result: Int = 0 // Initial Sum
         func _inorderTraverse(_ node: TreeNode?) {
             /// BaseCondition
@@ -647,5 +677,59 @@ extension LeetCode {
         }
         _inorderTraverse(root)
         return result
+    }
+
+    func kthSmallest(root: TreeNode, k: Int) -> Int {
+        var result: Int? = nil
+        var counter: Int = 0
+
+        func inorderTraversal(node: TreeNode?) {
+            guard let node else { return }
+            inorderTraversal(node: node.left)
+            counter += 1
+            if counter == k {
+                result = node.value
+                return
+            }
+            inorderTraversal(node: node.right)
+        }
+        inorderTraversal(node: root)
+        return result ?? -1
+    }
+
+    func kthLargest(root: TreeNode, k: Int) -> Int {
+        var result: Int? = nil
+        var counter: Int = 0
+
+        func reverseInorderTraversal(node: TreeNode?) {
+            guard let node else { return }
+            reverseInorderTraversal(node: node.right)
+            counter += 1
+            if counter == k {
+                result = node.value
+                return
+            }
+            reverseInorderTraversal(node: node.left)
+        }
+        reverseInorderTraversal(node: root)
+        return result ?? -1
+    }
+}
+
+extension LeetCode {
+
+    func rotateLeft(_ node: TreeNode) -> TreeNode? {
+
+        let newNode = node.right
+        node.right = node.left
+        newNode?.left = node
+        return newNode
+    }
+
+    func rotateRight(_ node: TreeNode) -> TreeNode? {
+        let newRoot = node.left
+        node.left = newRoot?.right
+        newRoot?.right = node
+        return newRoot
     }
 }

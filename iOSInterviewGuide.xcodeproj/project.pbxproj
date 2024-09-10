@@ -56,7 +56,6 @@
 		25EE9C642BAF0D7C008F7DF1 /* Leedcode+Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C632BAF0D7C008F7DF1 /* Leedcode+Graph.swift */; };
 		25EE9C662BB0610D008F7DF1 /* Leetcode+TwoPointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C652BB0610D008F7DF1 /* Leetcode+TwoPointers.swift */; };
 		25EE9C682BB08B1A008F7DF1 /* LeetCode+Recurssion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C672BB08B1A008F7DF1 /* LeetCode+Recurssion.swift */; };
-		25EE9C6B2BB1BD9D008F7DF1 /* BalanceBinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C6A2BB1BD9D008F7DF1 /* BalanceBinarySearchTree.swift */; };
 		25EE9C6E2BB1C552008F7DF1 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C6D2BB1C552008F7DF1 /* Documentation.docc */; };
 		25F461B92BA31D4B008D8C4E /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F461B82BA31D4B008D8C4E /* Heap.swift */; };
 /* End PBXBuildFile section */
@@ -134,7 +133,6 @@
 		25EE9C632BAF0D7C008F7DF1 /* Leedcode+Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leedcode+Graph.swift"; sourceTree = "<group>"; };
 		25EE9C652BB0610D008F7DF1 /* Leetcode+TwoPointers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+TwoPointers.swift"; sourceTree = "<group>"; };
 		25EE9C672BB08B1A008F7DF1 /* LeetCode+Recurssion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LeetCode+Recurssion.swift"; sourceTree = "<group>"; };
-		25EE9C6A2BB1BD9D008F7DF1 /* BalanceBinarySearchTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceBinarySearchTree.swift; sourceTree = "<group>"; };
 		25EE9C6D2BB1C552008F7DF1 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		25F461B82BA31D4B008D8C4E /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -275,7 +273,6 @@
 			children = (
 				258C6E632BA0EDC1004DBB00 /* BinarySearch.swift */,
 				25EE9C512BA9E9CF008F7DF1 /* BinarySearchUsingRecurssion.swift */,
-				25EE9C6A2BB1BD9D008F7DF1 /* BalanceBinarySearchTree.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -524,7 +521,6 @@
 				2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */,
 				258C6E562BA0D886004DBB00 /* Queue.swift in Sources */,
 				258C6E522BA0CF4D004DBB00 /* OrderedArray.swift in Sources */,
-				25EE9C6B2BB1BD9D008F7DF1 /* BalanceBinarySearchTree.swift in Sources */,
 				258C6E642BA0EDC1004DBB00 /* BinarySearch.swift in Sources */,
 				25EE9BF12BA4D9D2008F7DF1 /* Graph.swift in Sources */,
 				25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */,
