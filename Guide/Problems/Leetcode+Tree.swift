@@ -10,169 +10,466 @@ import Foundation
 // 𝗘𝗮𝘀𝘆
 
 //1) Binary Tree Inorder Traversal : https://lnkd.in/dkeNpXsj
-//
 //2) Same Tree : https://lnkd.in/dCcyEZYj
-//
 //3) Symmetric Tree : https://lnkd.in/dxmTjz2r
-//
-//4) Maximum Depth of Binary Tree : https://lnkd.in/dwxus9pc
-//
-//5) Convert Sorted Array to Binary Search Tree : https://lnkd.in/d4eQfWrZ
-//
-//6) Balanced Binary Tree : https://lnkd.in/diKJ3nYe
-//
 //7) Minimum Depth of Binary Tree : https://lnkd.in/d8qdZQ2C
-//
+//4) Maximum Depth of Binary Tree : https://lnkd.in/dwxus9pc
+//5) Convert Sorted Array to Binary Search Tree : https://lnkd.in/d4eQfWrZ
+//6) Balanced Binary Tree : https://lnkd.in/diKJ3nYe
 //8) Path Sum : https://lnkd.in/dRrFXyTY
-//
 //9) Binary Tree Preorder Traversal : https://lnkd.in/dkq5HeWc
-//
 //10) Binary Tree Postorder Traversal : https://lnkd.in/dupicbpU
-//
+//12) Invert Binary Tree : https://lnkd.in/dtyv46Yw -
 //11) Count Complete Tree Nodes : https://lnkd.in/dXHUrAZ2
-//
-//12) Invert Binary Tree : https://lnkd.in/dtyv46Yw
-//
+//15) Binary Tree Level Order Traversal : https://lnkd.in/dip9mHNR
+//20) Convert Sorted List to Binary Search Tree : https://lnkd.in/dZ_ddrt6
+//24) Binary Tree Right Side View : https://lnkd.in/dk6-QQs6
+
 //𝗠𝗲𝗱𝗶𝘂𝗺
 //
 //13) Unique Binary Search Trees : https://lnkd.in/dj2GEne2
-//
 //14) Validate Binary Search Tree : https://lnkd.in/dH9Gpi2s
-//
-//15) Binary Tree Level Order Traversal : https://lnkd.in/dip9mHNR
-//
 //16) Binary Tree Zigzag Level Order Traversal : https://lnkd.in/dGjwwq-R
-//
 //17) Construct Binary Tree from Preorder and Inorder Traversal : https://lnkd.in/dB-7AAqE
-//
 //18) Construct Binary Tree from Inorder and Postorder Traversal : https://lnkd.in/djrJJDyk
-//
 //19) Binary Tree Level Order Traversal II : https://lnkd.in/dd-8jdDx
-//
-//20) Convert Sorted List to Binary Search Tree : https://lnkd.in/dZ_ddrt6
-//
 //21) Path Sum II : https://lnkd.in/dXDcEZAZ
-//
 //22) Populating Next Right Pointers in Each Node : https://lnkd.in/dGAFANRi
-//
 //23) Sum Root to Leaf Numbers : https://lnkd.in/d_xiMCNk
-//
-//24) Binary Tree Right Side View : https://lnkd.in/dk6-QQs6
-//
 //25) Kth Smallest Element in a BST : https://lnkd.in/dWAPABQ3
-
 
 /*
  12. Check if a binary tree is a binary search tree (BST).
  13. Print all leaf nodes of a binary tree.
  14. Reverse a binary tree.
- 15. Find the height of a binary tree.
+ 15. Find the height of a binary tree. - dfs
 */
 
 extension LeetCode {
 
     class TreeNode: CustomStringConvertible {
-
-        var val: Int
+        var value: Int
         var left: TreeNode?
         var right: TreeNode?
-        init() { self.val = 0; self.left = nil; self.right = nil; }
-        init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }
-        init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {
-            self.val = val
+        init() { self.value = 0; self.left = nil; self.right = nil; }
+        init(_ value: Int) { self.value = value; self.left = nil; self.right = nil; }
+        init(_ value: Int, _ left: TreeNode?, _ right: TreeNode?) {
+            self.value = value
             self.left = left
             self.right = right
         }
 
-        var isLeaf: Bool {
-            left == nil && right == nil
+        var isLeaf: Bool { left == nil && right == nil }
+
+        /// NOTE: BST insert
+        func insert(value: Int) {
+            if value < self.value {
+                if let left = self.left {
+                    left.insert(value: value)
+                } else {
+                    self.left = TreeNode(value)
+                }
+            } else if value > self.value {
+                if let right = self.right {
+                    right.insert(value: value)
+                } else {
+                    self.right = .init(value)
+                }
+            } else {
+                /// Duplicate can't be inserted.
+            }
         }
 
         var description: String {
             var s = ""
+            // Format the left subtree
             if let left = self.left {
                 s += "(\(left.description)) <- "
+            } else {
+                s += "(x) <- "
             }
-            s += "\(val)"
+            // Add the current node value
+            s += "\(value)"
+
+            // Format the right subtree
             if let right = self.right {
-                s += " -> \(right.description)"
+                s += " -> (\(right.description))"
+            } else {
+                s += " -> (x)"
             }
             return s
         }
     }
 
-    func sortedArrayToBST(_ nums: [Int]) -> TreeNode? {
-        guard !nums.isEmpty else { return nil }
+    func runTree() {
+        let tree = convertArrayToBSTTree([44, 17, 32, 78, 50, 88])
+        inorderTraversal(tree)
+        reverseInorderTraversal(tree)
+    }
+}
 
-        func _buildBST(for array: inout [Int], startIndex: Int, endIndex: Int) -> TreeNode? {
-            // BaseCondition, checking for valid index
-            guard startIndex < endIndex else { return nil }
+// MARK: - Collection to BST
+extension LeetCode {
 
-            let midIndex = (startIndex + (endIndex - startIndex)) / 2
-            let rootNode = TreeNode(array[midIndex])
-            rootNode.left = _buildBST(for: &array, startIndex: 0, endIndex: midIndex - 1)
-            rootNode.right = _buildBST(for: &array, startIndex: midIndex + 1, endIndex: endIndex)
-            return rootNode
-        }
-        var array = nums
-        return _buildBST(for: &array, startIndex: 0, endIndex: nums.count - 1)
+    /// NOTE: This is the basic of all
+    /// Array must be sorted array.
+    /// NOTE: on valid index check, = is very important.
+    func buildTree(_ array: [Int], startIndex: Int, endIndex: Int) -> TreeNode? {
+        guard startIndex <= endIndex else { return nil } // **** important
+        let middleIndex = startIndex + (endIndex - startIndex) / 2
+        let middleValue = array[middleIndex]
+        let node: TreeNode = .init(middleValue)
+        node.left = buildTree(array, startIndex: startIndex, endIndex: middleIndex - 1)
+        node.right = buildTree(array, startIndex: middleIndex + 1, endIndex: endIndex)
+        return node
     }
 
-    func sortedListToBST(_ head: ListNode?) -> TreeNode? {
+    /// NOTE: Here we can use natural way of constructing tree using insert api.
+    /// Array can be either sorted or unsorted
+    func convertArrayToBSTTree(_ array: [Int] = [3,2,4,2,1]) -> TreeNode? {
+        guard !array.isEmpty else { return nil }
+        let node = TreeNode(array[0]) // customized
+        array.forEach { node.insert(value: $0) }
+        print("Unsorted Array to BST: \(node)")
+        return node
+    }
 
+    /// NOTE: Array must be sorted
+    /// Hint: As the array is already sorted, use divide and conquer
+    func convertSortedArrayToBSTTree(_ array: [Int] = [8,10,12,16,18,25,20]) -> TreeNode? {
+        guard !array.isEmpty else { return nil }
+        guard let node = buildTree(array, startIndex: 0, endIndex: array.count - 1) else { return nil }
+        print("Sorted Array to BST: \(node)")
+        return node
+    }
+
+    /// NOTE: Linked list must be sorted.
+    func convertLinkedListToBST(_ head: ListNode?) -> TreeNode? {
         var array = [Int]()
         var currentNode = head
         while currentNode != nil {
             array.append(currentNode!.val)
             currentNode = currentNode?.next
         }
-
-        return sortedArrayToBST(array)
+        return convertSortedArrayToBSTTree(array)
     }
 
-    /// Draw and learn more deeper 
+    /// NOTE: Converting normal tree to BST tree
+    /// BST should meet the constraits
+    /// Smaller values should be left of its parent, and larger on its parent right.
+    func convertTreeToBST(_ root: TreeNode) -> TreeNode? {
+        let array = inorderTraversal(root) /// Inorder traversal provides sorted array
+        let bstTree = buildTree(array, startIndex: 0, endIndex: array.count - 1)
+        return bstTree
+    }
+}
+
+// MARK: - BST to Collection
+extension LeetCode {
+
+    /// NOTE: Inorder travseral is nothing but sorted array
+    /// Both this and inorderTraversal are same
+    func convertBSTTreeToArray(_ root: TreeNode) -> [Int] {
+        var array = [Int]()
+        func inOrderTraversal(_ node: TreeNode?) {
+            guard let node else { return } // Basecondition
+            inOrderTraversal(node.left)
+            array.append(node.value)
+            inOrderTraversal(node.right)
+        }
+        inOrderTraversal(root)
+        print(array)
+        return array
+    }
+
+    /// NOTE: BST is already sorted
+    func convertBSTTreeToLinkedList(_ root: TreeNode) -> ListNode? {
+        let array = convertBSTTreeToArray(root)
+        let linkedList = convertArrayToLinkedList(array)
+        return linkedList
+    }
+}
+
+// MARK: - Traversals
+extension LeetCode {
+
+    /// Binary Tree Inorder Traversal
+    ///
+    /// OJ: https://leetcode.com/problems/binary-tree-inorder-traversal/description/
+    @discardableResult
+    func inorderTraversal(_ root: TreeNode?) -> [Int] {
+        var array = [Int]()
+        func _inOrderTraversal(_ node: TreeNode?) {
+            guard let node else { return } // BaseCondition
+            _inOrderTraversal(node.left)
+            array.append(node.value)
+            _inOrderTraversal(node.right)
+        }
+        _inOrderTraversal(root)
+        print("inorder traversal - \(array)")
+        return array
+    }
+
+    /// NOTE: This api is more or less equivalent to Descending sorting. 
+    @discardableResult
+    func reverseInorderTraversal(_ node: TreeNode?) -> [Int] {
+        var result = [Int]()
+        func _reverseInorderTraversal(_ node: TreeNode?) {
+            guard let node else { return }
+            _reverseInorderTraversal(node.right)
+            result.append(node.value)
+            _reverseInorderTraversal(node.left)
+        }
+        _reverseInorderTraversal(node)
+        print("reverse inorder traveral - \(result)")
+        return result
+    }
+
+    func preorderTraversal(_ root: TreeNode?) -> [Int] {
+
+        func _preOrderTraversal(_ node: TreeNode?, paths: inout [Int]) {
+            // BaseCondition
+            guard let node else { return }
+            paths.append(node.value)
+            _preOrderTraversal(node.left, paths: &paths)
+            _preOrderTraversal(node.right, paths: &paths)
+        }
+
+        var paths = [Int]()
+        _preOrderTraversal(root, paths: &paths)
+        return paths
+    }
+
+    /// Idea is to use stack for comparision
+    /// Note: Whenever encounter preorder, think about stack
+    func preOrderTraverse(for root: TreeNode) -> [Int] {
+
+        /// NOTE: Idea of the preorder traversal is
+        /// Visit node, go into left side, then right side
+        ///
+        var array: [Int] = [Int]()
+        let stack = Stack<TreeNode>()
+        stack.push(root)
+
+        while !stack.isEmpty {
+            let last = stack.pop()!
+            array.append(last.value) // Visiting node
+            /// Right
+            if let right = last.right {
+                stack.push(right) // Going into the right side
+            }
+            // Left at the last because, enqueue happen at the last.
+            // for preorder, we need all the left to be printed first
+            if let left = last.left {
+                stack.push(left) // Going into the left side
+            }
+        }
+        return array // PreOrder traversed array.
+    }
+
+    /// The idea is to use for loop to create levels array.
+    /// Traversing from top to bottom
+    /// Level order also called as Breadth first search (BFS)
+    func levelOrderTraversal(for root: TreeNode) -> [[Int]] {
+
+        // FIFO
+        class Queue<T> {
+
+            var array = [T]()
+            var isEmpty: Bool { array.isEmpty }
+            var count: Int { array.count }
+
+            func enqueue(value: T) { 
+                array.append(value)
+            }
+
+            func dequeue() -> T? {
+                guard !array.isEmpty else { return nil }
+                return array.removeFirst()
+            }
+        }
+
+        var result = [[Int]]()
+        let queue = Queue<TreeNode>() // stack
+        queue.enqueue(value: root) // push
+
+        while !queue.isEmpty {
+            var levelsArray = [Int]()
+            for _ in 0..<queue.count {
+                let node = queue.dequeue()
+                levelsArray.append(node!.value)
+
+                if let left = node?.left { queue.enqueue(value: left) }
+                if let right = node?.right { queue.enqueue(value: right) }
+            }
+            result.append(levelsArray)
+        }
+        print(result)
+        return result
+    }
+}
+
+// MARK: - Search
+extension LeetCode {
+
+    /// NOTE: DFS (pre-order)
+    func dfs(_ root: TreeNode?) {
+        // Basecase
+        guard let root = root else { return }
+        // Pre-order: Process the node first
+        print(root.value)
+        // Recursively process the left and right children
+        dfs(root.left)
+        dfs(root.right)
+    }
+
+    /// NOTE: DFS (Pre-Order)
+    func dfsIteratively(_ root: TreeNode?) {
+        guard let root else { return }
+
+        let stack = Stack<TreeNode>()
+        stack.push(root)
+
+        while !stack.isEmpty {
+            let node = stack.pop()
+            // do your stuffs here
+            if let right = node?.right { stack.push(right) }
+            if let left = node?.left { stack.push(left) }
+        }
+    }
+
+    /// NOTE: BFS (level-order) - Queue
+    /// can be done iteratively (using queue)
+    func bfs(_ root: TreeNode?) -> [Int] {
+        guard let root = root else { return [] }
+
+        var result = [Int]()
+        var queue: [TreeNode] = [root]  // Queue to store nodes to be processed
+
+        while !queue.isEmpty {
+            let node = queue.removeFirst()  // Dequeue the first node
+            result.append(node.value)       // Process the current node
+
+            // Enqueue left and right children of the current node, if they exist
+            if let leftChild = node.left { queue.append(leftChild) }
+            if let rightChild = node.right { queue.append(rightChild) }
+        }
+
+        return result
+    }
+}
+
+extension LeetCode {
+
+    /// Draw and learn more deeper (same as height)
     func maxDepth(_ root: TreeNode?) -> Int {
-        guard let root else { return 0 }
+        guard let root else { return 0 } // Basecase
         return max(maxDepth(root.left), maxDepth(root.right)) + 1
     }
 
+    /// NOTE: MinDepth - RootNode to nearest leafNode
     func minDepth(_ root: TreeNode?) -> Int {
-        guard let root else { return 0 }
-        return min(minDepth(root.left), minDepth(root.right)) + 1
-    }
+        guard let root else { return 0 } // Basecase
 
-    /// Checking the given sum is matching from root to leaf.
-    func hasPathSum(_ root: TreeNode?, _ sum: Int) -> Bool {
-        // Basecondition
-        guard let root else { return false }
-
-        var summation = sum
-        summation -= root.val
-        /// Logic Implementation 
-        if root.isLeaf {
-            return (summation == 0)
+        /// We need to handle the case where, left child is nil, and right child is available.
+        /// Viseversa to be handled as well. 
+        if root.left == nil {
+            return minDepth(root.right) + 1
+        } else if root.right == nil {
+            return minDepth(root.left) + 1
+        } else {
+            return min(minDepth(root.left), minDepth(root.right)) + 1
         }
-        return hasPathSum(root.left, summation) || hasPathSum(root.right, summation)
     }
 
-    /// Given the root of a binary search tree and an integer k, return true if there exist two elements
-    /// in the BST such that their sum is equal to k, or false otherwise.
-    func findTarget(_ root: TreeNode?, _ k: Int) -> Bool {
-        /// Recurrent function
-        func _dfs(_ root: TreeNode?, _ k: Int, nodes: inout Set<Int>) -> Bool {
-            guard let node = root else { return false }
+    /// Height: Number of edges in the longest path from the given node to a leaf node
+    /// Hint: DFS
+    func maxHeight(_ node: TreeNode?) -> Int {
+        guard let node else { return 0 } // BaseCase
+        return 1 + max(maxHeight(node.left), maxHeight(node.right))
+    }
+
+    /// Hint: DFS
+    /// As it touches all the nodes once
+    func countNodes(_ root: TreeNode?) -> Int {
+        /// BaseCondition
+        guard let node = root else { return 0 }
+        return 1 + countNodes(node.left) + countNodes(node.right)
+    }
+
+    /// NOTE: Return array of right side nodes.
+    func rightSideView(_ root: TreeNode?) -> [Int] {
+
+        var result = [Int]()
+        var currentNode = root
+
+        while currentNode != nil {
+            result.append(currentNode!.value)
+            currentNode = currentNode?.right
+        }
+        return result
+    }
+
+    /// NOTE: Take one node, swap left and right node of that node.
+    /// Doing it recursivelly will invert the entire tree
+    /// Hint: DFS
+    func invertTree(_ root: TreeNode?) -> TreeNode? {
+        /// BaseCondition
+        guard let node = root else { return nil }
+        let leftSubTree = invertTree(node.left)
+        let rightSubTree = invertTree(node.right)
+        // Swapping
+        node.left = rightSubTree
+        node.right = leftSubTree
+        return node
+    }
+
+    /// A+, L, R
+    /// Idea is to apply binary search mechanism using min & max
+    /// BST is valid, only if its meeting its constraints
+    /// Constraint: left node value should be less than its parent node value
+    /// right node value should be greater than its parent value
+    /// Hint: DFS
+    func isValidBST(_ root: TreeNode?) -> Bool {
+
+        func isValid(_ node: TreeNode?, min: Int? = nil, max: Int? = nil) -> Bool {
             /// BaseCondition
-            if nodes.contains(k - node.val) {
-                return true
-            }
-            nodes.insert(node.val)
-            return _dfs(node.left, k, nodes: &nodes) || _dfs(node.right, k, nodes: &nodes)
+            /// Empty tree considered as balanced
+            guard let node else { return true }
+
+            // Not required that all nodes should have both min and max.
+            if let min, node.value <= min { return false }
+            if let max, node.value >= max { return false }
+
+            return isValid(node.left, min: min, max: node.value)
+            && isValid(node.right, min: node.value, max: max)
         }
-        var nodes = Set<Int>()
-        return _dfs(root, k, nodes: &nodes)
+
+        /// Initial we wont be knowing min and max for the given / root node.
+        /// So assuming its nil.
+        return isValid(root)
+    }
+
+    /// Balanced Binary Tree
+    /// The balance factor shouldn't be more than 1
+    ///
+    /// OJ: https://leetcode.com/problems/balanced-binary-tree/
+    /// IDEA: Take each node, and think in that perspective.
+    /// Balance factor should be calculated in each level in order to get the right results.
+    /// Hint: DFS
+    func isBalanced(_ node: TreeNode?) -> Bool {
+        /// BaseCase
+        /// Empty tree considered as balanced
+        guard let node else { return true }
+
+        let balanceFactor = abs(maxHeight(node.left) - maxHeight(node.right))
+        /// In some scenario, height diff can be less than 1, but the tree might have not balanced.
+        /// So recurrsively checking for balanced condition in each level
+        return balanceFactor <= 1 && isBalanced(node.left) && isBalanced(node.right)
     }
 
     /// Idea is to use two stacks for comparsion
+    /// Hint: DFS using stack
     func isSameTree(_ p: TreeNode?, _ q: TreeNode?) -> Bool {
 
         var pStack = [TreeNode]()
@@ -185,7 +482,7 @@ extension LeetCode {
             let pNode = pStack.removeLast() // important
             let qNode = qStack.removeLast() // important
             /// BaseCondition
-            guard pNode.val == qNode.val else {
+            guard pNode.value == qNode.value else {
                 return false
             }
             /// right append
@@ -208,10 +505,80 @@ extension LeetCode {
             guard pStack.count == qStack.count else {
                 return false
             }
-            // loop conitinues for the next iteration.
         }
+        return true
+    }
 
+    /// Given the root of a binary search tree and an integer k, return true if there exist two elements
+    /// in the BST such that their sum is equal to k, or false otherwise.
+    /// Hint: DFS
+    func findTarget(_ root: TreeNode?, _ k: Int) -> Bool {
+        /// Recurrent function
+        var nodes = Set<Int>()
+        func _dfs(_ root: TreeNode?) -> Bool {
+            /// BaseCondition
+            guard let node = root else { return false }
+            if nodes.contains(k - node.value) { return true }
+            nodes.insert(node.value)
+            return _dfs(node.left) || _dfs(node.right)
+        }
+        return _dfs(root)
+    }
+
+    func findTargetUsingStack(_ root: TreeNode?, _ k: Int) -> Bool {
+        guard let root else { return false }
+
+        var visiteds = Set<Int>()
+        let stack = Stack<TreeNode>()
+        stack.push(root)
+
+        while !stack.isEmpty {
+            let node = stack.pop()
+            let difference = k - node!.value
+            if visiteds.contains(difference) {
+                return true
+            }
+            visiteds.insert(node!.value)
+
+            if let right = node?.right { stack.push(right) }
+            if let left = node?.left { stack.push(left) }
+        }
         return false
+    }
+
+    /// Checking the given sum is matching from root to leaf.
+    /// Kind of depth first search.
+    /// Idea is to subtrack node value form the sum
+    /// whichever the leaf node meeting 0, then we found the path with given target
+    /// Hint: DFS, if there is path related, then blindly go with dfs
+    func hasPathSum(_ root: TreeNode?, _ sum: Int) -> Bool {
+        // Basecondition
+        guard let root else { return false }
+
+        /// visiting Node
+        var summation = sum
+        summation -= root.value
+        /// Logic Implementation
+        if root.isLeaf { return summation == 0 }
+        return hasPathSum(root.left, summation) || hasPathSum(root.right, summation)
+    }
+
+    func findAllTheLeadNodes(_ tree: TreeNode?) -> [Int] {
+        guard let node = tree else { return [] }
+
+        var leafs = [Int]()
+        func dfs(_ node: TreeNode?) {
+            guard let node else { return }
+            if node.isLeaf {
+                leafs.append(node.value)
+                return
+            }
+            dfs(node.left)
+            dfs(node.right)
+        }
+        dfs(node)
+        print("Leafs: \(leafs)")
+        return leafs
     }
 
     /// Symmetric Tree
@@ -234,7 +601,7 @@ extension LeetCode {
             ///
             guard let leftNode = left, let rightNode = right else { return false }
             // BaseCondition
-            guard leftNode.val == rightNode.val else { return false }
+            guard leftNode.value == rightNode.value else { return false }
 
             /// First Node Left == Second Node Right
             stack.append(leftNode.left)
@@ -247,188 +614,64 @@ extension LeetCode {
     }
 
     /// Idea is brute force recurrent traversal
-    func binaryTreePaths(_ root: TreeNode?) -> [String] {
+    func findAllTreePaths(_ root: TreeNode?) -> [String] {
 
+        var paths = [String]()
         /// Depth first pre-order traversal
-        func dfs(_ node: TreeNode?, path: String, paths: inout [String]) {
+        func dfs(_ node: TreeNode?, path: String) {
             /// BaseCondition
             guard let node else { return }
             /// Logic Implementation
             if node.isLeaf {
-                paths.append("\(path)\(node.val)")
+                paths.append("\(path)\(node.value)") // not adding any arrows.
                 return
             }
-            if let left = node.left { // 1 ->
-                dfs(left, path: "\(path)\(node.val)->", paths: &paths)
-            }
-            if let right = node.right { // 1 -> 2
-                dfs(right, path: "\(path)\(node.val)->", paths: &paths)
-            }
+            dfs(node.left, path: "\(path)\(node.value)->")
+            dfs(node.right, path: "\(path)\(node.value)->")
         }
-
-        var paths = [String]()
-        dfs(root, path: "", paths: &paths)
+        dfs(root, path: "")
         return paths
     }
+}
 
-    /// Binary Tree Inorder Traversal
-    ///
-    /// OJ: https://leetcode.com/problems/binary-tree-inorder-traversal/description/
-    func inorderTraversal(_ root: TreeNode?) -> [Int] {
+// MARK: - inorder traversal sums
+extension LeetCode {
 
-        func _inOrderTraversal(_ node: TreeNode?, paths: inout [Int]) {
-            // BaseCondition
-            guard let node else { return }
-            _inOrderTraversal(node.left, paths: &paths)
-            paths.append(node.val)
-            _inOrderTraversal(node.right, paths: &paths)
-        }
+    /// Finding the minium difference between two nodes.
+    /// Idea is to use inorder traversal to find the difference,
+    /// as this traversal taps all the nodes once.
+    /// Hint: inorder traversal as it gives sorted form. so calculating difference is easy.
+    func getMinimumDifference(_ root: TreeNode?) -> Int {
 
-        var paths = [Int]()
-        _inOrderTraversal(root, paths: &paths)
-        return paths
-    }
+        var difference: Int = Int.max
+        var previousValue: Int = 0 // Important
 
-    func preorderTraversal(_ root: TreeNode?) -> [Int] {
-
-        func _preOrderTraversal(_ node: TreeNode?, paths: inout [Int]) {
-            // BaseCondition
-            guard let node else { return }
-            paths.append(node.val)
-            _preOrderTraversal(node.left, paths: &paths)
-            _preOrderTraversal(node.right, paths: &paths)
-        }
-
-        var paths = [Int]()
-        _preOrderTraversal(root, paths: &paths)
-        return paths
-    }
-
-    /// Idea is to use stack for comparision
-    func preOrderTraverse(for root: BinaryTreeNode<Int>) -> [Int] {
-
-        var array: [Int] = [Int]()
-        let stack = Stack<BinaryTreeNode<Int>>() // enqueu dequeue happens at the last position
-        stack.push(root) // settign the root into stack
-
-        /// - NOTE: Kind of recurrsion
-        while !stack.isEmpty {
-            let last = stack.pop()!
-            array.append(last.value)
-            /// Right
-            if let right = last.right {
-                stack.push(right)
-            }
-            // Left left at the last because, enqueue happen at the last.
-            // for preorder, we need all the left to be printed first
-            if let left = last.left {
-                stack.push(left)
-            }
-        }
-        return array
-    }
-
-    /// The idea is to use for loop to create levels array.
-    /// Traversing from top to bottom
-    func levelOrder(_ root: TreeNode?) -> [[Int]] {
-        guard let root else { return [] }
-
-        var result = [[Int]]()
-        result.append([root.val])
-        var queue: [TreeNode] = [root]
-
-        while !queue.isEmpty {
-            var levelsArray = [Int]()
-            /// Iterating over numbers of count in queue to group the values.
-            for _ in 0..<queue.count {
-                let node = queue.removeFirst()
-                levelsArray.append(node.val)
-                if let left = node.left { levelsArray.append(left.val) } // Imp
-                if let right = node.right { levelsArray.append(right.val) } // Imp
-            }
-            result.append(levelsArray)
-        }
-
-        return result
-    }
-
-    /// Balanced Binary Tree
-    /// The balance factor shouldn't be more than 1
-    ///
-    /// OJ: https://leetcode.com/problems/balanced-binary-tree/
-    ///
-    func isBalanced(_ root: TreeNode?) -> Bool {
-        /// Empty tree considered as balanced
-        guard let root else { return true }
-
-        func maxHeight(_ node: TreeNode?) -> Int {
-            guard let node else { return 0 }
-            return 1 + max(maxHeight(node.left), maxHeight(node.right))
-        }
-
-        let heightDifference = abs(maxHeight(root.left) - maxHeight(root.right))
-        /// In some scenario, height diff can be less than 1, but the tree might have not balanced.
-        /// So recurrsively checking for balanced condition in each level
-        return heightDifference <= 1 && isBalanced(root.left) && isBalanced(root.right)
-    }
-
-    /// Kind of traversal only
-    func countNodes(_ root: TreeNode?) -> Int {
-        /// BaseCondition
-        guard let node = root else { return 0 }
-        return countNodes(node.left) + 1 + countNodes(node.right)
-    }
-
-    func invertTree(_ root: TreeNode?) -> TreeNode? {
-        /// BaseCondition
-        guard let node = root else { return nil }
-        let leftSubTree = invertTree(node.left)
-        let rightSubTree = invertTree(node.right)
-        // Swapping
-        node.left = rightSubTree
-        node.right = leftSubTree
-        return node
-    }
-
-    func rightSideView(_ root: TreeNode?) -> [Int] {
-
-        var result = [Int]()
-        var currentNode = root
-
-        while currentNode != nil {
-            result.append(currentNode!.val)
-            currentNode = currentNode?.right
-        }
-        return result
-    }
-
-    /// A+, L, R
-    /// Idea is to apply binary search mechanism using min & max
-    func isValidBST(_ root: TreeNode?) -> Bool {
-
-        func _isValidBST(_ node: TreeNode?, min: Int?, max: Int?) -> Bool {
-            /// Empty tree considered as balanced
-            guard let node else { return true }
+        func _inOrderTraverse(_ node: TreeNode?) {
             /// BaseCondition
-            if let min, node.val <= min { return false }
-            if let max, node.val >= max { return false }
-
-            return _isValidBST(node.left, min: min, max: root?.val) && _isValidBST(node.right, min: root?.val, max: max)
+            guard let node else { return }
+            /// Left traversal
+            _inOrderTraverse(node.left)
+            // Visting Node
+            difference = min(difference, abs(node.value - previousValue))
+            previousValue = node.value
+            /// Right traversal
+            _inOrderTraverse(node.right)
         }
 
-        return _isValidBST(root, min: nil, max: nil)
+        _inOrderTraverse(root)
+        return difference
     }
 
-    // A+,L, R
+    /// NOTE: Find sum between range
+    /// inorder is needed as its sorted. applying range condition is easy on sorted form.
     func rangeSumBST(_ root: TreeNode?, _ low: Int, _ high: Int) -> Int {
-
         var result: Int = 0 // Initial Sum
         func _inorderTraverse(_ node: TreeNode?) {
             /// BaseCondition
             guard let node = node else { return }
             _inorderTraverse(node.left)
-            if node.val >= low && node.val <= high {
-                result += node.val
+            if node.value >= low && node.value <= high {
+                result += node.value
             }
             _inorderTraverse(node.right)
         }
@@ -436,23 +679,57 @@ extension LeetCode {
         return result
     }
 
-    /// Idea is to use inorder traversal to find the difference,
-    /// as this traversal taps all the nodes once
-    func getMinimumDifference(_ root: TreeNode?) -> Int {
+    func kthSmallest(root: TreeNode, k: Int) -> Int {
+        var result: Int? = nil
+        var counter: Int = 0
 
-        var difference: Int = Int.max
-        var previousValue: Int = 0
-
-        func _inOrderTraverse(_ node: TreeNode?) {
-            /// BaseCondition
+        func inorderTraversal(node: TreeNode?) {
             guard let node else { return }
-            _inOrderTraverse(node.left)
-            difference = min(difference, abs(node.val - previousValue))
-            previousValue = node.val
-            _inOrderTraverse(node.right)
+            inorderTraversal(node: node.left)
+            counter += 1
+            if counter == k {
+                result = node.value
+                return
+            }
+            inorderTraversal(node: node.right)
         }
+        inorderTraversal(node: root)
+        return result ?? -1
+    }
 
-        _inOrderTraverse(root)
-        return difference
+    func kthLargest(root: TreeNode, k: Int) -> Int {
+        var result: Int? = nil
+        var counter: Int = 0
+
+        func reverseInorderTraversal(node: TreeNode?) {
+            guard let node else { return }
+            reverseInorderTraversal(node: node.right)
+            counter += 1
+            if counter == k {
+                result = node.value
+                return
+            }
+            reverseInorderTraversal(node: node.left)
+        }
+        reverseInorderTraversal(node: root)
+        return result ?? -1
+    }
+}
+
+extension LeetCode {
+
+    func rotateLeft(_ node: TreeNode) -> TreeNode? {
+
+        let newNode = node.right
+        node.right = node.left
+        newNode?.left = node
+        return newNode
+    }
+
+    func rotateRight(_ node: TreeNode) -> TreeNode? {
+        let newRoot = node.left
+        node.left = newRoot?.right
+        newRoot?.right = node
+        return newRoot
     }
 }

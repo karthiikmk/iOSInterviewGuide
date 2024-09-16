@@ -41,7 +41,7 @@ import Foundation
 
  Traversal methods - BFS, DFS
  spanning tree - vertex should be connected and should not have any cycle
- - minimum cost spanning tree
+ minimum cost spanning tree
  prince and krushkal algo helps to find minimum cost spanning tree.
 
  Spanning Tree: Constructing/Traversing a graph to form a tree. The resulting tree would be called as spanning tree.
@@ -58,16 +58,15 @@ enum EdgeType {
 struct Vertex<T: Hashable>: Hashable, CustomStringConvertible {
 
     let data: T
-
-    init(data: T) {
+    init(_ data: T) {
         self.data = data
     }
-
     var description: String {
         return "\(data)"
     }
 }
 
+/// Struct is by default hashable
 struct Edge<T: Hashable>: Hashable, Comparable {
 
     var source: Vertex<T>
@@ -81,16 +80,31 @@ struct Edge<T: Hashable>: Hashable, Comparable {
 
 class Graph<T: Hashable> {
 
-    /// - NOTE: Set is used to store edges
+    /// - NOTE: Adjacency refers to the relationship between two vertices (nodes) in a graph.
+    /// Set is used to store edges
     /// For undirected graph, there would be chance of duplication. in order to avoid set ds choosen.
     var adjacencyList: [Vertex<T>: Set<Edge<T>>] = [:]
 
-    func addVertex(_ data: T) -> Vertex<T> {
-        let vertex = Vertex(data: data)
+    func addVertex(_ vertex: Vertex<T>) {
         if adjacencyList[vertex] == nil {
-            adjacencyList[vertex] = []
+            adjacencyList[vertex] = [] // Initially empty edges
         }
+    }
+
+    @discardableResult
+    func addVertex(value data: T) -> Vertex<T> {
+        let vertex = Vertex(data)
+        addVertex(vertex)
         return vertex
+    }
+
+    func addEdge(_ edge: Edge<T>) {
+        addEdge(
+            from: edge.source,
+            to: edge.destination,
+            weight: edge.weight,
+            type: .undirected
+        )
     }
 
     func addEdge(
@@ -111,77 +125,85 @@ class Graph<T: Hashable> {
 // MARK: - Traversal
 extension Graph {
 
+    /// Depth order traversal == Binary Tree Pre-order traversal.
+    /// Finding connected components of a sparse graph
+    /// Topological sorting of nodes in a graph
+    func dfs(for vertex: Vertex<T>) -> [Vertex<T>] {
+
+        var result = [Vertex<T>]()
+        var visteds = Set<Vertex<T>>()
+        let stack = Stack<Vertex<T>>() // Stacking vertex
+        stack.push(vertex)
+
+        while !stack.isEmpty {
+            /// To avoid duplication visit, created a set
+            if let vertex = stack.pop() {
+                visteds.insert(vertex)
+                result.append(vertex)
+                let edges = adjacencyList[vertex] ?? []
+                for edge in edges where !visteds.contains(edge.destination) {
+                    stack.push(edge.destination)
+                }
+            }
+        }
+        return result
+    }
+
     /// Level order traversal.
     /// Computing the shortest path between a source node and each of the other nodes (only for unweighted graphs).
     /// Calculating the minimum spanning tree/) on an unweighted graph.
     /// returns: They way the tree was spanned.
     func bfs(for vertex: Vertex<T>) -> [Vertex<T>] {
 
-        var visited = Set<Vertex<T>>()
-        var queue = [Vertex<T>]()
         var result = [Vertex<T>]()
-
-        visited.insert(vertex)
-        queue.append(vertex)
+        var visiteds = Set<Vertex<T>>()
+        var queue = Queue<Vertex<T>>() // Queueing vertex
+        queue.enqeue(vertex)
 
         while !queue.isEmpty {
-            let currentVertex = queue.removeFirst()
-            result.append(currentVertex)
-            let neighbours = adjacencyList[currentVertex] ?? []
-            for edge in neighbours where !visited.contains(edge.destination) {
-                visited.insert(edge.destination)
-                queue.append(edge.destination)
+            if let vertex = queue.dequeue() {
+                visiteds.insert(vertex)
+                result.append(vertex)
+                let edges = adjacencyList[vertex] ?? []
+                for edge in edges where !visiteds.contains(edge.destination) {
+                    queue.enqeue(edge.destination)
+                }
             }
         }
         return result
     }
 
-    /// - NOTE: Graph must be connected, but no cycle. basically BFS
-    /// Edges count must be = Total number of vertex - 1
-    func minumumSpanning(for vertex: Vertex<T>) {
+    /// NOTE: Minimu spanning
+    /// Tree should be connected (should touch all the vertex)
+    /// No cycle between vertex
+    /// With that criteria, find the minimum path
+    func mst(for vertex: Vertex<T>) -> [Edge<T>] {
+        ///  as we are finding path, lets work with edges, we always prefer min edges
+        var visiteds = Set<Vertex<T>>()
+        var result = [Edge<T>]()
+        let queue = PriorityQueue<Edge<T>>(.min) // important
 
-        var visited = Set<Vertex<T>>()
-        var queue = [Vertex<T>]()
-
-        visited.insert(vertex)
-        queue.append(vertex)
-
+        /// Collecting all the edges of the start vertex using min queue.
+        visiteds.insert(vertex)
+        if let edges = adjacencyList[vertex] {
+            edges.forEach { queue.enqueue($0) }
+        }
+        ///
         while !queue.isEmpty {
-            let currentVertex = queue.removeFirst()
-            let neighbours = adjacencyList[currentVertex] ?? []
-            for edge in neighbours {
-                /// IMP: Sinde already visted, no need to keep it as neighbours
-                if visited.contains(edge.destination) {
-                    var neighbours = adjacencyList[currentVertex] ?? []
-                    for neighbour in neighbours where neighbour.destination == edge.destination {
-                        neighbours.remove(neighbour)
-                        adjacencyList[currentVertex] = neighbours
+            if let edge = queue.dequeue() {
+                // If the destination vertex is already visited, skip it
+                if visiteds.contains(edge.destination) { continue }
+                // Otherwise, add the edge to the result and mark the destination as visited
+                visiteds.insert(edge.destination)
+                result.append(edge)
+                // Add all edges of the destination vertex to the priority queue
+                if let neighbours = adjacencyList[edge.destination] {
+                    for neighbour in neighbours where !visiteds.contains(neighbour.destination) {
+                        queue.enqueue(neighbour)
                     }
-                } else {
-                    visited.insert(edge.destination)
-                    queue.append(edge.destination)
                 }
             }
         }
-    }
-
-    /// Depth order traversal == Binary Tree Pre-order traversal.
-    /// Finding connected components of a sparse graph
-    /// Topological sorting of nodes in a graph
-    func dfs(for vertex: Vertex<T>) -> [Vertex<T>] {
-        var result = [Vertex<T>]()
-        var visited = Set<Vertex<T>>()
-
-        // Recursive operation
-        func dfs(from vertex: Vertex<T>) {
-            visited.insert(vertex)
-            result.append(vertex)
-            let neighbours = adjacencyList[vertex] ?? []
-            for edge in neighbours where !visited.contains(edge.destination) {
-                dfs(from: edge.destination)
-            }
-        }
-        dfs(from: vertex)
         return result
     }
 }
@@ -189,9 +211,7 @@ extension Graph {
 // MARK: - Helpers
 extension Graph {
 
-    var vertices: [Vertex<T>] {
-        Array(adjacencyList.keys)
-    }
+    var vertices: [Vertex<T>] { Array(adjacencyList.keys) }
 
     private func addDirectedEdge(from source: Vertex<T>, to destination: Vertex<T>, weight: Double?) {
         let edge = Edge(source: source, destination: destination, weight: weight)
@@ -205,15 +225,11 @@ extension Graph {
     }
 
     func weight(from source: Vertex<T>, to destination: Vertex<T>) -> Double? {
-        guard let edges = adjacencyList[source] else { // 1
-            return nil
+        guard let edges = adjacencyList[source] else { return nil }
+        for edge in edges where edge.destination == destination {
+            return edge.weight
         }
-        for edge in edges { // 2
-            if edge.destination == destination { // 3
-                return edge.weight
-            }
-        }
-        return nil // 4
+        return nil
     }
 }
 

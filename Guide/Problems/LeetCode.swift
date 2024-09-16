@@ -9,6 +9,25 @@ import Foundation
 
 class LeetCode {
 
+    func run() {        
+        lengthOfLongestConsecutiveSubstring()
+        doBasics()
+    }
+
+    func doBasics() {
+        var array = [1,2,3,4]
+        var startIndex = 0
+        var endIndex = array.count - 1
+
+        var result = [Int]()
+        while startIndex <= endIndex {
+            let index = endIndex - startIndex // reverse
+            result.append(array[index])
+            startIndex += 1
+        }
+        print("result: \(result)")
+    }
+
     /// - NOTE: To complete this, need to understand how modulo and division works.
     /// Modulo returns remainder, whereas division returns the quotient.
     ///
@@ -16,13 +35,13 @@ class LeetCode {
     /// Append the extracted digit to the result variable by multiplying result by 10 and adding the digit.
     /// Update the number by removing the last digit using integer division /.
     func reverse(_ x: Int) -> Int {
-        var number = x
-        var result: Int = 0
+        var number = x // 321 // 32 // 3
+        var result: Int = 0 // 123
 
         while number != 0 {
-            let digit = number % 10 // 123 % 10 = 3
-            result = result * 10 + digit // 0 * 10 + 3 = 3
-            number /= 10 // 123 / 10 = 12 - preparing for next iteration
+            let digit = number % 10 // 321 % 10 = 1 // 32 % 10 = 2 // 3 % 10 = 3
+            result = result * 10 + digit // 0 * 10 + 1 = 1 // 1 * 10 + 2 = 12 // 12 * 10 + 3 //
+            number /= 10 // 321 / 10 = 32 // 32 / 10 = 3 // 3 /10 = 0
         }
         return result
     }
@@ -52,30 +71,29 @@ class LeetCode {
 /// - NOTE: Miscellenous
 extension LeetCode {
 
-    /// A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.
     func isPrime(_ number: Int) -> Bool {
-        // 1 is not a prime number
-        guard number > 1 else { return false }
 
-        // Handle 2 separately since it's the only even prime number
-        if number == 2 {
-            return true
-        }
+        // 1 is not prime
+        if number <= 1 { return false  }
+        // 2 is prime
+        if number == 2 { return true  }
+        // even numbers are not prime numbers
+        if number % 2 == 0 { return false }
 
-        // Check if the number is even
-        if number % 2 == 0 {
-            return false
-        }
-
-        // Check for divisibility by odd numbers starting from 3 up to the square root of the number
-        let sqrtNumber = Int(sqrt(Double(number)))
-        for divisor in stride(from: 3, through: sqrtNumber, by: 2) {
+        let squareRoot = Int(Double(number).squareRoot())
+        /// for number, divisor come in pairs
+        /// Eg 36, the pair is (1, 36)
+        /// (2, 18) (3, 12) etc
+        /// if we notice that the first element of each pair is always lesser than or equal to the squareroot of that number
+        /// so if a number has a larger divisor, its pairs is always lesser than or equal to its square root
+        ///
+        /// by 2: Any even number which is greater than 2 is divisable by 2, so it cant be prime number
+        /// so to check only the odd divisors we are striding by 2
+        for divisor in stride(from: 3, through: squareRoot, by: 2) {
             if number % divisor == 0 {
                 return false
             }
         }
-
-        // If no divisors were found, the number is prime
         return true
     }
 

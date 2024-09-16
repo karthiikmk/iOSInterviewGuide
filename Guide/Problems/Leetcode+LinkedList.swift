@@ -18,6 +18,12 @@ import Foundation
 */
 extension LeetCode {
 
+    func runLinkedList() {
+        let array = [8,10,12,16,18,25,20]
+        let list = convertArrayToLinkedList(array)
+        convertLinkedListToArray(list)
+    }
+
     class ListNode: CustomStringConvertible {
         var val: Int
         var next: ListNode?
@@ -32,14 +38,71 @@ extension LeetCode {
             }
             return s
         }
+
+        func insert(value: Int) {
+            // Next is nil, basically empty case.
+            guard let next = self.next else {
+                next = .init(value)
+                return
+            }
+            var previousNode: ListNode? = next
+            var currentNode: ListNode? = next
+            while currentNode != nil {
+                previousNode = currentNode
+                currentNode = currentNode?.next
+            }
+            previousNode?.next = .init(value)
+        }
+    }
+
+    @discardableResult
+    func convertArrayToLinkedList(_ array: [Int] = [1,2,3,4]) -> ListNode? {
+        guard !array.isEmpty else { return nil }
+        let node: ListNode = .init(array[0])
+        for index in 1..<array.count {
+            let value = array[index]
+            node.insert(value: value)
+        }
+        print("Array to linkedList: \(node)")
+        return node
+    }
+
+    @discardableResult
+    func convertLinkedListToArray(_ node: ListNode?) -> [Int] {
+        guard let node else { return [] }
+        // convert list to array
+        var array = [Int]()
+        // traverse from head to tail
+        var currentNode: ListNode? = node
+        while currentNode != nil {
+            array.append(currentNode!.val)
+            currentNode = currentNode?.next
+        }
+        print("LinkedList to Array: \(array)")
+        return array
+    }
+
+    /// NOTE: We should be using three window technique here.
+    func reverse(from node: ListNode) -> ListNode? {
+
+        var previousNode: ListNode? = nil
+        var currentNode: ListNode? = node
+        var nextNode: ListNode? //
+
+        while currentNode != nil {
+            nextNode = currentNode?.next
+            currentNode?.next = previousNode
+            previousNode = currentNode
+            currentNode = nextNode
+        }
+        return previousNode
     }
 
     /// - NOTE: Little tricky.
     /// assigning the head reference in current node to perform mutation and iteration
     /// where as head will not be nil, only the mutation performed via currentNode<##>
     func removeDuplicates(inList head: ListNode?) -> ListNode? {
-
-        var currentNode = head // reference of head.
+        var currentNode = head
         while currentNode != nil {
             if currentNode?.val == currentNode?.next?.val {
                 /// this will udpate the next node,
@@ -50,25 +113,23 @@ extension LeetCode {
                 currentNode = currentNode?.next
             }
         }
-        return head
+        // if we return currentNode, then that is just last element
+        // we should be returning the reference of the head
+        return head // *** important (Not currentNode)
     }
 
     func middleElement(of node: ListNode?) -> ListNode? {
-
         var slow = node
         var fast = node
-
         // Floyd’s Cycle Detection Algorithm
         while fast != nil && fast?.next != nil {
             slow = slow?.next // 3
             fast = fast?.next?.next // 5
         }
-
         return slow
     }
 
     func hasCycle(node: ListNode?) -> Bool {
-
         var slow = node
         var fast = node
 
@@ -76,11 +137,12 @@ extension LeetCode {
         while fast != nil && fast?.next != nil {
             slow = slow?.next
             fast = fast?.next?.next
+            // Equating the reference, not value
+            // Same value can be in different node, but that couldn't be a cycle.
             if slow === fast {
                 return true
             }
         }
-
         return false
     }
 
@@ -117,6 +179,7 @@ extension LeetCode {
         }
 
         // traverse
+        // Equating the reference, not value. 
         while pointerA !== pointerB {
             pointerA = pointerA?.next
             pointerB = pointerB?.next
@@ -125,6 +188,3 @@ extension LeetCode {
         return pointerA
     }
 }
-
-
-

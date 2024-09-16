@@ -12,22 +12,6 @@ import Foundation
 /// SubSequeunce - not really a contagious one.
 extension LeetCode {
 
-    /// - Discussion: Find the max number of times 1 appears consecutively (continiously).
-    ///  The numbers in an array would be 0, 1's. Eg: [0, 1, 1, 1, 0, 0, 1]
-    /// - Returns: Maximum number of times 1 appears consecutively
-    /// - Complexity: O(n)
-    /// - Seealso: Sliding Window, Kadane's Algorithm
-    func findMaxConsecutiveOnces(_ nums: [Int]) -> Int {
-
-        var maximum: Int = 0
-        var sum: Int = 0
-
-        for num in nums {
-            sum = (num == 0) ? 0 : (sum+1)
-            maximum = max(sum, maximum)
-        }
-        return maximum
-    }
 
     /// Subarray Product Less Than K
     /// Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
@@ -54,34 +38,6 @@ extension LeetCode {
             count += right - left + 1
         }
         return count
-    }
-
-    /// Longest Substring Without Repeating Characters
-    ///
-    /// OJ: https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
-    ///
-    /// - seealso: Sliding window
-    func lengthOfLongestSubstring(_ s: String) -> Int {
-        let chars = Array(s)
-        var maxLength = 0
-
-        var charSet = Set<Character>()
-        var left = 0 // boundaries
-        var right = 0 // boundaris
-
-        while right < chars.count {
-            let char = chars[right]
-            if charSet.contains(char) {
-                charSet.remove(chars[left])
-                left += 1
-            } else {
-                charSet.insert(char)
-                maxLength = max(maxLength, right - left + 1)
-                right += 1
-            }
-        }
-
-        return maxLength
     }
 
     /// Using kadane's algorithm: The idea of Kadane’s algorithm is to maintain a variable max_ending_here

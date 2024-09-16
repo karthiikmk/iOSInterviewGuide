@@ -7,35 +7,47 @@
 
 import Foundation
 
+enum PriorityQueueType {
+    case min
+    case max
+}
+
 class PriorityQueue<T: Comparable> {
 
-    let heap: Heap<T>
+    var array = [T]()
+    var type: PriorityQueueType
+    var isEmpty: Bool { self.array.isEmpty }
 
-    init(isMaxHeap: Bool = true) {
-        self.heap = Heap(maxHeap: isMaxHeap)
+    init(_ type: PriorityQueueType) {
+        self.type = type
     }
 
-    convenience init(isMaxHeap: Bool, array: [T]) {
-        self.init(isMaxHeap: isMaxHeap)
+    convenience init(_ type: PriorityQueueType, array: [T]) {
+        self.init(type)
         for item in array {
             enqueue(item)
         }
     }
 
-    var isEmpty: Bool { self.heap.isEmpty }
-
     func enqueue(_ item: T) {
-        self.heap.push(item)
+        array.append(item)
+        heapify()
     }
 
     func dequeue() -> T? {
-        return self.heap.pop()
+        return (array.isEmpty) ? nil : array.removeFirst()
+    }
+
+    private func heapify() {
+        type == .min
+        ? array.sort() // asc sorting
+        : array.sort(by: >) // desc sorting
     }
 }
 
 extension PriorityQueue: CustomStringConvertible {
 
     public var description: String {
-        return "\(heap.elements)"
+        return "\(array)"
     }
 }

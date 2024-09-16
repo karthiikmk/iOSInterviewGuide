@@ -20,6 +20,7 @@ class Prims<T: Hashable> {
     }
 
     /// - NOTE: Merly looks like bfs Leverl-Order traversal
+    /// Instead of returning results in some collection for, here we are creating new graph and returning.
     func findMinimumSpanningTree(for vertex: Vertex<T>? = nil) -> (spanningTree: Graph<T>, cost: Double) {
 
         /// BaseCondition
@@ -27,34 +28,37 @@ class Prims<T: Hashable> {
             return (Graph<T>(), .zero)
         }
         var visited = Set<Vertex<T>>()
-        let mst = Graph<T>()
-        let priorityQueue = PriorityQueue<Edge<T>>(isMaxHeap: false)
+        let mst = Graph<T>() // constructing new graph
+        let queue = PriorityQueue<Edge<T>>(.min) // important
 
         visited.insert(startVertex)
-
+        mst.addVertex(startVertex)
         // Add edges from starting vertex to priority queue
         let neighbours = edges(for: startVertex)
         for edge in neighbours {
-            priorityQueue.enqueue(edge)
+            queue.enqueue(edge)
         }
 
-        while !priorityQueue.isEmpty {
+        while !queue.isEmpty {
             /// BaseCondition
-            guard let edge = priorityQueue.dequeue() else { break }
-
-            // Skip edges if destination is already visited
-            if !visited.contains(edge.destination) {
+            if let edge = queue.dequeue() {
+                // Skip edges if destination is already visited
+                if visited.contains(edge.destination) { continue }
                 ///
                 visited.insert(edge.destination)
-                mst.addEdge(from: edge.source, to: edge.destination, weight: edge.weight)
-
+                // Ensure both source and destination vertices are in the MST
+                mst.addVertex(edge.source)
+                mst.addVertex(edge.destination)
+                mst.addEdge(edge) // This is very important.
+                ///
                 let neighbours = edges(for: edge.destination)
-                for edge in neighbours {
-                    priorityQueue.enqueue(edge)
+                for edge in neighbours where !visited.contains(edge.destination) {
+                    queue.enqueue(edge)
                 }
             }
         }
 
+        /// Taking the newly constructed graph. 
         var cost: Double = .zero
         for (_, edges) in mst.adjacencyList {
             for edge in edges {
