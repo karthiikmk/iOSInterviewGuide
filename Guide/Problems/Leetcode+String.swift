@@ -301,33 +301,6 @@ extension LeetCode {
         return sFreq == tFreq
     }
 
-    /// Find all permutations of a string.
-    ///
-    /// Number of ways in which the string can be arrianged
-    /// Learnign about how permutation works t
-    /// - seealso: recurssion
-    func permutations(of string: String) -> [String] {
-
-        var result = [String]()
-        let array = Array(string)
-
-        /// - NOTE: We are not iterating each char in the array, rather iteration the while string n tiems.
-        func permute(array: [Character], startIndex: Int, endIndex: Int, result: inout [String]) {
-            // Basecondtion, which reaching the leaf
-            if startIndex == endIndex {
-                result.append(String(array))
-            } else {
-                for index in startIndex...endIndex  { // iterating each character
-                    var str = array
-                    str.swapAt(startIndex, index) // swap start to the index
-                    permute(array: str, startIndex: startIndex + 1, endIndex: endIndex, result: &result)
-                }
-            }
-        }
-        permute(array: array, startIndex: 0, endIndex: array.count - 1, result: &result)
-        return result
-    }
-
     func rotateStringUsingConcadination(_ s: String, _ goal: String) -> Bool {
         let hasSameLenghth = s.count == goal.count
         let isEmpty = s.count == 0 && goal.count == 0

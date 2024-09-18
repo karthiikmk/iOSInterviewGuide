@@ -13,12 +13,14 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 
         let leetcode = LeetCode()
-        leetcode.run()
-        leetcode.runLinkedList()
-        leetcode.runTree()
+        // leetcode.run()
+        // leetcode.runLinkedList()
+        // leetcode.runTree()
+        // leetcode.runArray()
+        leetcode.runRecurrsion()
         // practise.runGraph()
 
-        runPriorityQueue()
+        // runPriorityQueue()
 	}
     
     func testMaxHeapWithInt() {

@@ -13,6 +13,16 @@ import Foundation
  23. Find the longest increasing subsequence of an array.
  30. Find the median of two sorted arrays.
 */
+
+extension LeetCode {
+    
+    func runArray() {
+        maxSumOfSubarray()
+        minSumOfSubArray()
+        maxSumOfSubarray(arr: [5,4,3,1,8], size: 3)
+    }
+}
+
 extension LeetCode {
 
     func reverse(array: [Int]) -> [Int] {
@@ -522,11 +532,12 @@ extension LeetCode {
     ///
     /// - seealso: Binary search, two sum
     /// [2,7,11,15] Target: 9
+    /// Idea: Using Two pointer (but only applicable for sorted)
     func twoSum(_ numbers: [Int], _ target: Int) -> [Int] {
-
+        
         var startIndex: Int = 0
         var endIndex: Int = numbers.count - 1
-
+        
         while startIndex <= endIndex {
             let sum = numbers[startIndex] + numbers[endIndex]
             if sum == target {
@@ -537,7 +548,7 @@ extension LeetCode {
                 endIndex -= 1
             }
         }
-
+        
         return []
     }
 }
@@ -585,5 +596,141 @@ extension LeetCode {
             }
         }
         return maxHeap[0]
+    }
+}
+
+// - MARK: Sliding Window
+extension LeetCode {
+     
+    /// NOTE: Find the maximum length of a subarray whose sum is `greater than or equal` to a given value k.
+    /// Eg: [5,4,3,1,8] where k = 8
+    /// Idea: Start enlarging the window, and start shrinking as soon as we found the subarray
+    @discardableResult
+    func maxSumOfSubarray(arr: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
+        var subArray = [Int]()
+        var maxlength = Int.min // ***
+        var runningSum = 0
+        
+        var left = 0
+        var right = 0
+        
+        /// [5,4,3,1,8]
+        while right < arr.count {
+            /// Enlarging the window
+            runningSum += arr[right]
+            /// Shrinking the window
+            while runningSum >= k {
+                /// Lenght calculation
+                let length = right - left + 1
+                if length > maxlength {
+                    maxlength = length
+                    subArray = Array(arr[left...right])
+                }
+                /// Shrinking the window, as we found the subarray
+                runningSum -= arr[left]
+                left += 1
+            }
+            ///
+            right += 1
+        }
+        print("Max subarray: \(subArray) - lenght: \(maxlength)")
+        return maxlength
+    }
+    
+        /// NOTE: Find the minimum length of a subarray whose sum is `greater than or equal` to a given value k.
+    @discardableResult
+    func minSumOfSubArray(arr: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
+        
+        var subArray: [Int] = []
+        var miniumSum = Int.max // ***
+        var currentSum = 0
+        
+        var left = 0
+        var right = 0
+        
+        while right < arr.count {
+            /// Maximizing the window
+            currentSum += arr[right]
+            
+            while currentSum >= k {
+                /// Length calculation
+                let length = right - left + 1
+                if length < miniumSum {
+                    miniumSum = length
+                    subArray = Array(arr[left...right])
+                }
+                /// Shrink the window as soon as we found the subarray
+                currentSum -= arr[left]
+                left += 1
+            }
+            right += 1
+        }
+        print("Min subArray: \(subArray) - lenght: \(miniumSum)")
+        return miniumSum
+    }
+    
+    /// NOTE: Find the sum of a continuous subarray of `size k`.
+    /// HINT: Sub array size should be equal to k, which is also called as fixed size subarray
+    @discardableResult
+    func maxSumOfSubarray(arr: [Int], size k: Int = 3) -> Int {
+        
+        var startIndex: Int = 0
+        var maximumSum = Int.min
+        var currentSum = 0
+        
+        var left = 0
+        var right = 0
+        
+        /// Iterate the initial window size
+        while right < k {
+            currentSum += arr[right]
+            right += 1
+        }        
+        maximumSum = currentSum
+        startIndex = left
+        
+        while right < arr.count {
+            /// Shrink the window from left side
+            currentSum += arr[right] - arr[left]
+            /// Length Calculation
+            if currentSum > maximumSum {
+                maximumSum = currentSum
+                startIndex = left + 1
+            }
+            left += 1
+            right += 1
+        }
+        print("Max subArray of size \(k): \(arr[startIndex..<(startIndex+k)])")
+        return maximumSum
+    }
+    
+    /// Eg:  [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+    /// Output: [4, -1, 2, 1]
+    func findSumOfMaxSubArray(_ array: [Int]) {
+        
+        var maximumSum: Int = Int.min
+        var currentSum: Int = 0
+        
+        var left = 0
+        var right = 0
+        var index = 0
+        
+        while index < array.count {
+            /// Set the starting point
+            if currentSum == 0 {
+                left = index
+            }
+            currentSum += array[index]
+            /// if some becomes negative, reset it
+            if currentSum < 0 {
+                currentSum = 0
+            }
+            if currentSum > maximumSum {
+                maximumSum = currentSum
+                right = index // *** right, not left
+            }
+            index += 1
+        }
+        print(array[left...right])
     }
 }

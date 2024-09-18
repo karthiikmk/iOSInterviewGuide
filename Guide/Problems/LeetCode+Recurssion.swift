@@ -8,6 +8,15 @@
 import Foundation
 
 extension LeetCode {
+    
+    func runRecurrsion() {
+        // permutations(of: "123")
+        // permutations(for: [1,2,3])
+        nextPermutationUsingBruteForce(of: 123)
+    }
+}
+
+extension LeetCode {
 
     ///  Find the fibonacci value for the given number.
     ///
@@ -117,5 +126,114 @@ extension LeetCode {
         TOH(n: n - 1, a: a, b: c, c: b) // Moving a -> b using c
         debugPrint("(\(a) -> \(c))", terminator: ",")
         TOH(n: n - 1, a: b, b: a, c: c) // Moving b -> c using a
+    }
+}
+
+// - MARK: Permutation
+extension LeetCode {
+    
+    /// NOTE: In general for n elements, the number of permutations is n! (factorial of n)
+    /// Eg: [1,2,3], the perumation is 6
+    @discardableResult
+    func permutations(for array: [Int]) -> [Int] {
+        
+        var result = [Int]()
+        var arr = array
+        
+        func permute(_ startIndex: Int) {
+            /// Collect the permutation
+            if startIndex == arr.count {
+                result.append(arr.toInt())
+                return
+            }
+            
+            for index in startIndex..<arr.count {
+                arr.swapAt(startIndex, index)
+                permute(startIndex + 1)
+                arr.swapAt(startIndex, index) // resetting the org position
+            }
+        }
+        permute(0)
+        print("Permuation: \(result)")
+        return result
+    }
+    
+    
+    /// Find all permutations of a string.
+    ///
+    /// Number of ways in which the string can be arrianged
+    /// Learnign about how permutation works
+    /// - seealso: recurssion
+    func permutations(of string: String) -> [String] {
+        
+        var result = [String]()
+        var array = Array(string)
+        
+        /// - NOTE: We are not iterating each char in the array, rather iteration the while string n tiems.
+        func permute(_ startIndex: Int) {
+            // Basecondtion, which reaching the leaf
+            if startIndex == array.count {
+                result.append(String(array))
+                return
+            }
+            for index in startIndex..<array.count  {
+                array.swapAt(startIndex, index) // actual swapping
+                permute(startIndex + 1)
+                array.swapAt(startIndex, index) // resettign back to orignal
+            }
+        }
+        permute(0)
+        print("String permuatation: \(result)")
+        return result
+    }
+    
+    /// Brute force approace
+    ///  - Find out all the permuation, among which find the smallest one which is larger than the given
+    func nextPermutationUsingBruteForce(of number: Int) -> String {
+        let array = number.toArray()
+        let permuations = permutations(for: array)
+        var result = Int.max
+        
+        for permutation in permuations {
+            if permutation > number && permutation < result {
+                result = permutation
+            }
+        }
+        print("Next permuation using brute force: \(String(result))")
+        return String(result)
+    }
+    
+    
+    // We start by finding the rightmost pair of digits where the first digit is smaller than the second.
+    // This is because the digits on the right side of the number are in descending order, which is the largest possible arrangement for those digits.
+    // Therefore, the first point where a smaller digit is followed by a larger digit is the first place where we can make the number larger.
+    func nextPermuation(of number: Int) -> String {
+        var array = Array(String(number))
+        
+        /// Find the pivotIndex
+        var pivotIndex = array.count - 2
+        while pivotIndex >= 0 && array[pivotIndex] >= array[pivotIndex+1] {
+            pivotIndex -= 1
+        }
+        // Here pivot value is lesser than the next index value
+        if pivotIndex == -1 {
+            return "not possible"
+        }
+        
+        /// Find the smallest number from right side where its larger than the pivot
+        /// As right side already in descending, find the first one from right side should work.
+        var endIndex = array.count - 1
+        while array[endIndex] <= array[pivotIndex] {
+            endIndex -= 1
+        }
+        /// Swap
+        array.swapAt(pivotIndex, endIndex)
+        /// Sort
+        let left = array[0...pivotIndex]
+        let right = array[(pivotIndex+1)...].sorted() // Asc sort inorder to create next smallest number.
+        
+        let nextNumber = String(left + right)
+        print("Next permuation: \(nextNumber)")
+        return nextNumber
     }
 }

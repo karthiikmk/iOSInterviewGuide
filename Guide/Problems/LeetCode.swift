@@ -15,9 +15,9 @@ class LeetCode {
     }
 
     func doBasics() {
-        var array = [1,2,3,4]
+        let array = [1,2,3,4]
         var startIndex = 0
-        var endIndex = array.count - 1
+        let endIndex = array.count - 1
 
         var result = [Int]()
         while startIndex <= endIndex {
