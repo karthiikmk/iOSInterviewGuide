@@ -7,29 +7,30 @@
 
 import Foundation
 
-class MinStackNode {
-
-    let value : Int
-    var minimumValue : Int
-    var next: MinStackNode? = nil
-
-    init(_ value: Int) {
-        self.value = value
-        self.minimumValue = value
-    }
-}
-
+/// Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
 /// OJ: https://leetcode.com/problems/min-stack/
-/// Uses Linked list
 class MinStack {
+    
+    class Node {
+        
+        let value : Int
+        var minimumValue : Int
+        var next: Node? = nil
+        
+        init(_ value: Int) {
+            self.value = value
+            self.minimumValue = value
+        }
+    }
 
-    var head: MinStackNode? = nil
+    var head: Node? = nil
 
     func push(_ val: Int) {
         if head == nil {
-            self.head = MinStackNode(val)
+            self.head = Node(val)
         } else {
-            let newNode = MinStackNode(val)
+            /// As stack is LIFO, pushing new element on the front. 
+            let newNode = Node(val)
             newNode.minimumValue = min(val, head!.minimumValue)
             newNode.next = head
             self.head = newNode

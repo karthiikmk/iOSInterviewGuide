@@ -210,46 +210,48 @@ extension LeetCode {
         debugPrint(String(array))
         return String(array)
     }
+    
+    func reversePrefix(_ word: String, _ ch: Character) -> String {
+        
+        func rotate(_ array: inout [Character], start: Int, end: Int) {
+            var startIndex: Int = start
+            var endIndex: Int = end
+            
+            while startIndex <= endIndex {
+                array.swapAt(startIndex, endIndex)
+                startIndex += 1
+                endIndex -= 1
+            }
+        }
+        
+        var array: [Character] = Array(word)
+        
+        for (index, char) in array.enumerated() {
+            if char == ch {
+                rotate(&array, start: 0, end: index)
+                break
+            }
+        }
+        debugPrint("reverse prefix: \(String(array))")
+        return String(array)
+    }
 
     ///
     /// - complexity: O(n)
     func firstUniqChar(_ s: String) -> Int {
 
-        var mapCharToIndex = [Character: Int]()
+        var char_count = [Character: Int]()
 
         // Mapping characters with their count
         for (_, char) in s.enumerated() {
-            mapCharToIndex[char, default: 0] += 1
+            char_count[char, default: 0] += 1
         }
         for (index, char) in s.enumerated() {
-            if mapCharToIndex[char] == 1 {
+            if char_count[char] == 1 {
                 return index
             }
         }
         return -1
-    }
-
-    /// -seealso: Hashmap, order of index
-    func firstUniqCharUsingHashMap(_ s: String) -> Int {
-
-        var mapCharWithCount = [Character: Int]()
-        var mapCharToIndex = [Character: Int]()
-
-        for (index, char) in s.enumerated() {
-            if mapCharWithCount[char] == nil { // nothing avalialbe
-                mapCharWithCount[char] = 1
-                mapCharToIndex[char] = index
-            } else {
-                mapCharWithCount[char]! += 1 // duplidated
-                mapCharToIndex[char] = nil
-            }
-        }
-
-        var minIndex: Int = s.count
-        for (_, index) in mapCharToIndex {
-            minIndex = min(minIndex, index)
-        }
-        return minIndex
     }
 
     /// NOTE:
@@ -418,6 +420,38 @@ extension LeetCode {
 
         let substring = String(array[substringStartPostion..<(substringStartPostion+maxLength)])
         print(substring)
+    }
+    
+    /// Minimum Length of String After Deleting Similar Ends
+    ///
+    /// https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends/description/
+    /// Eg: "aabccabba"
+    /// Output: 3 (cca)
+    func minimumLength(_ s: String) -> Int {
+        
+        let array: [Character] = Array(s)
+        var startIndex: Int = 0
+        var endIndex: Int = array.count - 1
+        
+        while startIndex < array.count {
+            // Skip matching characters from the left
+            // Need to make sure the index is there. eg for array with only one element.
+            while startIndex < array.count && array[startIndex] == array[startIndex + 1] {
+                startIndex += 1
+            }
+            // Skip matching characters from the right
+            while endIndex < array.count, array[endIndex] == array[endIndex - 1] {
+                endIndex -= 1
+            }
+            // If characters at left and right pointers match, remove prefix and suffix
+            if array[startIndex] == array[endIndex] {
+                startIndex += 1
+                endIndex -= 1
+            } else {
+                break //Imp: If characters don't match, exit loop
+            }
+        }
+        return endIndex - startIndex + 1
     }
 }
 

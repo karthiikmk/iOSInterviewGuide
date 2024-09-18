@@ -28,7 +28,7 @@ class Prims<T: Hashable> {
             return (Graph<T>(), .zero)
         }
         var visited = Set<Vertex<T>>()
-        let mst = Graph<T>() // constructing new graph
+        let mst = Graph<T>() // *** Constructing new graph
         let queue = PriorityQueue<Edge<T>>(.min) // important
 
         visited.insert(startVertex)

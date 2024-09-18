@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		250020622BB480AA00F64285 /* Leetcode+SlidingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250020612BB480AA00F64285 /* Leetcode+SlidingWindow.swift */; };
 		250020682BBB24C400F64285 /* MinStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250020672BBB24C400F64285 /* MinStack.swift */; };
 		2564A7E7257403C200C7065C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A7E6257403C200C7065C /* AppDelegate.swift */; };
 		2564A7E9257403C200C7065C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A7E8257403C200C7065C /* SceneDelegate.swift */; };
@@ -16,7 +15,6 @@
 		2564A7F3257403C300C7065C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2564A7F1257403C300C7065C /* LaunchScreen.storyboard */; };
 		2564A7FE257403C300C7065C /* AlgorithmsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A7FD257403C300C7065C /* AlgorithmsTests.swift */; };
 		2564A809257403C300C7065C /* AlgorithmsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A808257403C300C7065C /* AlgorithmsUITests.swift */; };
-		257247842580E186005C8E3D /* LeetCode+DataStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257247832580E186005C8E3D /* LeetCode+DataStructure.swift */; };
 		257FDA502C9B57210055C14B /* Leetcode+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FDA4F2C9B57210055C14B /* Leetcode+Ext.swift */; };
 		258C6E4E2BA0CC9C004DBB00 /* FixedSizeArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E4D2BA0CC9C004DBB00 /* FixedSizeArray.swift */; };
 		258C6E522BA0CF4D004DBB00 /* OrderedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E512BA0CF4D004DBB00 /* OrderedArray.swift */; };
@@ -26,7 +24,6 @@
 		258C6E5A2BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E582BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift */; };
 		258C6E5F2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E5E2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift */; };
 		258C6E612BA0E65A004DBB00 /* 2DArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E602BA0E65A004DBB00 /* 2DArray.swift */; };
-		258C6E642BA0EDC1004DBB00 /* BinarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E632BA0EDC1004DBB00 /* BinarySearch.swift */; };
 		258C6E672BA1A2D9004DBB00 /* QA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E662BA1A2D9004DBB00 /* QA.swift */; };
 		258C6E6A2BA1BA9A004DBB00 /* DesignPatterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E692BA1BA9A004DBB00 /* DesignPatterns.swift */; };
 		258C6E6C2BA1BABD004DBB00 /* RetainCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6B2BA1BABD004DBB00 /* RetainCycle.swift */; };
@@ -34,11 +31,7 @@
 		258C6E702BA1CB81004DBB00 /* BSTTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */; };
 		2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597D33B2C89BA9600DA9C07 /* LRUCache.swift */; };
 		2597D33F2C8C591200DA9C07 /* tree-terminology.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2597D33E2C8C591200DA9C07 /* tree-terminology.svg */; };
-		25AF3EF72577B91000816D7C /* BubbleSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF3EF62577B91000816D7C /* BubbleSort.swift */; };
-		25AF3EFC2577D99500816D7C /* MergeSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF3EFB2577D99500816D7C /* MergeSort.swift */; };
-		25AF3F012577E33100816D7C /* QuickSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF3F002577E33100816D7C /* QuickSort.swift */; };
-		25AF3F062577E68E00816D7C /* InsertionSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AF3F052577E68E00816D7C /* InsertionSort.swift */; };
-		25D9AFBA257E9E2A00390391 /* HackerRank+DataStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D9AFB9257E9E2A00390391 /* HackerRank+DataStructure.swift */; };
+		25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B714572C9C28880095BC70 /* Leetcode+Sort.swift */; };
 		25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BE82BA46EF0008F7DF1 /* PriorityQueue.swift */; };
 		25EE9BEB2BA47498008F7DF1 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BEA2BA47498008F7DF1 /* AVLTree.swift */; };
 		25EE9BF12BA4D9D2008F7DF1 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BF02BA4D9D2008F7DF1 /* Graph.swift */; };
@@ -46,7 +39,6 @@
 		25EE9BFA2BA4EF1A008F7DF1 /* StackUsingLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BF92BA4EF1A008F7DF1 /* StackUsingLinkedList.swift */; };
 		25EE9BFC2BA4F040008F7DF1 /* QueueUsingLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BFB2BA4F040008F7DF1 /* QueueUsingLinkedList.swift */; };
 		25EE9C062BA7603C008F7DF1 /* Prims.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C052BA7603C008F7DF1 /* Prims.swift */; };
-		25EE9C522BA9E9CF008F7DF1 /* BinarySearchUsingRecurssion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C512BA9E9CF008F7DF1 /* BinarySearchUsingRecurssion.swift */; };
 		25EE9C542BA9EEB5008F7DF1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C532BA9EEB5008F7DF1 /* Array.swift */; };
 		25EE9C562BAB3619008F7DF1 /* LeetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C552BAB3619008F7DF1 /* LeetCode.swift */; };
 		25EE9C582BAB3765008F7DF1 /* ZeroMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C572BAB3765008F7DF1 /* ZeroMatrix.swift */; };
@@ -55,7 +47,6 @@
 		25EE9C602BAE1B15008F7DF1 /* Leetcode+LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C5F2BAE1B15008F7DF1 /* Leetcode+LinkedList.swift */; };
 		25EE9C622BAE2537008F7DF1 /* Leetcode+Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C612BAE2537008F7DF1 /* Leetcode+Tree.swift */; };
 		25EE9C642BAF0D7C008F7DF1 /* Leedcode+Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C632BAF0D7C008F7DF1 /* Leedcode+Graph.swift */; };
-		25EE9C662BB0610D008F7DF1 /* Leetcode+TwoPointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C652BB0610D008F7DF1 /* Leetcode+TwoPointers.swift */; };
 		25EE9C682BB08B1A008F7DF1 /* LeetCode+Recurssion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C672BB08B1A008F7DF1 /* LeetCode+Recurssion.swift */; };
 		25EE9C6E2BB1C552008F7DF1 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C6D2BB1C552008F7DF1 /* Documentation.docc */; };
 		25F461B92BA31D4B008D8C4E /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F461B82BA31D4B008D8C4E /* Heap.swift */; };
@@ -79,7 +70,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		250020612BB480AA00F64285 /* Leetcode+SlidingWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+SlidingWindow.swift"; sourceTree = "<group>"; };
 		250020672BBB24C400F64285 /* MinStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinStack.swift; sourceTree = "<group>"; };
 		2564A7E3257403C200C7065C /* iOSInterviewGuide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSInterviewGuide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2564A7E6257403C200C7065C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,7 +84,6 @@
 		2564A804257403C300C7065C /* AlgorithmsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlgorithmsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2564A808257403C300C7065C /* AlgorithmsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmsUITests.swift; sourceTree = "<group>"; };
 		2564A80A257403C300C7065C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		257247832580E186005C8E3D /* LeetCode+DataStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LeetCode+DataStructure.swift"; sourceTree = "<group>"; };
 		257FDA4F2C9B57210055C14B /* Leetcode+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+Ext.swift"; sourceTree = "<group>"; };
 		258C6E4D2BA0CC9C004DBB00 /* FixedSizeArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedSizeArray.swift; sourceTree = "<group>"; };
 		258C6E512BA0CF4D004DBB00 /* OrderedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderedArray.swift; sourceTree = "<group>"; };
@@ -104,7 +93,6 @@
 		258C6E582BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReverseSingleLinkedList.swift; sourceTree = "<group>"; };
 		258C6E5E2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueusingRingBuffer.swift; sourceTree = "<group>"; };
 		258C6E602BA0E65A004DBB00 /* 2DArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DArray.swift; sourceTree = "<group>"; };
-		258C6E632BA0EDC1004DBB00 /* BinarySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinarySearch.swift; sourceTree = "<group>"; };
 		258C6E662BA1A2D9004DBB00 /* QA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QA.swift; sourceTree = "<group>"; };
 		258C6E692BA1BA9A004DBB00 /* DesignPatterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignPatterns.swift; sourceTree = "<group>"; };
 		258C6E6B2BA1BABD004DBB00 /* RetainCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetainCycle.swift; sourceTree = "<group>"; };
@@ -112,11 +100,7 @@
 		258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSTTree.swift; sourceTree = "<group>"; };
 		2597D33B2C89BA9600DA9C07 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
 		2597D33E2C8C591200DA9C07 /* tree-terminology.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "tree-terminology.svg"; sourceTree = "<group>"; };
-		25AF3EF62577B91000816D7C /* BubbleSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleSort.swift; sourceTree = "<group>"; };
-		25AF3EFB2577D99500816D7C /* MergeSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeSort.swift; sourceTree = "<group>"; };
-		25AF3F002577E33100816D7C /* QuickSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSort.swift; sourceTree = "<group>"; };
-		25AF3F052577E68E00816D7C /* InsertionSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertionSort.swift; sourceTree = "<group>"; };
-		25D9AFB9257E9E2A00390391 /* HackerRank+DataStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HackerRank+DataStructure.swift"; sourceTree = "<group>"; };
+		25B714572C9C28880095BC70 /* Leetcode+Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+Sort.swift"; sourceTree = "<group>"; };
 		25EE9BE82BA46EF0008F7DF1 /* PriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
 		25EE9BEA2BA47498008F7DF1 /* AVLTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVLTree.swift; sourceTree = "<group>"; };
 		25EE9BF02BA4D9D2008F7DF1 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
@@ -124,7 +108,6 @@
 		25EE9BF92BA4EF1A008F7DF1 /* StackUsingLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackUsingLinkedList.swift; sourceTree = "<group>"; };
 		25EE9BFB2BA4F040008F7DF1 /* QueueUsingLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueUsingLinkedList.swift; sourceTree = "<group>"; };
 		25EE9C052BA7603C008F7DF1 /* Prims.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prims.swift; sourceTree = "<group>"; };
-		25EE9C512BA9E9CF008F7DF1 /* BinarySearchUsingRecurssion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinarySearchUsingRecurssion.swift; sourceTree = "<group>"; };
 		25EE9C532BA9EEB5008F7DF1 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		25EE9C552BAB3619008F7DF1 /* LeetCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeetCode.swift; sourceTree = "<group>"; };
 		25EE9C572BAB3765008F7DF1 /* ZeroMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroMatrix.swift; sourceTree = "<group>"; };
@@ -133,7 +116,6 @@
 		25EE9C5F2BAE1B15008F7DF1 /* Leetcode+LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+LinkedList.swift"; sourceTree = "<group>"; };
 		25EE9C612BAE2537008F7DF1 /* Leetcode+Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+Tree.swift"; sourceTree = "<group>"; };
 		25EE9C632BAF0D7C008F7DF1 /* Leedcode+Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leedcode+Graph.swift"; sourceTree = "<group>"; };
-		25EE9C652BB0610D008F7DF1 /* Leetcode+TwoPointers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+TwoPointers.swift"; sourceTree = "<group>"; };
 		25EE9C672BB08B1A008F7DF1 /* LeetCode+Recurssion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LeetCode+Recurssion.swift"; sourceTree = "<group>"; };
 		25EE9C6D2BB1C552008F7DF1 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		25F461B82BA31D4B008D8C4E /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
@@ -190,9 +172,7 @@
 				25EE9C6D2BB1C552008F7DF1 /* Documentation.docc */,
 				258C6E4F2BA0CCC1004DBB00 /* Main */,
 				258C6E4C2BA0CC88004DBB00 /* DataStructures */,
-				25EE9C6C2BB1C33D008F7DF1 /* Algorithms */,
 				258C6E5B2BA0DB19004DBB00 /* Problems */,
-				257247832580E186005C8E3D /* LeetCode+DataStructure.swift */,
 			);
 			path = Guide;
 			sourceTree = "<group>";
@@ -231,7 +211,6 @@
 		258C6E4F2BA0CCC1004DBB00 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				25D9AFB9257E9E2A00390391 /* HackerRank+DataStructure.swift */,
 				2564A7EC257403C200C7065C /* Main.storyboard */,
 				2564A7F1257403C300C7065C /* LaunchScreen.storyboard */,
 				2564A7F4257403C300C7065C /* Info.plist */,
@@ -241,17 +220,6 @@
 				25EE9C692BB1BCD7008F7DF1 /* YTD */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		258C6E502BA0CCD5004DBB00 /* Sort */ = {
-			isa = PBXGroup;
-			children = (
-				25AF3EF62577B91000816D7C /* BubbleSort.swift */,
-				25AF3F052577E68E00816D7C /* InsertionSort.swift */,
-				25AF3F002577E33100816D7C /* QuickSort.swift */,
-				25AF3EFB2577D99500816D7C /* MergeSort.swift */,
-			);
-			path = Sort;
 			sourceTree = "<group>";
 		};
 		258C6E5B2BA0DB19004DBB00 /* Problems */ = {
@@ -264,20 +232,10 @@
 				25EE9C5F2BAE1B15008F7DF1 /* Leetcode+LinkedList.swift */,
 				25EE9C612BAE2537008F7DF1 /* Leetcode+Tree.swift */,
 				25EE9C632BAF0D7C008F7DF1 /* Leedcode+Graph.swift */,
-				25EE9C652BB0610D008F7DF1 /* Leetcode+TwoPointers.swift */,
-				250020612BB480AA00F64285 /* Leetcode+SlidingWindow.swift */,
+				25B714572C9C28880095BC70 /* Leetcode+Sort.swift */,
 				257FDA4F2C9B57210055C14B /* Leetcode+Ext.swift */,
 			);
 			path = Problems;
-			sourceTree = "<group>";
-		};
-		258C6E622BA0EDB9004DBB00 /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				258C6E632BA0EDC1004DBB00 /* BinarySearch.swift */,
-				25EE9C512BA9E9CF008F7DF1 /* BinarySearchUsingRecurssion.swift */,
-			);
-			path = Search;
 			sourceTree = "<group>";
 		};
 		258C6E652BA1A2C1004DBB00 /* QA */ = {
@@ -377,15 +335,6 @@
 				258C6E652BA1A2C1004DBB00 /* QA */,
 			);
 			path = YTD;
-			sourceTree = "<group>";
-		};
-		25EE9C6C2BB1C33D008F7DF1 /* Algorithms */ = {
-			isa = PBXGroup;
-			children = (
-				258C6E622BA0EDB9004DBB00 /* Search */,
-				258C6E502BA0CCD5004DBB00 /* Sort */,
-			);
-			path = Algorithms;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -524,45 +473,36 @@
 				2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */,
 				258C6E562BA0D886004DBB00 /* Queue.swift in Sources */,
 				258C6E522BA0CF4D004DBB00 /* OrderedArray.swift in Sources */,
-				258C6E642BA0EDC1004DBB00 /* BinarySearch.swift in Sources */,
 				25EE9BF12BA4D9D2008F7DF1 /* Graph.swift in Sources */,
 				25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */,
 				25EE9C542BA9EEB5008F7DF1 /* Array.swift in Sources */,
-				25D9AFBA257E9E2A00390391 /* HackerRank+DataStructure.swift in Sources */,
 				2564A7EB257403C200C7065C /* ViewController.swift in Sources */,
-				25AF3F012577E33100816D7C /* QuickSort.swift in Sources */,
 				258C6E672BA1A2D9004DBB00 /* QA.swift in Sources */,
-				25EE9C662BB0610D008F7DF1 /* Leetcode+TwoPointers.swift in Sources */,
 				258C6E612BA0E65A004DBB00 /* 2DArray.swift in Sources */,
 				25EE9C602BAE1B15008F7DF1 /* Leetcode+LinkedList.swift in Sources */,
 				2564A7E7257403C200C7065C /* AppDelegate.swift in Sources */,
 				25EE9BFC2BA4F040008F7DF1 /* QueueUsingLinkedList.swift in Sources */,
 				25EE9C6E2BB1C552008F7DF1 /* Documentation.docc in Sources */,
 				25EE9BFA2BA4EF1A008F7DF1 /* StackUsingLinkedList.swift in Sources */,
-				25AF3F062577E68E00816D7C /* InsertionSort.swift in Sources */,
 				258C6E702BA1CB81004DBB00 /* BSTTree.swift in Sources */,
 				25EE9C682BB08B1A008F7DF1 /* LeetCode+Recurssion.swift in Sources */,
 				258C6E5A2BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift in Sources */,
-				250020622BB480AA00F64285 /* Leetcode+SlidingWindow.swift in Sources */,
 				257FDA502C9B57210055C14B /* Leetcode+Ext.swift in Sources */,
 				25F461B92BA31D4B008D8C4E /* Heap.swift in Sources */,
 				25EE9BF32BA4ECAE008F7DF1 /* OrderedArrayUsingBS.swift in Sources */,
 				25EE9C622BAE2537008F7DF1 /* Leetcode+Tree.swift in Sources */,
+				25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */,
 				2564A7E9257403C200C7065C /* SceneDelegate.swift in Sources */,
 				258C6E5F2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift in Sources */,
 				25EE9C582BAB3765008F7DF1 /* ZeroMatrix.swift in Sources */,
 				250020682BBB24C400F64285 /* MinStack.swift in Sources */,
 				25EE9C642BAF0D7C008F7DF1 /* Leedcode+Graph.swift in Sources */,
-				25AF3EF72577B91000816D7C /* BubbleSort.swift in Sources */,
 				25EE9C5A2BACCC1D008F7DF1 /* Leetcode+String.swift in Sources */,
 				258C6E6A2BA1BA9A004DBB00 /* DesignPatterns.swift in Sources */,
 				25EE9C5C2BACCC24008F7DF1 /* Leetcode+Array.swift in Sources */,
 				258C6E4E2BA0CC9C004DBB00 /* FixedSizeArray.swift in Sources */,
 				258C6E542BA0D825004DBB00 /* Stack.swift in Sources */,
-				257247842580E186005C8E3D /* LeetCode+DataStructure.swift in Sources */,
-				25EE9C522BA9E9CF008F7DF1 /* BinarySearchUsingRecurssion.swift in Sources */,
 				258C6E6E2BA1BE11004DBB00 /* Tree.swift in Sources */,
-				25AF3EFC2577D99500816D7C /* MergeSort.swift in Sources */,
 				25EE9C562BAB3619008F7DF1 /* LeetCode.swift in Sources */,
 				258C6E6C2BA1BABD004DBB00 /* RetainCycle.swift in Sources */,
 			);

@@ -9,23 +9,50 @@ import Foundation
 
 class LeetCode {
 
-    func run() {        
-        lengthOfLongestConsecutiveSubstring()
-        doBasics()
+    func run() {
+        // brushUp()
     }
-
-    func doBasics() {
-        let array = [1,2,3,4]
-        var startIndex = 0
-        let endIndex = array.count - 1
-
-        var result = [Int]()
-        while startIndex <= endIndex {
-            let index = endIndex - startIndex // reverse
-            result.append(array[index])
-            startIndex += 1
-        }
-        print("result: \(result)")
+    
+    /// NOTE: Before learning about ALDS, do this brushups
+    /// Stack - LIFO
+    /// Queue - FIFO
+    func brushUp() {
+        intBasics()
+        stringBasics()
+    }
+    
+    private func intBasics() {
+        let number = 123
+        let numberToString = String(number)
+        print("Number to string \(numberToString)")
+        
+        let numberToStringArray = Array(String(number))
+        print("Number to string array \(numberToStringArray)")
+        
+        let numberToIntArray = String(number).compactMap(\.wholeNumberValue)
+        print("Number to int array \(numberToIntArray)")
+        
+        let digitsInNumber = String(number).count
+        print("Digits in number: \(digitsInNumber)")
+        
+        let isEvenNumber = number % 2 == 0
+        print("isEven: \(isEvenNumber)")
+        
+        let addNumbersInArray = numberToIntArray.reduce(0) { $0 + $1 }
+        print("Add numbers in array: \(addNumbersInArray)")
+    }
+    
+    private func stringBasics() {
+        
+        let string = "Hello"
+        /// String can be iterated directly
+        for char in string { print("char: \(char)") }
+        /// Enumurated gives both index and value
+        for (index, char) in string.enumerated() { print("index: \(index) - char: \(char)") }
+        
+        let numberString = "123"
+        let stringToInt = Int(numberString) ?? -1
+        print("String to int: \(stringToInt)")
     }
 
     /// - NOTE: To complete this, need to understand how modulo and division works.
@@ -96,6 +123,26 @@ extension LeetCode {
         }
         return true
     }
+    
+    /// [123,1,1234, 22]
+    func findEvenDigitNumbers(_ nums: [Int]) -> [Int] {
+        /// Iterate linear linly
+        /// find isEven, then update the result
+        var result = [Int]()
+        var start = 0
+        
+        while start < nums.count {
+            /// Logical implmentation
+            let number = nums[start]
+            let count = String(number).count
+            if count % 2 == 0 {
+                result.append(number)
+            }
+            ///
+            start += 1
+        }
+        return result
+    }
 
     // Converting Int to String,
     // then creating whole number from string wholeNumberValue.
@@ -104,14 +151,5 @@ extension LeetCode {
         return String(n)
             .compactMap { $0.wholeNumberValue }
             .reduce(0) { $0 + $1 } // Summing whole array indices
-    }
-
-    /// - seealso: bitwise operator
-    func singleNumber(_ nums: [Int]) -> Int {
-        var result: Int = 0
-        for num in nums {
-            result ^= num
-        }
-        return result
     }
 }

@@ -17,25 +17,41 @@ import Foundation
 extension LeetCode {
     
     func runArray() {
-        maxSumOfSubarray()
-        minSumOfSubArray()
-        maxSumOfSubarray(arr: [5,4,3,1,8], size: 3)
+        reverse([1,2,3,4,5])
+        // maxSumOfSubarray()
+        // minSumOfSubArray()
+        // maxSumOfSubarray(arr: [5,4,3,1,8], size: 3)
     }
 }
 
 extension LeetCode {
 
-    func reverse(array: [Int]) -> [Int] {
-        var reversedArray: [Int] = array
-        let endIndex: Int = reversedArray.count-1
-        let startIndex: Int = 0
+    /// NOTE: Reverse using auxilary index
+    @discardableResult
+    func reverse(_ arr: [Int]) -> [Int] {
+        var array: [Int] = arr
+        let startIndex: Int = 0 // remains same
+        let endIndex: Int = array.count-1 // remains same
         var index: Int = 0
 
         while startIndex+index < endIndex-index {
-            reversedArray.swapAt(index, endIndex-index)
+            array.swapAt(startIndex+index, endIndex-index)
             index += 1
         }
-        return reversedArray
+        print("Reversed: \(array)")
+        return array
+    }
+    
+    /// NOTE: Recommended way
+    func reverseUsingRotate<T>(array: inout [T]) -> [T] {
+        var start: Int = 0
+        var end: Int = array.count - 1
+        while start < end {
+            array.swapAt(start, end)
+            start += 1
+            end -= 1
+        }
+        return array
     }
 
     // let d = 3 // index
@@ -60,38 +76,31 @@ extension LeetCode {
     }
 
     /// - NOTE: Merge two sorted list into a single sorted list
-    func mergeTwoSortedArray(_ a: [Int], _ b: [Int]) -> [Int] {
-        var c = [Int]()
-
+    func mergeTwoSortedArray(_ first: [Int], _ second: [Int]) -> [Int] {
+        var result = [Int]()
         var i: Int = 0
         var j: Int = 0
 
-        let m = a.count
-        let n = b.count
-
         /// if any one array reaches the end, we should stop copiying.
-        while i < m && j < n {
-            if a[i] < b[j] {
-                c.append(a[i])
+        while i < first.count && j < second.count {
+            if first[i] < second[j] {
+                result.append(first[i])
                 i += 1
             } else {
-                c.append(b[j])
+                result.append(second[j])
                 j += 1
             }
         }
-
         // Copy the remaining elements
-        while i < m {
-            c.append(a[i])
+        while i < first.count {
+            result.append(first[i])
             i += 1
         }
-
-        while j < n {
-            c.append(b[j])
+        while j < second.count {
+            result.append(second[j])
             j += 1
         }
-
-        return c
+        return result
     }
 
     /// - NOTE: same thing we can do for the above as well.
@@ -102,25 +111,24 @@ extension LeetCode {
     /// NOTE: This will work only for sorted array.
     /// The given array must be sorted like [-2, -1, 0, 1, 2, 3]
     /// So that we can travers with via start and end
-    func sortedSquares(_ A: [Int]) -> [Int] {
-        var ret = [Int](repeating: 0, count: A.count)
+    func sortedSquares(_ array: [Int]) -> [Int] {
+        var result = [Int](repeating: 0, count: array.count) // ***
         var startIndex = 0
-        var endIndex = A.count - 1
-        // By Keeping K as end of the array.
-        var k = endIndex
+        var endIndex = array.count - 1
+        var k = endIndex // By Keeping K as end of the array.
 
         while startIndex <= endIndex {
-            if abs(A[startIndex]) > abs(A[endIndex]) {
-                ret[k] = A[startIndex] * A[startIndex]
+            if abs(array[startIndex]) > abs(array[endIndex]) {
+                result[k] = array[startIndex] * array[startIndex]
                 startIndex += 1
             } else {
-                ret[k] = A[endIndex] * A[endIndex]
+                result[k] = array[endIndex] * array[endIndex]
                 endIndex -= 1
             }
             k -= 1
         }
-        debugPrint("sorted square: \(ret)")
-        return ret
+        print("sorted square: \(result)")
+        return result
     }
 
     /// Remove Element
@@ -406,6 +414,25 @@ extension LeetCode {
         }
         return result
     }
+    
+    /// OJ: https://leetcode.com/problems/majority-element/description/
+    /// Write down and think how it works.
+    /// - seealso: incrementing decrementing
+    func majorityElement(_ nums: [Int]) -> Int { // [2,2,1,1,1,2,2]
+        var element = nums[0]
+        var count: Int = 0
+        for num in nums {
+            if num == element {
+                count += 1
+            } else if count == 0 {
+                element = num
+                count += 1
+            } else {
+                count -= 1
+            }
+        }
+        return element
+    }
 }
 
 // MARK: - SubArray (Sliding Window)
@@ -419,15 +446,14 @@ extension LeetCode {
     /// Comparing each char with all the other string indexes.
     /// ["flow", "flowing", "flower"]
     func longestCommonPrefix(_ strs: [String]) -> String {
-
         var commonPrefix: String = ""
 
         for (i, char) in strs.first!.enumerated() {
-            debugPrint("\(char)")
             for j in 1..<strs.count {
                 let currentString = strs[j]
                 let stringArray = Array(currentString)
                 /// at times first string count could be larger.
+                /// We should make sure, i (parent) is lesser than the current array count.
                 let isValidIndex = i < stringArray.count
                 if !isValidIndex || stringArray[i] != char {
                     return commonPrefix
@@ -444,31 +470,33 @@ extension LeetCode {
     /// if we didn't buy for an index, try to check the selling profit in that index
     func maxProfitSingeBuySell(_ prices: [Int]) -> Int {
 
-        var minPrice = Int.max
+        var price = Int.max
         var maxProfit: Int = 0
 
-        for (_, price) in prices.enumerated() {
-            if price < minPrice { // buying
-                minPrice = price
-            } else if price - minPrice > maxProfit { // selling
-                maxProfit = price - minPrice
+        for currentPrice in prices {
+            if currentPrice < price { // buy
+                price = currentPrice
+            } else { // sell
+                let profilt = currentPrice - price
+                maxProfit = max(maxProfit, profilt)
             }
         }
         return maxProfit
     }
 
     func maxProfitMultipleBuySell(_ prices: [Int]) -> Int {
-        var maximumProfit: Int = 0
+        var maxProfit: Int = 0
 
+        /// We need previous day price, in order to take decesion.
         for day in 1..<prices.count {
             let currentDayPrice = prices[day]
             let previousDayPrice = prices[day - 1]
-            if currentDayPrice > previousDayPrice { // sell only if
-                maximumProfit += currentDayPrice - previousDayPrice
+            if currentDayPrice > previousDayPrice { // sell
+                let profit = currentDayPrice - previousDayPrice
+                maxProfit += profit
             }
         }
-
-        return maximumProfit
+        return maxProfit
     }
 
     /// Dutch National Flag Problem
@@ -497,6 +525,31 @@ extension LeetCode {
             } else {
                 array.swapAt(midIndex, highIndex) // swapping middle to high
                 highIndex -= 1
+            }
+        }
+    }
+    
+    /// Sort Colors
+    ///
+    /// Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+    /// We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+    /// You must solve this problem without using the library's sort function.
+    func sortColors(_ nums: inout [Int]) {
+        var startIndex: Int = 0
+        var middleIndex: Int = 0
+        var endIndex: Int = nums.count - 1
+        
+        // All swaps gonna happen w.r.t middle index
+        while startIndex <= endIndex {
+            if nums[middleIndex] == 0 {
+                nums.swapAt(middleIndex, startIndex)
+                startIndex += 1
+                middleIndex += 1
+            } else if nums[middleIndex] == 1 {
+                middleIndex += 1
+            } else {
+                nums.swapAt(middleIndex, endIndex)
+                endIndex -= 1
             }
         }
     }
@@ -663,6 +716,7 @@ extension LeetCode {
                 currentSum -= arr[left]
                 left += 1
             }
+            ///
             right += 1
         }
         print("Min subArray: \(subArray) - lenght: \(miniumSum)")
@@ -706,10 +760,11 @@ extension LeetCode {
     
     /// Eg:  [-2, 1, -3, 4, -1, 2, 1, -5, 4]
     /// Output: [4, -1, 2, 1]
+    /// Hint: No need to shrink the window.
     func findSumOfMaxSubArray(_ array: [Int]) {
         
         var maximumSum: Int = Int.min
-        var currentSum: Int = 0
+        var runningSum: Int = 0
         
         var left = 0
         var right = 0
@@ -717,20 +772,84 @@ extension LeetCode {
         
         while index < array.count {
             /// Set the starting point
-            if currentSum == 0 {
+            if runningSum == 0 {
                 left = index
             }
-            currentSum += array[index]
+            runningSum += array[index]
             /// if some becomes negative, reset it
-            if currentSum < 0 {
-                currentSum = 0
+            if runningSum < 0 {
+                runningSum = 0
             }
-            if currentSum > maximumSum {
-                maximumSum = currentSum
+            if runningSum > maximumSum {
+                maximumSum = runningSum
                 right = index // *** right, not left
             }
             index += 1
         }
         print(array[left...right])
+    }
+    
+    
+    /// NOTE: longest consecutive sequence
+    /// We need to find consequitve number, but it doesn't need to be in sequence
+    /// Eg: [100, 4, 200, 1, 3, 2], Op: [1,2,3,4]
+    func longestConsecutiveNumbers(_ nums: [Int]) -> [Int] {
+        
+        /// linearly iterate
+        /// Have a set to know what are all the number exist
+        /// find the start of the sequence using the previous number
+        /// expand the sequence by looking at the next number
+        /// lenght calculation
+        var maxLength: Int = 0
+        var sequence: [Int] = []
+        var numSet = Set(nums)
+        
+        for num in nums {
+            // If num - 1 is not in the set, num is the start of a sequence
+            if !numSet.contains(num-1) { // ***
+                var runningNum = num
+                var lenth = 1
+                /// Expand the sequnce
+                while numSet.contains(num+1) { // ***
+                    lenth += 1
+                    runningNum = num+1
+                }
+                if lenth > maxLength {
+                    maxLength = lenth
+                    sequence = Array(num...runningNum) // creating new sequence.
+                }
+            }
+        }
+                
+        return sequence
+    }
+    
+    /// NOTE: return the `number of contiguous subarrays` where the product of all the elements in the subarray is strictly `less than k`.
+    /// Eg: [10, 5, 2, 6], k = 100
+    func subArrayWithProduct(_ nums: [Int], _ k: Int) -> Int {
+        
+        var count = 0
+        var runningProduct = 1 /// ** since its multiplication
+        
+        var left = 0
+        var right = 0
+        
+        while right < nums.count {
+            /// Enlarnging the window
+            runningProduct *= nums[right]
+            ///
+            while runningProduct >= k {
+                /// Shrinking the window
+                runningProduct /= nums[left]
+                left += 1
+            }
+            /// Each subarray ending at `right` with a product less than k is valid subarray
+            /// The place is very much important in calculating the count
+            count += right - left + 1
+            ///
+            right += 1
+        }
+        
+        return count
     }
 }
