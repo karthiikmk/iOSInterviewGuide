@@ -7,7 +7,12 @@
 
 import Foundation
 
+/// Least Recently Used Cache
+/// Capacity is very much important
 /// LRU Cache using double linked list
+/// Need to implement set, get
+/// While setting, add or move it to head
+/// Whiel getting, move it to head
 final class LRUCache<K: Hashable, V> {
 
     class Node {
@@ -63,8 +68,8 @@ final class LRUCache<K: Hashable, V> {
         node.next = head
         node.prev = nil
 
-        self.head?.prev = node
-        self.head = node
+        head?.prev = node
+        head = node
 
         /// On first insert tail will be nil.
         if tail == nil {

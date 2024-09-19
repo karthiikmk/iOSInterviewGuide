@@ -51,3 +51,33 @@ extension PriorityQueue: CustomStringConvertible {
         return "\(array)"
     }
 }
+
+/// NOTE: Interesting one
+/// Where we are enforcing how the sorting comparision should happen
+func runPriorityQueue() {
+    
+    struct Task: Comparable {
+        let priority: Int
+        let name: String
+        
+        static func < (lhs: Task, rhs: Task) -> Bool {
+            return lhs.priority < rhs.priority
+        }
+        
+        static func == (lhs: Task, rhs: Task) -> Bool {
+            return lhs.priority == rhs.priority
+        }
+    }
+    
+    let priorityQueue = PriorityQueue<Task>(.max)
+    let task1 = Task(priority: 1, name: "eat")
+    let task2 = Task(priority: 3, name: "sleep")
+    let task3 = Task(priority: 2, name: "drink")
+    priorityQueue.enqueue(task1)
+    priorityQueue.enqueue(task2)
+    priorityQueue.enqueue(task3)
+    
+    while let removed = priorityQueue.dequeue() {
+        debugPrint(removed.name)
+    }
+}
