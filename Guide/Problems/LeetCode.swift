@@ -16,6 +16,8 @@ class LeetCode {
     /// NOTE: Before learning about ALDS, do this brushups
     /// Stack - LIFO
     /// Queue - FIFO
+    /// To sort an array, we need atleast 2 elements, which means count > 1
+    /// How to find out subarrays in array 
     func brushUp() {
         intBasics()
         stringBasics()

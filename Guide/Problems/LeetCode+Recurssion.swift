@@ -157,8 +157,7 @@ extension LeetCode {
         print("Permuation: \(result)")
         return result
     }
-    
-    
+        
     /// Find all permutations of a string.
     ///
     /// Number of ways in which the string can be arrianged
@@ -203,10 +202,10 @@ extension LeetCode {
         return String(result)
     }
     
-    
     // We start by finding the rightmost pair of digits where the first digit is smaller than the second.
     // This is because the digits on the right side of the number are in descending order, which is the largest possible arrangement for those digits.
     // Therefore, the first point where a smaller digit is followed by a larger digit is the first place where we can make the number larger.
+    /// Idea is to have `pivotIndex` and `successorIndex`
     func nextPermuation(of number: Int) -> String {
         var array = Array(String(number))
         
@@ -219,15 +218,14 @@ extension LeetCode {
         if pivotIndex == -1 {
             return "not possible"
         }
-        
         /// Find the smallest number from right side where its larger than the pivot
         /// As right side already in descending, find the first one from right side should work.
-        var endIndex = array.count - 1
-        while array[endIndex] <= array[pivotIndex] {
-            endIndex -= 1
+        var successorIndex = array.count - 1
+        while successorIndex > pivotIndex && array[successorIndex] <= array[pivotIndex] {
+            successorIndex -= 1
         }
         /// Swap
-        array.swapAt(pivotIndex, endIndex)
+        array.swapAt(pivotIndex, successorIndex)
         /// Sort
         let left = array[0...pivotIndex]
         let right = array[(pivotIndex+1)...].sorted() // Asc sort inorder to create next smallest number.
