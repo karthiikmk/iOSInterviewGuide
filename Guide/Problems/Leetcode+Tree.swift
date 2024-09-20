@@ -148,7 +148,7 @@ extension LeetCode {
         var array = [Int]()
         var currentNode = head
         while currentNode != nil {
-            array.append(currentNode!.val)
+            array.append(currentNode!.value)
             currentNode = currentNode?.next
         }
         return convertSortedArrayToBSTTree(array)

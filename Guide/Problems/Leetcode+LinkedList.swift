@@ -14,7 +14,6 @@ import Foundation
  4. Implement a queue using arrays/linked list.
  10. Detect a cycle in a linked list.
  11. Find the intersection point of two linked lists.
-
 */
 extension LeetCode {
 
@@ -25,14 +24,16 @@ extension LeetCode {
     }
 
     class ListNode: CustomStringConvertible {
-        var val: Int
+        
+        var value: Int
         var next: ListNode?
-        init() { self.val = 0; self.next = nil; }
-        init(_ val: Int) { self.val = val; self.next = nil; }
-        init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
-
+        init(_ value: Int, _ next: ListNode? = nil) {
+            self.value = value
+            self.next = next
+        }
+        
         var description: String {
-            var s = "\(val)"
+            var s = "\(value)"
             if let next {
                 s += " -> \(next.description)"
             }
@@ -40,13 +41,8 @@ extension LeetCode {
         }
 
         func insert(value: Int) {
-            // Next is nil, basically empty case.
-            guard let next = self.next else {
-                next = .init(value)
-                return
-            }
-            var previousNode: ListNode? = next
-            var currentNode: ListNode? = next
+            var previousNode: ListNode? = self // keep track of the list
+            var currentNode: ListNode? = next // overriden
             while currentNode != nil {
                 previousNode = currentNode
                 currentNode = currentNode?.next
@@ -70,12 +66,10 @@ extension LeetCode {
     @discardableResult
     func convertLinkedListToArray(_ node: ListNode?) -> [Int] {
         guard let node else { return [] }
-        // convert list to array
         var array = [Int]()
-        // traverse from head to tail
         var currentNode: ListNode? = node
         while currentNode != nil {
-            array.append(currentNode!.val)
+            array.append(currentNode!.value)
             currentNode = currentNode?.next
         }
         print("LinkedList to Array: \(array)")
@@ -87,10 +81,9 @@ extension LeetCode {
 
         var previousNode: ListNode? = nil
         var currentNode: ListNode? = node
-        var nextNode: ListNode? //
 
         while currentNode != nil {
-            nextNode = currentNode?.next
+            let nextNode = currentNode?.next
             currentNode?.next = previousNode
             previousNode = currentNode
             currentNode = nextNode
@@ -104,10 +97,10 @@ extension LeetCode {
     func removeDuplicates(inList head: ListNode?) -> ListNode? {
         var currentNode = head
         while currentNode != nil {
-            if currentNode?.val == currentNode?.next?.val {
+            if currentNode?.value == currentNode?.next?.value {
                 /// this will udpate the next node,
                 /// while loop still continious wiht old current node, with updated next index
-                currentNode?.next = currentNode?.next?.next
+                currentNode?.next = currentNode?.next?.next // ** not overriding the currentNode, updating the next node.
             } else {
                 /// continuing the iteration
                 currentNode = currentNode?.next
@@ -118,20 +111,23 @@ extension LeetCode {
         return head // *** important (Not currentNode)
     }
 
+    /// NOTE: Starting both slow and fast from the same node.
+    /// Then advancing slow by 1, and fast by 2 step
     func middleElement(of node: ListNode?) -> ListNode? {
         var slow = node
         var fast = node
         // Floyd’s Cycle Detection Algorithm
         while fast != nil && fast?.next != nil {
-            slow = slow?.next // 3
-            fast = fast?.next?.next // 5
+            slow = slow?.next 
+            fast = fast?.next?.next
         }
         return slow
     }
 
+    /// NOTE: Starting both slow and fast from the same node.
     func hasCycle(node: ListNode?) -> Bool {
-        var slow = node
-        var fast = node
+        var slow = node // ***
+        var fast = node // ***
 
         /// Safely advancing by 2
         while fast != nil && fast?.next != nil {
@@ -146,10 +142,14 @@ extension LeetCode {
         return false
     }
 
-    // Get the length
-    // Align the starting point
-    // Traverse togeather to find the intersection
-    func getIntersectionNode(_ headA: ListNode?, _ headB: ListNode?) -> ListNode? {
+    /// (i.e., they “intersect” at a certain point). After the intersection point, both linked lists share the same nodes.
+    /// Both first and second should share some intersection node, so that the reference can be equated
+    /// first: 1 -> 3 -> 5 -> 7 -> 9
+    ///                              ↘
+    ///                                11 -> 12 -> 13
+    ///                               ↗
+    /// second:            2 -> 4 -> 6
+    func getIntersectionNode(_ first: ListNode?, _ second: ListNode?) -> ListNode? {
 
         func getLength(for node: ListNode?) -> Int {
             var counter: Int = 0
@@ -161,30 +161,26 @@ extension LeetCode {
             return counter
         }
 
-        let lenghtA = getLength(for: headA)
-        let lengthB = getLength(for: headB)
+        var firstLength = getLength(for: first)
+        var secondLength = getLength(for: second)
 
-        var pointerA = headA
-        var pointerB = headB
-
+        var firstNode = first
+        var secondNode = second
+        
         /// Align the starting point
-        if lenghtA > lengthB {
-            for _ in 0..<(lenghtA - lengthB) {
-                pointerA = pointerA?.next
-            }
-        } else if lengthB > lenghtA {
-            for _ in 0..<(lengthB - lenghtA) {
-                pointerB = pointerB?.next
-            }
+        while firstLength > secondLength {
+            firstNode = firstNode?.next
+            firstLength -= 1
         }
-
-        // traverse
+        while secondLength > firstLength {
+            secondNode = secondNode?.next
+            secondLength -= 1
+        }
         // Equating the reference, not value. 
-        while pointerA !== pointerB {
-            pointerA = pointerA?.next
-            pointerB = pointerB?.next
+        while firstNode !== secondNode {
+            firstNode = firstNode?.next
+            secondNode = secondNode?.next
         }
-
-        return pointerA
+        return firstNode
     }
 }
