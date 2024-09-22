@@ -119,8 +119,8 @@ extension LeetCode {
         let middleIndex = startIndex + (endIndex - startIndex) / 2
         let middleValue = array[middleIndex]
         let node: TreeNode = .init(middleValue)
-        node.left = buildTree(array, startIndex: startIndex, endIndex: middleIndex - 1)
-        node.right = buildTree(array, startIndex: middleIndex + 1, endIndex: endIndex)
+        node.left = buildTree(array, startIndex: startIndex, endIndex: middleIndex - 1) // ** (upto middle - 1)
+        node.right = buildTree(array, startIndex: middleIndex + 1, endIndex: endIndex) // ** (from middle + 1)
         return node
     }
 
@@ -324,7 +324,7 @@ extension LeetCode {
     }
 
     /// NOTE: DFS (Pre-Order)
-    func dfsIteratively(_ root: TreeNode?) {
+    func dfsUsingStack(_ root: TreeNode?) {
         guard let root else { return }
 
         let stack = Stack<TreeNode>()
@@ -368,6 +368,7 @@ extension LeetCode {
     }
 
     /// NOTE: MinDepth - RootNode to nearest leafNode
+    /// While calcuclating min depth we should consider the `nil` as well **
     func minDepth(_ root: TreeNode?) -> Int {
         guard let root else { return 0 } // Basecase
 
@@ -449,6 +450,20 @@ extension LeetCode {
         /// So assuming its nil.
         return isValid(root)
     }
+    
+    /// NOTE: Simplyfied way of checking.
+    func isValidBinaryTree(_ root: TreeNode?) -> Bool {
+        
+        func isValid(_ node: TreeNode?) -> Bool {
+            guard let node else { return true }
+            
+            if let left = node.left, left.value >= node.value { return false } // ** = is important, as it denotes duplicates.
+            if let right = node.right, right.value <= node.value { return false } //
+            return isValid(node.left) && isValid(node.right)
+        }
+        
+        return isValid(root)
+    }
 
     /// Balanced Binary Tree
     /// The balance factor shouldn't be more than 1
@@ -459,9 +474,7 @@ extension LeetCode {
     /// Hint: DFS
     func isBalanced(_ node: TreeNode?) -> Bool {
         /// BaseCase
-        /// Empty tree considered as balanced
-        guard let node else { return true }
-
+        guard let node else { return true } /// Empty tree considered as balanced
         let balanceFactor = abs(maxHeight(node.left) - maxHeight(node.right))
         /// In some scenario, height diff can be less than 1, but the tree might have not balanced.
         /// So recurrsively checking for balanced condition in each level
@@ -482,29 +495,15 @@ extension LeetCode {
             let pNode = pStack.removeLast() // important
             let qNode = qStack.removeLast() // important
             /// BaseCondition
-            guard pNode.value == qNode.value else {
-                return false
-            }
+            if pNode.value != qNode.value { return false } // we can == value too (not reference)
             /// right append
-            if let pRightNode = pNode.right {
-                pStack.append(pRightNode)
-            }
-            if let qRightNode = qNode.right {
-                qStack.append(qRightNode)
-            }
-            guard pStack.count == qStack.count else {
-                return false
-            }
+            if let pRightNode = pNode.right { pStack.append(pRightNode) }
+            if let qRightNode = qNode.right { qStack.append(qRightNode) }
+            if pStack.count != qStack.count { return false }
             /// left append
-            if let pLeftNode = pNode.left {
-                pStack.append(pLeftNode)
-            }
-            if let qLeftNode = qNode.left {
-                qStack.append(qLeftNode)
-            }
-            guard pStack.count == qStack.count else {
-                return false
-            }
+            if let pLeftNode = pNode.left { pStack.append(pLeftNode) }
+            if let qLeftNode = qNode.left { qStack.append(qLeftNode) }
+            if pStack.count != qStack.count { return false }
         }
         return true
     }
@@ -551,16 +550,16 @@ extension LeetCode {
     /// Idea is to subtrack node value form the sum
     /// whichever the leaf node meeting 0, then we found the path with given target
     /// Hint: DFS, if there is path related, then blindly go with dfs
-    func hasPathSum(_ root: TreeNode?, _ sum: Int) -> Bool {
+    func hasPathSum(_ node: TreeNode?, _ sum: Int) -> Bool {
         // Basecondition
-        guard let root else { return false }
+        guard let node else { return false }
 
         /// visiting Node
-        var summation = sum
-        summation -= root.value
+        var runningSum = sum
+        runningSum -= node.value
         /// Logic Implementation
-        if root.isLeaf { return summation == 0 }
-        return hasPathSum(root.left, summation) || hasPathSum(root.right, summation)
+        if node.isLeaf { return runningSum == 0 }
+        return hasPathSum(node.left, runningSum) || hasPathSum(node.right, runningSum)
     }
 
     func findAllTheLeadNodes(_ tree: TreeNode?) -> [Int] {
@@ -679,6 +678,7 @@ extension LeetCode {
         return result
     }
 
+    /// NOTE: Nice idea to have a counter to find the kth element
     func kthSmallest(root: TreeNode, k: Int) -> Int {
         var result: Int? = nil
         var counter: Int = 0
@@ -686,6 +686,8 @@ extension LeetCode {
         func inorderTraversal(node: TreeNode?) {
             guard let node else { return }
             inorderTraversal(node: node.left)
+            /// important, we should update the counter and check the condtion. just take 3 nodes
+            /// and try to understant from that.
             counter += 1
             if counter == k {
                 result = node.value
@@ -697,6 +699,7 @@ extension LeetCode {
         return result ?? -1
     }
 
+    /// NOTE: Inverse inorder traveral will give descending sort
     func kthLargest(root: TreeNode, k: Int) -> Int {
         var result: Int? = nil
         var counter: Int = 0
@@ -719,7 +722,6 @@ extension LeetCode {
 extension LeetCode {
 
     func rotateLeft(_ node: TreeNode) -> TreeNode? {
-
         let newNode = node.right
         node.right = node.left
         newNode?.left = node

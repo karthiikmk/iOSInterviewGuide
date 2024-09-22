@@ -17,7 +17,8 @@ class LeetCode {
     /// Stack - LIFO
     /// Queue - FIFO
     /// To sort an array, we need atleast 2 elements, which means count > 1
-    /// How to find out subarrays in array 
+    /// How to find out subarrays in array
+    /// Learn about how stride works
     func brushUp() {
         intBasics()
         stringBasics()

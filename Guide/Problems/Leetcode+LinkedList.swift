@@ -90,6 +90,29 @@ extension LeetCode {
         }
         return previousNode
     }
+    
+    /// Reverse k nodes in a linked list
+    /// Consider single node has single value. so that we can complete the full flow
+    /// Reversing linked list by 2 nodes (k nodes)
+    @discardableResult
+    func reverse(from node: Node<Int>?, by offset: Int) -> Node<Int>? {
+        guard node != nil else { return nil }
+        
+        var previous: Node<Int>? = nil
+        var current = node
+        var index: Int = 0 // to swap howmany indices.
+        
+        // Using two rooms startagy, first offset
+        while index < offset && current != nil {
+            let next = current?.next // sending it to next room
+            current?.next = previous // using the previous one
+            previous = current // going to previous room
+            current = next // for next iteration
+            index += 1
+        }
+        node?.next = reverse(from: current, by: offset) // recursively swapping by offset.
+        return previous // ** important.
+    }
 
     /// - NOTE: Little tricky.
     /// assigning the head reference in current node to perform mutation and iteration

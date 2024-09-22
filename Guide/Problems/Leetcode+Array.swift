@@ -43,6 +43,32 @@ extension LeetCode {
         return array
     }
     
+    /// Eg: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    /// Output: [3, 2, 1, 6, 5, 4, 9, 8, 7]
+    func reverse(array: inout [Int], by offset: Int) {
+        
+        func rotate(_ array: inout [Int], _ start: Int, _ end: Int) {
+            var startIndex = start
+            var endIndex = end
+            while startIndex < endIndex {
+                array.swapAt(start, end)
+                startIndex += 1
+                endIndex -= 1
+            }
+        }
+        
+        var startIndex = 0
+        var endIndex = array.count-1
+        
+        while startIndex < array.count { // iterate upto the last number
+            let start = startIndex
+            let end = min((startIndex+offset-1), endIndex) // to avoid index outofbounds
+            rotate(&array, start, end)
+            startIndex += offset
+        }
+        print("Reversed array by offset: \(offset) - \(array)")
+    }
+    
     /// NOTE: Recommended way
     func reverseUsingRotate<T>(array: inout [T]) -> [T] {
         var start: Int = 0
@@ -680,15 +706,12 @@ extension LeetCode {
 // - MARK: Sliding Window
 extension LeetCode {
     
-    func findASubArrays(_ array: [Int]) -> [[Int]] {
+    func findAllSubArrays(_ array: [Int]) -> [[Int]] {
         guard !array.isEmpty else { return [] }
-        
         var subArrays = [[Int]]()
-        var start = 0 // update if we needed for particular start and end
-        var end = array.count - 1
         
-        for i in start...end {
-            for j in i...end {
+        for i in 0..<array.count {
+            for j in i..<array.count {
                 let subArray = array[i...j]
                 subArrays.append(Array(subArray))
             }

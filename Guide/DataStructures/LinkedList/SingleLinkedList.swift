@@ -99,12 +99,13 @@ extension LinkedList {
         case numberOfNodes-1: //last
             append(item: value)
         default:
-            guard let beforeNode = self.node(before: index) else {
+            guard let previousNode = self.node(before: index) else {
                 print("Error: Node didn't found before index \(index)")
                 return
             }
-            let newNode = Node(value: value, next: beforeNode.next)
-            beforeNode.next = newNode
+            let newNode = Node(value: value)
+            newNode.next = previousNode.next
+            previousNode.next = newNode
         }
     }
 }
@@ -122,29 +123,17 @@ extension LinkedList {
     // first and second node as example
     // We can't make use of the tail here. tail only offers next node.
     // so we need to iterate over the nodes till next reaches nil.
-    func removeLast() {
-
-        guard !isEmpty else { return }
-        guard let currentHead = self.head else { return }
-
-        // List has only one item
-        guard self.head?.next != nil else {
-            _ = self.pop()
-            return
+    func removeLast() -> Node<T>? {
+        switch self.numberOfNodes {
+        case 1:
+            return pop()
+        default:
+            guard let previousNode = node(before: numberOfNodes - 1) else { return nil }
+            let lastNode = previousNode.next
+            previousNode.next = nil
+            tail = previousNode
+            return lastNode
         }
-
-        // Sure list has 2 or more, so 1 becomes secondLast, 2 becomes last
-        var previousNode: Node<T>? = currentHead
-        var lastNode: Node<T>? = currentHead.next
-
-        while lastNode?.next != nil {
-            previousNode = lastNode
-            lastNode = lastNode?.next
-        }
-
-        previousNode?.next = nil
-        lastNode = nil
-        self.tail = previousNode
     }
 
     func remove(atIndex index: Int) -> Node<T>? {
@@ -206,29 +195,30 @@ extension LinkedList {
     // MARK: - Node At Index
     func node(at index: Int) -> Node<T>? {
         guard !isEmpty && isValid(index: index) else { return nil }
-
-        var currentIndex = 0
-        var currentNode = self.head
-
-        while currentNode != nil && currentIndex < index {
-            currentIndex += 1 // 2
-            currentNode = currentNode?.next // ""
+        
+        var previousNode: Node<T>? = nil
+        var currentNode = head
+        var currentIndex: Int = 0
+        while currentNode != nil && currentIndex <= index { // checking == index than the requried index.
+            currentIndex += 1
+            previousNode = currentNode
+            currentNode = currentNode?.next
         }
-        return currentNode
+        return previousNode
     }
 
     func node(before index: Int) -> Node<T>? {
         guard !isEmpty && isValid(index: index) else { return nil }
 
-        var currentIndex = 0
-        var currentNode = self.head
-
-        while currentNode != nil, currentIndex < index - 1 {
+        var previousNode: Node<T>? = nil
+        var currentNode = head
+        var currentIndex: Int = 0
+        while currentNode != nil && currentIndex < index { // checking lesser index than the requried index.
             currentIndex += 1
+            previousNode = currentNode
             currentNode = currentNode?.next
         }
-
-        return currentNode
+        return previousNode
     }
 
     func node(after index: Int) -> Node<T>? {
