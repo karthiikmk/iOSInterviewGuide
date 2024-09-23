@@ -149,7 +149,7 @@ extension LeetCode {
         func mst(_ vertex: Vertex<T>) -> [Edge<T>] {
             var result = [Edge<T>]()
             var visiteds = Set<Vertex<T>>()
-            var queue = PriorityQueue<Edge<T>>(.min) // Important
+            let queue = PriorityQueue<Edge<T>>(.min) // Important
 
             visiteds.insert(vertex)
             let edges = adjacentList[vertex] ?? []
@@ -174,11 +174,12 @@ extension LeetCode {
         /// - NOTE: A connected graph is one where all vertices are reachable from any other vertex.
         /// Kind of dfs traversal, visiting all the vertex.
         /// Eg: 1,2,3,4,5 (1 -> 2 -> 3 -> 4 - > 5 -> 1)
+        /// Idea is just to dfs 
         func isConnected(_ rootVertex: Vertex<T>? = nil) -> Bool {
             guard let vertex = rootVertex ?? adjacentList.first?.key else { return false }
 
             var visiteds = Set<Vertex<T>>()
-            var stack = Stack<Vertex<T>>()
+            let stack = Stack<Vertex<T>>()
             stack.push(vertex)
 
             while !stack.isEmpty {

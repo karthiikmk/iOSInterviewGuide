@@ -173,15 +173,29 @@ extension Graph {
         return result
     }
 
-    /// NOTE: Minimu spanning
-    /// Tree should be connected (should touch all the vertex)
-    /// No cycle between vertex
-    /// With that criteria, find the minimum path
+    /// NOTE: Minimum spanning
+    /// To create the MST, we need to choose the edges with the smallest weights that `connect all vertices` and avoid cycles.
+    ///
+    ///  Connected Graph: A connected graph is a graph where there is a path between every pair of vertices.
+    ///  In other words, all vertices are reachable from any other vertex.
+    ///
+    ///  A —— B
+    ///  |    |
+    ///  C —— D —— E
+    ///
+    ///  Cyclical Graph: There is a path that forms a closed loop, leading back to the starting vertex.
+    ///
+    ///  A —— B
+    ///  |    |
+    ///  C —— D
+    ///
+    /// Idea: Result should be array of eges
+    /// Queue should be minimum priority queue. 
     func mst(for vertex: Vertex<T>) -> [Edge<T>] {
         ///  as we are finding path, lets work with edges, we always prefer min edges
-        var visiteds = Set<Vertex<T>>()
         var result = [Edge<T>]()
-        let queue = PriorityQueue<Edge<T>>(.min) // important
+        let queue = PriorityQueue<Edge<T>>(.min) // *** important
+        var visiteds = Set<Vertex<T>>()
 
         /// Collecting all the edges of the start vertex using min queue.
         visiteds.insert(vertex)
@@ -190,16 +204,15 @@ extension Graph {
         }
         ///
         while !queue.isEmpty {
-            if let edge = queue.dequeue() {
-                // If the destination vertex is already visited, skip it
-                if visiteds.contains(edge.destination) { continue }
+            // If the destination vertex is already visited, skip it
+            if let edge = queue.dequeue(), !visiteds.contains(edge.destination) {
                 // Otherwise, add the edge to the result and mark the destination as visited
                 visiteds.insert(edge.destination)
                 result.append(edge)
                 // Add all edges of the destination vertex to the priority queue
-                if let neighbours = adjacencyList[edge.destination] {
-                    for neighbour in neighbours where !visiteds.contains(neighbour.destination) {
-                        queue.enqueue(neighbour)
+                if let edges = adjacencyList[edge.destination] {
+                    for edge in edges where !visiteds.contains(edge.destination) {
+                        queue.enqueue(edge)
                     }
                 }
             }
