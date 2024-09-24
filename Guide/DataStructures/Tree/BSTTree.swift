@@ -140,6 +140,7 @@ extension BinarySearchTree {
             node.right = insert(value: value, node: node.right)
         } else {
             print("duplicate can't be inserted")
+            // ** we aren't returning anything here.
         }
         return node
     }

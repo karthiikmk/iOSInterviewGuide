@@ -78,11 +78,12 @@ extension LeetCode {
             let current = array[i]
             var j = i-1 // looking into previous cars
             /// Move elements of array[0...i-1] that are greater than current to one position ahead
+            /// j contition is very important as we are looking backwards
             while j >= 0 && array[j] > current {
                 array[j+1] = array[j]
-                j -= 1
+                j -= 1 // ** we are looking backwards, not forward
             }
-            array[j+1] = current
+            array[j+1] = current // injecting at the right position.
         }
         return array
     }
@@ -132,7 +133,7 @@ extension LeetCode {
                 while endIndex >= start && array[endIndex] > pivot {
                     endIndex -= 1
                 }
-                if startIndex < endIndex {
+                if startIndex < endIndex { // very very important. failing which can make the sort wrong.
                     array.swapAt(startIndex, endIndex)
                 }
             }
@@ -159,9 +160,10 @@ extension LeetCode {
  
     func mergeSort(_ array: inout [Int]) {
 
-        /// NOTE: Think in two array perspective 
+        /// NOTE: Think in two array perspective
+        /// Be careful on which array taking and in which inserting it.
         func merge(_ array: inout [Int], startIndex: Int, middleIndex: Int, endIndex: Int) {
-            let left = Array(array[startIndex...middleIndex])
+            let left = Array(array[startIndex...middleIndex]) // Array conversion is important 
             let right = Array(array[middleIndex+1...endIndex])
             
             var i = 0
@@ -180,7 +182,7 @@ extension LeetCode {
             }
             // Remaining items on left array
             while i < left.count {
-                array[k] = array[i]
+                array[k] = left[i]
                 i += 1
                 k += 1
             }
@@ -198,7 +200,6 @@ extension LeetCode {
             let middleIndex = startIndex + (endIndex - startIndex) / 2
             sort(&array, startIndex: startIndex, endIndex: middleIndex)
             sort(&array, startIndex: middleIndex + 1, endIndex: endIndex)
-            // Merge
             merge(&array, startIndex: startIndex, middleIndex: middleIndex, endIndex: endIndex)
         }
                 

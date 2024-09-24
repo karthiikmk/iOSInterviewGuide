@@ -169,20 +169,18 @@ extension AVLTree {
     func balance(node: AVLNode<T>) -> AVLNode<T> {
         let bf = balanceFactor(of: node)
         if bf >= -1 && bf <= 1 {
-            // No imbalance found
-        } else if bf > 1 {
-            if balanceFactor(of: node.left) < 0 { // +ve, -ve check
-                node.left = rotateLeft(node.left!) // double rotation
-            }
-            return rotateRight(node)
-        } else if bf < -1 {
+            return node
+        } else if bf < -1 { // has only right subtree
             if balanceFactor(of: node.right) > 0 {
                 node.right = rotateRight(node.right!) // double rotation
             }
             return rotateLeft(node)
+        } else { // has only right subtree
+            if balanceFactor(of: node.left) < 0 { // +ve, -ve check
+                node.left = rotateLeft(node.left!) /// `node.left` is rotated left (not node)
+            }
+            return rotateRight(node) /// `node` is rotated right (not node.left)
         }
-        // no imblance found
-        return node
     }
 }
 
@@ -207,9 +205,10 @@ extension AVLTree {
         return leftHeight - rightHeight
     }
 
+    /// NOTE: Considering all 3 nodes should be available to rotate. 
     func rotateRight(_ node: AVLNode<T>) -> AVLNode<T> {
 
-        let newRoot = node.left!
+        let newRoot = node.left! // for sure left will be there
         node.left = newRoot.right // order is very important. else EXE BADACCESS
         newRoot.right = node
 

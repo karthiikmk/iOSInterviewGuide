@@ -53,7 +53,7 @@ extension LeetCode {
         return String(stringArray)
     }
 
-    func reverseString(_ s: String, _ k: Int) -> String {
+    func reverseString(_ s: String, position: Int) -> String {
 
         var array: [Character] = Array(s)
         let endIndex: Int = array.count - 1
@@ -69,10 +69,34 @@ extension LeetCode {
             }
         }
 
-        rotate(0, k - 1)
-        rotate(k, endIndex)
+        rotate(0, position - 1)
+        rotate(position, endIndex)
         rotate(0, endIndex)
 
+        return String(array)
+    }
+    
+    // Eg: abcdef -> badcfe
+    func reverseString(_ s: String, by offset: Int) -> String {
+        
+        var array = Array(s)
+        func reverse(start: Int, end: Int) {
+            var startIndex = start
+            var endIndex = end
+            while startIndex < endIndex {
+                array.swapAt(startIndex, endIndex)
+                startIndex += 1
+                endIndex -= 1
+            }
+        }
+        
+        var index = 0
+        while index < array.count {
+            let startIndex = index
+            let endIndex = min(index+offset-1, array.count-1) // inorder to avoid out of bounds.
+            reverse(start: startIndex, end: endIndex)
+            index += offset
+        }
         return String(array)
     }
 
@@ -162,23 +186,21 @@ extension LeetCode {
 
         var startIndex: Int = 0
         var endIndex: Int = array.count - 1
-
-        while startIndex <= endIndex {
-            let first = array[startIndex]
-            let last = array[endIndex]
-
-            // IMP: Moving foward only if its not vowel
-            if vowels.contains(first) && vowels.contains(last) {
-                array.swapAt(startIndex, endIndex)
-                startIndex += 1
-                endIndex -= 1
-            } else if vowels.contains(first) { // looking for the next vowlels in backwards to swap
-                endIndex -= 1
-            } else { // looking for the next vowel in forward forward to swap
+        
+        while startIndex < endIndex {
+            while startIndex < array.count && !vowels.contains(array[startIndex]) {
                 startIndex += 1
             }
+            while endIndex >= 0 && !vowels.contains(array[endIndex]) {
+                endIndex -= 1
+            }
+            if startIndex < endIndex { // very very important.
+                array.swapAt(startIndex, endIndex)
+            }
+            startIndex += 1 // important for the next loop
+            endIndex -= 1 // important for the next loop
         }
-        debugPrint("reverse vowels: \(String(array))")
+        print("reverse vowels: \(String(array))")
         return String(array)
     }
 
@@ -236,7 +258,6 @@ extension LeetCode {
         return String(array)
     }
 
-    ///
     /// - complexity: O(n)
     func firstUniqChar(_ s: String) -> Int {
 
@@ -312,11 +333,11 @@ extension LeetCode {
 
     /// Remove All Adjacent Duplicates In String
     ///
-    /// You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing two adjacent and equal letters and removing them.
+    /// You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing `two adjacent` and equal letters and removing them.
     /// We repeatedly make duplicate removals on s until we no longer can.
     /// Return the final string after all such duplicate removals have been made. It can be proven that the answer is unique.
     ///
-    /// Input: s = "abbbaca"
+    /// Input: s = "abbaca"
     /// Output: "ca"
     ///
     /// - seealso: stack
@@ -338,7 +359,7 @@ extension LeetCode {
     /// You are given a string s and an integer array indices of the same length. 
     /// The string s will be shuffled such that the character at the ith position moves to indices[i] in the shuffled string.
     ///
-    /// Input: s = "codeleet", indices = [4,5,6,7,0,2,1,3]
+    /// Input: s = "codeleet", indices = [4,5,6,7,0,1,2,3]
     /// Output: "leetcode"
     /// Explanation: As shown, "codeleet" becomes "leetcode" after shuffling.
     ///
@@ -365,6 +386,7 @@ extension LeetCode {
     /// - seealso: Sliding window
     /// The idea is to have the visited entires to enloarge the range.
     /// if already visited, then we should start sliding the window as its starts repeating.
+    /// Window is not to calculate the length.
     func lengthOfLongestSubstring(_ s: String) -> Int {
         let chars = Array(s)
         var maxLength = 0
@@ -397,6 +419,8 @@ extension LeetCode {
 
     // Eg: abbaa, answer is aaaa
     /// NOTE: The idea is to check for the left and right equalance
+    /// lengthOfLongestSubStringWithSameCharacters
+    /// Idea: Take the left and compare it with right
     func lengthOfLongestConsecutiveSubstring(_ s: String = "aaabbbbaaaa") {
 
         let array = Array(s)
@@ -428,27 +452,19 @@ extension LeetCode {
     /// Eg: "aabccabba"
     /// Output: 3 (cca)
     func minimumLength(_ s: String) -> Int {
-        
         let array: [Character] = Array(s)
         var startIndex: Int = 0
         var endIndex: Int = array.count - 1
         
-        while startIndex < array.count {
-            // Skip matching characters from the left
-            // Need to make sure the index is there. eg for array with only one element.
-            while startIndex < array.count && array[startIndex] == array[startIndex + 1] {
+        while startIndex < endIndex {
+            guard array[startIndex] == array[endIndex] else { break } // making sure both left and right side similar char
+            let charToRemove = array[startIndex]
+            
+            while startIndex <= endIndex && array[startIndex] == charToRemove {
                 startIndex += 1
             }
-            // Skip matching characters from the right
-            while endIndex < array.count, array[endIndex] == array[endIndex - 1] {
+            while startIndex <= endIndex && array[endIndex] == charToRemove {
                 endIndex -= 1
-            }
-            // If characters at left and right pointers match, remove prefix and suffix
-            if array[startIndex] == array[endIndex] {
-                startIndex += 1
-                endIndex -= 1
-            } else {
-                break //Imp: If characters don't match, exit loop
             }
         }
         return endIndex - startIndex + 1

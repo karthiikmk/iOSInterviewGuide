@@ -19,6 +19,7 @@ class Stack<T> {
 
     var storage: [T] = []
     var isEmpty: Bool { storage.isEmpty }
+    var count: Int { storage.count }
 
     // It will always insert at the last
     func push(_ element: T) {

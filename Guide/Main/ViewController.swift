@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         let playground = MyPlayground()
         playground.run()
 
-        let leetcode = LeetCode()
+        // let leetcode = LeetCode()
         // leetcode.run()
         // leetcode.runArray()
         // leetcode.runRecurrsion()

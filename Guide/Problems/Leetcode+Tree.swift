@@ -485,25 +485,25 @@ extension LeetCode {
     /// Hint: DFS using stack
     func isSameTree(_ p: TreeNode?, _ q: TreeNode?) -> Bool {
 
-        var pStack = [TreeNode]()
-        var qStack = [TreeNode]()
+        var pStack = Stack<TreeNode>()
+        var qStack = Stack<TreeNode>()
 
-        if let p { pStack.append(p) } // Important
-        if let q { qStack.append(q) } // Important
+        if let p { pStack.push(p) } // Important
+        if let q { qStack.push(q) } // Important
 
         while !pStack.isEmpty && !qStack.isEmpty {
-            let pNode = pStack.removeLast() // important
-            let qNode = qStack.removeLast() // important
-            /// BaseCondition
-            if pNode.value != qNode.value { return false } // we can == value too (not reference)
-            /// right append
-            if let pRightNode = pNode.right { pStack.append(pRightNode) }
-            if let qRightNode = qNode.right { qStack.append(qRightNode) }
-            if pStack.count != qStack.count { return false }
-            /// left append
-            if let pLeftNode = pNode.left { pStack.append(pLeftNode) }
-            if let qLeftNode = qNode.left { qStack.append(qLeftNode) }
-            if pStack.count != qStack.count { return false }
+            if let pNode = pStack.pop(), let qNode = qStack.pop() {
+                /// BaseCondition
+                if pNode.value != qNode.value { return false } // ***
+                /// right append
+                if let pRightNode = pNode.right { pStack.push(pRightNode) }
+                if let qRightNode = qNode.right { qStack.push(qRightNode) }
+                if pStack.count != qStack.count { return false }
+                /// left append
+                if let pLeftNode = pNode.left { pStack.push(pLeftNode) }
+                if let qLeftNode = qNode.left { qStack.push(qLeftNode) }
+                if pStack.count != qStack.count { return false }
+            }
         }
         return true
     }
@@ -581,35 +581,24 @@ extension LeetCode {
     }
 
     /// Symmetric Tree
-    ///
-    /// Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
-    ///
-    /// Idea is comparing Left Node left == Rigth Node right
+    /// Given the root of a binary tree, check whether it is a `mirror of itself` (i.e., symmetric around its center).
+    /// Think about a mirror line on the center
+    /// And always think in one level. add recurrance on top of it
     func isSymmetric(_ root: TreeNode?) -> Bool {
-        
-        /// Start with immediate left and right
-        /// Intentionally kept as optional, as some nodes left or right child can be nil.
-        var stack: [TreeNode?] = [root?.left, root?.right]
-
-        while !stack.isEmpty {
-            let left = stack.removeLast()
-            let right = stack.removeLast()
-
-            /// Applicable for nodes where any one child is available
-            if left == nil && right == nil { continue }
-            ///
-            guard let leftNode = left, let rightNode = right else { return false }
-            // BaseCondition
-            guard leftNode.value == rightNode.value else { return false }
-
-            /// First Node Left == Second Node Right
-            stack.append(leftNode.left)
-            stack.append(rightNode.right)
-
-            stack.append(leftNode.right)
-            stack.append(rightNode.left)
+        guard let root else { return true }
+        func isMirror(_ left: TreeNode?, _ right: TreeNode?) -> Bool {
+            // Base case: both nodes are nil, so they are symmetric (mirror images)
+            if left == nil && right == nil { return true }            
+            // If one is nil and the other isn't, they are not symmetric
+            guard let left, let right else { return false }
+            // 1. The values at p and q are equal
+            // 2. The left subtree of p is a mirror of the right subtree of q
+            // 3. The right subtree of p is a mirror of the left subtree of q
+            return left.value == right.value
+            && isMirror(left.left, right.right)
+            && isMirror(left.right, right.left)
         }
-        return true
+        return isMirror(root.left, root.right)
     }
 
     /// Idea is brute force recurrent traversal

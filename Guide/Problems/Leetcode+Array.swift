@@ -58,7 +58,7 @@ extension LeetCode {
         }
         
         var startIndex = 0
-        var endIndex = array.count-1
+        let endIndex = array.count-1
         
         while startIndex < array.count { // iterate upto the last number
             let start = startIndex
@@ -131,8 +131,10 @@ extension LeetCode {
     }
 
     /// - NOTE: same thing we can do for the above as well.
-    func mergeUnsortedArray(a: [Int], b: [Int]) -> [Int] {
-        return (a + b).sorted()
+    func mergeUnsortedArray(_ first: [Int], _ second: [Int]) -> [Int] {
+        let array = first + second
+        let sorted = bubbleSort(array) // use whichever the sorting you like
+        return sorted
     }
 
     /// NOTE: This will work only for `sorted array`.

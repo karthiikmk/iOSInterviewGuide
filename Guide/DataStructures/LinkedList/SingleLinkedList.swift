@@ -18,6 +18,14 @@ class Node<T>: Equatable, CustomStringConvertible {
         self.next = next
     }
     
+    func insert(_ value: T) {
+        var current: Node<T>? = self
+        while current?.next != nil {
+            current = current?.next
+        }
+        current?.next = Node(value: value)
+    }
+    
     // required conforms to CustomStringConvertible
     var description: String {
         guard let next = next else { return "\(value)" }

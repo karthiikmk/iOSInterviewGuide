@@ -19,6 +19,9 @@ class LeetCode {
     /// To sort an array, we need atleast 2 elements, which means count > 1
     /// How to find out subarrays in array
     /// Learn about how stride works
+    /// substring sum, use left and right window, but calculate the lenth separately
+    /// 2D array subscript(row, column) = array[row * columns + column]
+    /// Think about counters always when working woth offsets
     func brushUp() {
         intBasics()
         stringBasics()
@@ -76,7 +79,7 @@ class LeetCode {
         return result
     }
 
-    /// - NOTE: Palindrome isa word, phrase, or a number which reads the same in backwords as forword.
+    /// - NOTE: Palindrome is a word, phrase, or a number which reads the same in backwords as forword.
     /// Eg 75257, 1234321
     ///
     /// Given an integer x, return true if x is a palindrome , and false otherwise.
@@ -100,6 +103,24 @@ class LeetCode {
 
 /// - NOTE: Miscellenous
 extension LeetCode {
+    
+    /// NOTE: Eg 36
+    /// Sqrt of 36 is 6
+    /// Pairs: (1,36) (2,18) (3,12) (4,9) (6,6)
+    func findAllDivisingPairs(_ number: Int) -> [(Int, Int)] {
+        var result: [(Int, Int)] = []
+        
+        let squareRoot = Int(sqrt(Double(number)))
+        for divisor in 1...squareRoot {
+            if number % divisor == 0 {
+                let first = divisor
+                let second = number / divisor
+                result.append((first, second))
+            }
+        }
+        print("Divising Pairs of \(number): \(result)")
+        return result
+    }
 
     func isPrime(_ number: Int) -> Bool {
 
@@ -117,8 +138,8 @@ extension LeetCode {
         /// if we notice that the first element of each pair is always lesser than or equal to the squareroot of that number
         /// so if a number has a larger divisor, its pairs is always lesser than or equal to its square root
         ///
-        /// by 2: Any even number which is greater than 2 is divisable by 2, so it cant be prime number
-        /// so to check only the odd divisors we are striding by 2
+        /// why by 2?: Any even number which is greater than 2 is divisable by 2, so it cant be prime number
+        /// so to check only the `odd divisors` we are striding by 2, so starting with 3, then 5 and goes
         for divisor in stride(from: 3, through: squareRoot, by: 2) {
             if number % divisor == 0 {
                 return false

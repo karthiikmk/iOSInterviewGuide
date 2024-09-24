@@ -57,9 +57,7 @@ extension LeetCode {
     /// - complexity:: O(n)
     func climbStairs(_ n: Int) -> Int {
         // Base cases: 0 ways to climb 0 or 1 step, 1 way to climb 2 steps
-        if n == 0 { return 0 }
-        if n == 1 || n == 2 { return n }
-
+        if n == 0 || n == 1 || n == 2 { return n } // ** important.
         return climbStairs(n - 2) + climbStairs(n - 1)
     }
 
@@ -113,9 +111,7 @@ extension LeetCode {
     /// Tower of Hanoi
     ///
     /// Understand the idea behind this first before reading code.
-    ///
     ///  Condition 1: Only one disk can be moved at a time
-    ///
     ///  Condition 2: No larger disk can be placed on top of smaller disk
     ///
     /// Time complexity calculation = (1+2+2^2+2^3+....2^n) - 1
@@ -210,7 +206,7 @@ extension LeetCode {
         var array = Array(String(number))
         
         /// Find the pivotIndex
-        var pivotIndex = array.count - 2
+        var pivotIndex = array.count - 2 // this is very important 
         while pivotIndex >= 0 && array[pivotIndex] >= array[pivotIndex+1] {
             pivotIndex -= 1
         }
