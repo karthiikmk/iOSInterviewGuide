@@ -403,8 +403,9 @@ extension LeetCode {
                 left += 1
             } else {
                 charSet.insert(char)
-                if (right - left + 1) > maxLength {
-                    maxLength = right - left + 1
+                let length = right - left + 1
+                if length > maxLength {
+                    maxLength = length
                     startIndexOfMaxSubstring = left
                 }
                 /// Next loop
@@ -427,18 +428,19 @@ extension LeetCode {
         var maxLength = 0
         var substringStartPostion = 0
 
-        var left = 0 // 7
-        var right = 0 // 7
+        var left = 0
+        var right = 0
 
         while right < array.count {
-            if array[right] == array[left] { // a == a
-                if (right - left + 1) >= maxLength { // 10 - 7 + 1 = 3
-                    maxLength = right - left + 1 // 4
-                    substringStartPostion = left // 3
+            if array[left] == array[right] {
+                let length = right - left + 1
+                if length >= maxLength {
+                    maxLength = length
+                    substringStartPostion = left
                 }
-                right += 1 // 11 - exit
+                right += 1
             } else {
-                left = right // 7
+                left = right
             }
         }
 

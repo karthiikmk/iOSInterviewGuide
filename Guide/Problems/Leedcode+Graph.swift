@@ -105,7 +105,7 @@ extension LeetCode {
         func dfs(_ vertex: Vertex<T>) -> [T] {
             var result = [T]()
             var visiteds = Set<Vertex<T>>()
-            var stack = Stack<Vertex<T>>()
+            let stack = Stack<Vertex<T>>()
             stack.push(vertex)
 
             while !stack.isEmpty {

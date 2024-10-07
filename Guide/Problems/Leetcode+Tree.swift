@@ -117,7 +117,7 @@ extension LeetCode {
     func buildTree(_ array: [Int], startIndex: Int, endIndex: Int) -> TreeNode? {
         guard startIndex <= endIndex else { return nil } // **** important
         let middleIndex = startIndex + (endIndex - startIndex) / 2
-        let middleValue = array[middleIndex]
+        let middleValue = array[middleIndex] // as we created middle node already/
         let node: TreeNode = .init(middleValue)
         node.left = buildTree(array, startIndex: startIndex, endIndex: middleIndex - 1) // ** (upto middle - 1)
         node.right = buildTree(array, startIndex: middleIndex + 1, endIndex: endIndex) // ** (from middle + 1)
@@ -158,7 +158,7 @@ extension LeetCode {
     /// BST should meet the constraits
     /// Smaller values should be left of its parent, and larger on its parent right.
     func convertTreeToBST(_ root: TreeNode) -> TreeNode? {
-        let array = inorderTraversal(root) /// Inorder traversal provides sorted array
+        let array = inorderTraversal(root) /// Inorder traversal provides sorted array (but tree is not a bst, so it wont provide)
         let bstTree = buildTree(array, startIndex: 0, endIndex: array.count - 1)
         return bstTree
     }
@@ -168,7 +168,8 @@ extension LeetCode {
 extension LeetCode {
 
     /// NOTE: Inorder travseral is nothing but sorted array
-    /// Both this and inorderTraversal are same
+    /// As it is BST tree, we should be doing inorder traversal to get the sorted array
+    /// Reverse inorder traveral for getting desc sorted array
     func convertBSTTreeToArray(_ root: TreeNode) -> [Int] {
         var array = [Int]()
         func inOrderTraversal(_ node: TreeNode?) {
@@ -411,76 +412,6 @@ extension LeetCode {
         return result
     }
 
-    /// NOTE: Take one node, swap left and right node of that node.
-    /// Doing it recursivelly will invert the entire tree
-    /// Hint: DFS
-    func invertTree(_ root: TreeNode?) -> TreeNode? {
-        /// BaseCondition
-        guard let node = root else { return nil }
-        let leftSubTree = invertTree(node.left)
-        let rightSubTree = invertTree(node.right)
-        // Swapping
-        node.left = rightSubTree
-        node.right = leftSubTree
-        return node
-    }
-
-    /// A+, L, R
-    /// Idea is to apply binary search mechanism using min & max
-    /// BST is valid, only if its meeting its constraints
-    /// Constraint: left node value should be less than its parent node value
-    /// right node value should be greater than its parent value
-    /// Hint: DFS
-    func isValidBST(_ root: TreeNode?) -> Bool {
-
-        func isValid(_ node: TreeNode?, min: Int? = nil, max: Int? = nil) -> Bool {
-            /// BaseCondition
-            /// Empty tree considered as balanced
-            guard let node else { return true }
-
-            // Not required that all nodes should have both min and max.
-            if let min, node.value <= min { return false }
-            if let max, node.value >= max { return false }
-
-            return isValid(node.left, min: min, max: node.value)
-            && isValid(node.right, min: node.value, max: max)
-        }
-
-        /// Initial we wont be knowing min and max for the given / root node.
-        /// So assuming its nil.
-        return isValid(root)
-    }
-    
-    /// NOTE: Simplyfied way of checking.
-    func isValidBinaryTree(_ root: TreeNode?) -> Bool {
-        
-        func isValid(_ node: TreeNode?) -> Bool {
-            guard let node else { return true }
-            
-            if let left = node.left, left.value >= node.value { return false } // ** = is important, as it denotes duplicates.
-            if let right = node.right, right.value <= node.value { return false } //
-            return isValid(node.left) && isValid(node.right)
-        }
-        
-        return isValid(root)
-    }
-
-    /// Balanced Binary Tree
-    /// The balance factor shouldn't be more than 1
-    ///
-    /// OJ: https://leetcode.com/problems/balanced-binary-tree/
-    /// IDEA: Take each node, and think in that perspective.
-    /// Balance factor should be calculated in each level in order to get the right results.
-    /// Hint: DFS
-    func isBalanced(_ node: TreeNode?) -> Bool {
-        /// BaseCase
-        guard let node else { return true } /// Empty tree considered as balanced
-        let balanceFactor = abs(maxHeight(node.left) - maxHeight(node.right))
-        /// In some scenario, height diff can be less than 1, but the tree might have not balanced.
-        /// So recurrsively checking for balanced condition in each level
-        return balanceFactor <= 1 && isBalanced(node.left) && isBalanced(node.right)
-    }
-
     /// Idea is to use two stacks for comparsion
     /// Hint: DFS using stack
     func isSameTree(_ p: TreeNode?, _ q: TreeNode?) -> Bool {
@@ -545,23 +476,6 @@ extension LeetCode {
         return false
     }
 
-    /// Checking the given sum is matching from root to leaf.
-    /// Kind of depth first search.
-    /// Idea is to subtrack node value form the sum
-    /// whichever the leaf node meeting 0, then we found the path with given target
-    /// Hint: DFS, if there is path related, then blindly go with dfs
-    func hasPathSum(_ node: TreeNode?, _ sum: Int) -> Bool {
-        // Basecondition
-        guard let node else { return false }
-
-        /// visiting Node
-        var runningSum = sum
-        runningSum -= node.value
-        /// Logic Implementation
-        if node.isLeaf { return runningSum == 0 }
-        return hasPathSum(node.left, runningSum) || hasPathSum(node.right, runningSum)
-    }
-
     func findAllTheLeadNodes(_ tree: TreeNode?) -> [Int] {
         guard let node = tree else { return [] }
 
@@ -578,27 +492,6 @@ extension LeetCode {
         dfs(node)
         print("Leafs: \(leafs)")
         return leafs
-    }
-
-    /// Symmetric Tree
-    /// Given the root of a binary tree, check whether it is a `mirror of itself` (i.e., symmetric around its center).
-    /// Think about a mirror line on the center
-    /// And always think in one level. add recurrance on top of it
-    func isSymmetric(_ root: TreeNode?) -> Bool {
-        guard let root else { return true }
-        func isMirror(_ left: TreeNode?, _ right: TreeNode?) -> Bool {
-            // Base case: both nodes are nil, so they are symmetric (mirror images)
-            if left == nil && right == nil { return true }            
-            // If one is nil and the other isn't, they are not symmetric
-            guard let left, let right else { return false }
-            // 1. The values at p and q are equal
-            // 2. The left subtree of p is a mirror of the right subtree of q
-            // 3. The right subtree of p is a mirror of the left subtree of q
-            return left.value == right.value
-            && isMirror(left.left, right.right)
-            && isMirror(left.right, right.left)
-        }
-        return isMirror(root.left, root.right)
     }
 
     /// Idea is brute force recurrent traversal
@@ -619,6 +512,105 @@ extension LeetCode {
         }
         dfs(root, path: "")
         return paths
+    }
+}
+
+// - MARK: Recurrance
+extension LeetCode {
+    
+    /// NOTE: Take one node, swap left and right node of that node.
+    /// Doing it recursivelly will invert the entire tree
+    /// Hint: DFS
+    func invertTree(_ root: TreeNode?) -> TreeNode? {
+        /// BaseCondition
+        guard let node = root else { return nil }
+        let leftSubTree = invertTree(node.left)
+        let rightSubTree = invertTree(node.right)
+        // Swapping
+        node.left = rightSubTree
+        node.right = leftSubTree
+        return node
+    }
+    
+    /// A+, L, R
+    /// Idea is to apply binary search mechanism using min & max
+    /// BST is valid, only if its meeting its constraints
+    /// Constraint: left node value should be less than its parent node value
+    /// right node value should be greater than its parent value
+    /// Hint: DFS
+    /// isValidBST checks the entire tree with global constraints
+    func isValidBST(_ root: TreeNode?) -> Bool {
+        
+        func isValid(_ node: TreeNode?, _ min: Int? = nil, _ max: Int? = nil) -> Bool {
+            /// BaseCondition
+            guard let node else { return true } // Empty tree considered as balanced
+            
+            // Not required that all nodes should have both min and max.
+            if let min, node.value <= min { return false }
+            if let max, node.value >= max { return false }
+            
+            return isValid(node.left, min, node.value)
+            && isValid(node.right, node.value, max)
+        }
+        /// Initial we wont be knowing min and max for the given / root node.
+        /// So assuming its nil.
+        return isValid(root)
+    }
+    
+    /// Balanced Binary Tree
+    /// The balance factor shouldn't be more than 1
+    ///
+    /// OJ: https://leetcode.com/problems/balanced-binary-tree/
+    /// IDEA: Take each node, and think in that perspective.
+    /// Balance factor should be calculated in each level in order to get the right results.
+    /// Hint: DFS
+    func isBalanced(_ node: TreeNode?) -> Bool {
+        /// BaseCase
+        guard let node else { return true } /// Empty tree considered as balanced
+        let balanceFactor = maxHeight(node.left) - maxHeight(node.right)
+        
+        /// In some scenario, height diff can be less than 1, but the tree might have not balanced.
+        /// So recurrsively checking for balanced condition in each level
+        return balanceFactor >= -1 && balanceFactor <= 1
+        && isBalanced(node.left)
+        && isBalanced(node.right)
+    }
+    
+    /// Checking the given sum is matching from root to leaf.
+    /// Kind of depth first search.
+    /// Idea is to subtrack node value form the sum
+    /// whichever the leaf node meeting 0, then we found the path with given target
+    /// Hint: DFS, if there is path related, then blindly go with dfs
+    func hasPathSum(_ node: TreeNode?, _ sum: Int) -> Bool {
+        // Basecondition
+        guard let node else { return false }
+        /// visiting Node
+        var runningSum = sum
+        runningSum -= node.value
+        /// Logic Implementation
+        if node.isLeaf { return runningSum == 0 }
+        return hasPathSum(node.left, runningSum) || hasPathSum(node.right, runningSum)
+    }
+    
+    /// Symmetric Tree
+    /// Given the root of a binary tree, check whether it is a `mirror of itself` (i.e., symmetric around its center).
+    /// Think about a mirror line on the center
+    /// And always think in one level. add recurrance on top of it
+    func isSymmetric(_ root: TreeNode?) -> Bool {
+        guard let root else { return true }
+        func isMirror(_ left: TreeNode?, _ right: TreeNode?) -> Bool {
+            // Base case: both nodes are nil, so they are symmetric (mirror images)
+            if left == nil && right == nil { return true }
+            // If one is nil and the other isn't, they are not symmetric
+            guard let left, let right else { return false }
+            // 1. The values at p and q are equal
+            // 2. The left subtree of p is a mirror of the right subtree of q
+            // 3. The right subtree of p is a mirror of the left subtree of q
+            return left.value == right.value
+            && isMirror(left.left, right.right)
+            && isMirror(left.right, right.left)
+        }
+        return isMirror(root.left, root.right)
     }
 }
 
@@ -668,6 +660,7 @@ extension LeetCode {
     }
 
     /// NOTE: Nice idea to have a counter to find the kth element
+    /// Tree should be BST, so that we can perform inorder traversal to find the kth smallest
     func kthSmallest(root: TreeNode, k: Int) -> Int {
         var result: Int? = nil
         var counter: Int = 0

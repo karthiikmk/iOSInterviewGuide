@@ -191,15 +191,17 @@ extension LeetCode {
         var secondNode = second
         
         /// Align the starting point
-        while firstLength > secondLength {
-            firstNode = firstNode?.next
-            firstLength -= 1
+        if firstLength > secondLength {
+            for _ in 0..<(firstLength - secondLength) {
+                firstNode = firstNode?.next
+            }
+        } else if secondLength > firstLength {
+            for _ in 0..<(secondLength - firstLength) {
+                secondNode = secondNode?.next
+            }
         }
-        while secondLength > firstLength {
-            secondNode = secondNode?.next
-            secondLength -= 1
-        }
-        // Equating the reference, not value. 
+        
+        // Equating the reference, not value.
         while firstNode !== secondNode {
             firstNode = firstNode?.next
             secondNode = secondNode?.next

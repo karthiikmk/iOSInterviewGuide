@@ -20,7 +20,7 @@ class Node<T>: Equatable, CustomStringConvertible {
     
     func insert(_ value: T) {
         var current: Node<T>? = self
-        while current?.next != nil {
+        while current?.next != nil { // next is very important here. 
             current = current?.next
         }
         current?.next = Node(value: value)

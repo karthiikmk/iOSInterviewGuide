@@ -22,6 +22,10 @@ class LeetCode {
     /// substring sum, use left and right window, but calculate the lenth separately
     /// 2D array subscript(row, column) = array[row * columns + column]
     /// Think about counters always when working woth offsets
+    /// `Contiguous`: Contiguous means touching or next to each other `without any gaps` in between.
+    /// [1, 2, 3] in [1, 2, 3, 4] is contiguous.
+    /// `Consecutive` means elements that follow one another in a particular order, usually increasing (or sometimes decreasing) by 1 or a fixed interval.
+    /// 1, 2, 3 are consecutive, but in the array [3, 1, 2], they are consecutive but not contiguous.
     func brushUp() {
         intBasics()
         stringBasics()

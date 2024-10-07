@@ -78,7 +78,6 @@ extension LeetCode {
     /// mulitiplication should be done on returning time, not on exuction time.
     /// The product of all positive intergers less than or equal to a given positive integer.
     /// - complexity:: O(n), space: O(n)
-    ///
     func factorial(of number: Int) -> Int {
         /// BaseCondtion
         guard number > 0 else { return 1 } // as it multiplication, should not return 0

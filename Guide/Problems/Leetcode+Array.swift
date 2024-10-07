@@ -161,27 +161,6 @@ extension LeetCode {
         return result
     }
 
-    /// Remove Element, lenth of the array after removing the value
-    /// Eg: [0,1,2,2,3,0,4,2], val = 2
-    /// Idea: is to move the element which is equal to the value to the right side pointer (endIndex)
-    func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
-
-        var startIndex: Int = 0
-        var endIndex: Int = nums.count - 1
-
-        while startIndex <= endIndex {
-            // Switch only if first index is not same as value
-            if nums[startIndex] == val {
-                nums.swapAt(startIndex, endIndex)
-                endIndex -= 1 // This part is tricky.
-            } else {
-                startIndex += 1
-            }
-        }
-        debugPrint("lenght: \(endIndex + 1)")
-        return endIndex + 1 // length
-    }
-
     /// - NOTE: Array is sorted, so use binary search
     func search(_ nums: [Int], _ target: Int) -> Int {
         var startIndex: Int = 0
@@ -256,9 +235,9 @@ extension LeetCode {
         let difference = array[0]
         var index = 0
         
-        while index < array.count - 1 {
+        while index < array.count {
             if array[index] - index != difference {
-                return index + difference  // missing element
+                return index + difference
             }
             index += 1
         }
@@ -319,6 +298,27 @@ extension LeetCode {
         debugPrint("duplicates: \(duplicates)")
         return Array(duplicates)
     }
+    
+    /// Remove Element, lenth of the array after removing the value
+    /// Eg: [0,1,2,2,3,0,4,2], val = 2
+    /// Idea: is to move the element which is equal to the value to the right side pointer (endIndex)
+    func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
+        
+        var startIndex: Int = 0
+        var endIndex: Int = nums.count - 1
+        
+        while startIndex <= endIndex {
+            // Switch only if first index is not same as value
+            if nums[startIndex] == val {
+                nums.swapAt(startIndex, endIndex)
+                endIndex -= 1 // This part is tricky.
+            } else {
+                startIndex += 1
+            }
+        }
+        debugPrint("lenght: \(endIndex + 1)")
+        return endIndex + 1 // length
+    }
 
     /// Remove Duplicates from Sorted Array
     ///
@@ -335,10 +335,10 @@ extension LeetCode {
         if array.isEmpty { return 0 } // Handle edge case
 
         var slow = 0
-        var fast = 1 // ** important
+        var fast = 1 // ** important as its sorted array, we should look for the next
 
         while fast < array.count {
-            if array[fast] != array[slow] { // important
+            if array[slow] != array[fast] { // important
                 slow += 1
                 array[slow] = array[fast]
             }
@@ -452,9 +452,10 @@ extension LeetCode {
     /// OJ: https://leetcode.com/problems/majority-element/description/
     /// Write down and think how it works.
     /// - seealso: incrementing decrementing
+    /// Eg: [2,2,1,1,1,2,2]
     /// Hint: we can also solve this by num_count cache. then looking for the bigger one there.
     func majorityElement(_ nums: [Int]) -> Int {
-        var element = nums[0]
+        var element = nums[0] // starting from first number.
         var count: Int = 0
         for num in nums {
             if num == element {
@@ -486,7 +487,6 @@ extension LeetCode {
     }
 }
 
-// MARK: - SubArray (Sliding Window)
 extension LeetCode {
 
     /// - NOTE: To solve this problem we need some deep understand on string
@@ -688,6 +688,8 @@ extension LeetCode {
         return minHeap[0]
     }
 
+    /// By keeping the largest element at the top, we can quickly remove it if we encounter a smaller element in the array.
+    /// When the heap contains exactly k elements, the root of the max-heap will be the k-th smallest element after processing the entire array.
     func kthSmallestUsingHeap(_ array: [Int], _ k: Int) -> Int? {
         guard k > 0 && k <= array.count else { return nil }
 
@@ -720,7 +722,12 @@ extension LeetCode {
         }
         return subArrays
     }
-     
+    
+    /// update the running sum
+    /// calculate the lenght
+    /// shrink the window
+    /// next loop
+    
     /// NOTE: Find the maximum length of a subarray whose sum is `greater than or equal` to a given value k.
     /// Eg: [5,4,3,1,8] where k = 8
     /// Idea: Start enlarging the window, and start shrinking as soon as we found the subarray
@@ -728,9 +735,9 @@ extension LeetCode {
     @discardableResult
     func maxSumOfSubarray(arr: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
         
-        var maxlength = Int.min // ***
-        var runningSum = 0
+        var maxLength = Int.min // ***
         var subArrayStartIndex = 0
+        var runningSum = 0
         
         var left = 0
         var right = 0
@@ -743,8 +750,8 @@ extension LeetCode {
             while runningSum >= k {
                 /// Lenght calculation
                 let length = right - left + 1
-                if length > maxlength {
-                    maxlength = length
+                if length > maxLength {
+                    maxLength = length
                     subArrayStartIndex = left
                 }
                 /// Shrinking the window, as we found the subarray
@@ -754,35 +761,35 @@ extension LeetCode {
             ///
             right += 1
         }
-        let subArray = Array(arr[subArrayStartIndex..<subArrayStartIndex+maxlength])
-        print("Max subarray: \(subArray) - lenght: \(maxlength)")
-        return maxlength
+        let subArray = Array(arr[subArrayStartIndex..<subArrayStartIndex+maxLength])
+        print("Max subarray: \(subArray) - lenght: \(maxLength)")
+        return maxLength
     }
     
         /// NOTE: Find the minimum length of a subarray whose sum is `greater than or equal` to a given value k.
     @discardableResult
-    func minSumOfSubArray(arr: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
+    func minSumOfSubArray(array: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
         
         var subArray: [Int] = []
         var miniumSum = Int.max // ***
-        var currentSum = 0
+        var runningSum  = 0
         
         var left = 0
         var right = 0
         
-        while right < arr.count {
+        while right < array.count {
             /// Maximizing the window
-            currentSum += arr[right]
+            runningSum += array[right]
              
-            while currentSum >= k { // ** important
+            while runningSum >= k { // ** important
                 /// Length calculation
                 let length = right - left + 1
                 if length < miniumSum {
                     miniumSum = length
-                    subArray = Array(arr[left...right])
+                    subArray = Array(array[left...right])
                 }
                 /// Shrink the window as soon as we found the subarray
-                currentSum -= arr[left]
+                runningSum -= array[left]
                 left += 1
             }
             ///
@@ -795,10 +802,10 @@ extension LeetCode {
     /// NOTE: Find the sum of a continuous subarray of `size k`.
     /// HINT: Sub array size should be equal to k, which is also called as fixed size subarray
     @discardableResult
-    func maxSumOfSubarray(arr: [Int], size k: Int = 3) -> Int {
+    func maxSumOfSubarray(array: [Int], size k: Int = 3) -> Int {
         
         var maximumSum = Int.min
-        var currentSum = 0
+        var runningSum = 0
         
         var left = 0
         var right = 0
@@ -806,24 +813,24 @@ extension LeetCode {
         
         /// Iterate the initial window size
         while right < k {
-            currentSum += arr[right]
+            runningSum += array[right]
             right += 1
         }        
-        maximumSum = currentSum
+        maximumSum = runningSum
         subArrayStartIndex = left
         
-        while right < arr.count {
+        while right < array.count {
             /// Shrink the window from left side
-            currentSum += arr[right] - arr[left]
+            runningSum += array[right] - array[left]
+            left += 1 // as soon as we reduce the left, we should update the pointer
             /// Length Calculation
-            if currentSum > maximumSum {
-                maximumSum = currentSum
-                subArrayStartIndex = left + 1
+            if runningSum > maximumSum {
+                maximumSum = runningSum
+                subArrayStartIndex = left
             }
-            left += 1
             right += 1
         }
-        print("Max subArray of size \(k): \(arr[subArrayStartIndex..<(subArrayStartIndex+k)])")
+        print("Max subArray of size \(k): \(array[subArrayStartIndex..<(subArrayStartIndex+k)])")
         return maximumSum
     }
     
@@ -836,27 +843,24 @@ extension LeetCode {
         var maximumSum: Int = Int.min
         var runningSum: Int = 0
         
-        var start = 0 // start of the window
-        var end = 0 // end of the window
-        var index = 0
+        var left = 0 // start of the window
+        var right = 0 // end of the window
         
-        while index < array.count {
+        while right < array.count {
             /// Set the starting point
             if runningSum == 0 {
-                start = index
+                left = right
             }
-            runningSum += array[index]
-            /// if some becomes negative, reset it
-            if runningSum < 0 { // *** very important
-                runningSum = 0
-            }
+            /// Enlarging the window
+            runningSum += array[right]
+            ///
             if runningSum > maximumSum {
                 maximumSum = runningSum
-                end = index // *** right, not left
+                print(array[left...right])
             }
-            index += 1
-        }
-        print(array[start...end])
+            /// Next loop
+            right += 1
+        }        
     }
     
     /// NOTE: longest consecutive sequence
@@ -899,24 +903,24 @@ extension LeetCode {
     func subArrayWithProduct(_ nums: [Int], _ k: Int) -> Int {
         guard !nums.isEmpty else { return 0 }
         
-        var count = 0
+        var count = 0 // 5
         var runningProduct = 1 /// ** since its multiplication
         
-        var left = 0
-        var right = 0
+        var left = 0 // 1
+        var right = 0 // 3
         
         while right < nums.count {
             /// Enlarnging the window
-            runningProduct *= nums[right]
+            runningProduct *= nums[right] // 5*2*6
             ///
             while runningProduct >= k { // ** while is very important
                 /// Shrinking the window
                 runningProduct /= nums[left]
-                left += 1
+                left += 1 // 1
             }
             /// Each subarray ending at `right` with a product less than k is valid subarray
             /// The place is very much important in calculating the count
-            count += right - left + 1
+            count += right - left + 1 // 3-1+1 = 3
             ///
             right += 1
         }
