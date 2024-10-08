@@ -12,12 +12,13 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
         
-        let playground = MyPlayground()
-        playground.run()
+//        let playground = MyPlayground()
+//        playground.run()
 
-        // let leetcode = LeetCode()
-        // leetcode.run()
-        // leetcode.runArray()
+         let leetcode = LeetCode()
+//         leetcode.run()
+        leetcode.runString()
+//         leetcode.runArray()
         // leetcode.runRecurrsion()
         // leetcode.runLinkedList()
         // leetcode.runTree()

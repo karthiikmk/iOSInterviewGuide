@@ -23,9 +23,12 @@ class LeetCode {
     /// 2D array subscript(row, column) = array[row * columns + column]
     /// Think about counters always when working woth offsets
     /// `Contiguous`: Contiguous means touching or next to each other `without any gaps` in between.
+    /// A substring is a contiguous sequence of characters within the string.
     /// [1, 2, 3] in [1, 2, 3, 4] is contiguous.
     /// `Consecutive` means elements that follow one another in a particular order, usually increasing (or sometimes decreasing) by 1 or a fixed interval.
     /// 1, 2, 3 are consecutive, but in the array [3, 1, 2], they are consecutive but not contiguous.
+    /// String(repeating: char, count: count) to create sequence with default string
+    /// Any character that is not a letter or number - Non alphanumeric characters
     func brushUp() {
         intBasics()
         stringBasics()

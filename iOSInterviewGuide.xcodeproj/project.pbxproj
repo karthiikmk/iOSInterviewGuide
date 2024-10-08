@@ -28,11 +28,13 @@
 		258C6E6C2BA1BABD004DBB00 /* RetainCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6B2BA1BABD004DBB00 /* RetainCycle.swift */; };
 		258C6E6E2BA1BE11004DBB00 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6D2BA1BE11004DBB00 /* Tree.swift */; };
 		258C6E702BA1CB81004DBB00 /* BSTTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */; };
+		259452F62CB5229500495031 /* iOSQuestions+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */; };
 		2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597D33B2C89BA9600DA9C07 /* LRUCache.swift */; };
 		2597D33F2C8C591200DA9C07 /* tree-terminology.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2597D33E2C8C591200DA9C07 /* tree-terminology.svg */; };
+		259AB43B2CB41394000A46FD /* SystemDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259AB43A2CB41394000A46FD /* SystemDesign.swift */; };
 		25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B714572C9C28880095BC70 /* Leetcode+Sort.swift */; };
 		25DA71762C9EFB1600F1150E /* MyPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DA71752C9EFB1600F1150E /* MyPlayground.swift */; };
-		25ED79432CA02AF5001A2347 /* iOSQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ED79422CA02AF5001A2347 /* iOSQuestions.swift */; };
+		25ED79432CA02AF5001A2347 /* iOSQuestions+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */; };
 		25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BE82BA46EF0008F7DF1 /* PriorityQueue.swift */; };
 		25EE9BEB2BA47498008F7DF1 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BEA2BA47498008F7DF1 /* AVLTree.swift */; };
 		25EE9BF12BA4D9D2008F7DF1 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BF02BA4D9D2008F7DF1 /* Graph.swift */; };
@@ -97,11 +99,13 @@
 		258C6E6B2BA1BABD004DBB00 /* RetainCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetainCycle.swift; sourceTree = "<group>"; };
 		258C6E6D2BA1BE11004DBB00 /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSTTree.swift; sourceTree = "<group>"; };
+		259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+SwiftUI.swift"; sourceTree = "<group>"; };
 		2597D33B2C89BA9600DA9C07 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
 		2597D33E2C8C591200DA9C07 /* tree-terminology.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "tree-terminology.svg"; sourceTree = "<group>"; };
+		259AB43A2CB41394000A46FD /* SystemDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemDesign.swift; sourceTree = "<group>"; };
 		25B714572C9C28880095BC70 /* Leetcode+Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+Sort.swift"; sourceTree = "<group>"; };
 		25DA71752C9EFB1600F1150E /* MyPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlayground.swift; sourceTree = "<group>"; };
-		25ED79422CA02AF5001A2347 /* iOSQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSQuestions.swift; sourceTree = "<group>"; wrapsLines = 0; };
+		25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+Swift.swift"; sourceTree = "<group>"; wrapsLines = 0; };
 		25EE9BE82BA46EF0008F7DF1 /* PriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
 		25EE9BEA2BA47498008F7DF1 /* AVLTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVLTree.swift; sourceTree = "<group>"; };
 		25EE9BF02BA4D9D2008F7DF1 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				25EE9C6D2BB1C552008F7DF1 /* Documentation.docc */,
 				258C6E4F2BA0CCC1004DBB00 /* Main */,
 				25ED79412CA02AE8001A2347 /* iOS */,
+				259AB4392CB41380000A46FD /* SystemDesign */,
 				258C6E4C2BA0CC88004DBB00 /* DataStructures */,
 				258C6E5B2BA0DB19004DBB00 /* Problems */,
 			);
@@ -265,10 +270,19 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		259AB4392CB41380000A46FD /* SystemDesign */ = {
+			isa = PBXGroup;
+			children = (
+				259AB43A2CB41394000A46FD /* SystemDesign.swift */,
+			);
+			path = SystemDesign;
+			sourceTree = "<group>";
+		};
 		25ED79412CA02AE8001A2347 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				25ED79422CA02AF5001A2347 /* iOSQuestions.swift */,
+				25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */,
+				259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -485,10 +499,11 @@
 				25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */,
 				2564A7EB257403C200C7065C /* ViewController.swift in Sources */,
 				258C6E672BA1A2D9004DBB00 /* QA.swift in Sources */,
-				25ED79432CA02AF5001A2347 /* iOSQuestions.swift in Sources */,
+				25ED79432CA02AF5001A2347 /* iOSQuestions+Swift.swift in Sources */,
 				258C6E612BA0E65A004DBB00 /* 2DArray.swift in Sources */,
 				25EE9C602BAE1B15008F7DF1 /* Leetcode+LinkedList.swift in Sources */,
 				2564A7E7257403C200C7065C /* AppDelegate.swift in Sources */,
+				259AB43B2CB41394000A46FD /* SystemDesign.swift in Sources */,
 				25EE9BFC2BA4F040008F7DF1 /* QueueUsingLinkedList.swift in Sources */,
 				25EE9C6E2BB1C552008F7DF1 /* Documentation.docc in Sources */,
 				25EE9BFA2BA4EF1A008F7DF1 /* StackUsingLinkedList.swift in Sources */,
@@ -499,6 +514,7 @@
 				25EE9BF32BA4ECAE008F7DF1 /* OrderedArrayUsingBS.swift in Sources */,
 				25EE9C622BAE2537008F7DF1 /* Leetcode+Tree.swift in Sources */,
 				25DA71762C9EFB1600F1150E /* MyPlayground.swift in Sources */,
+				259452F62CB5229500495031 /* iOSQuestions+SwiftUI.swift in Sources */,
 				25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */,
 				2564A7E9257403C200C7065C /* SceneDelegate.swift in Sources */,
 				258C6E5F2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift in Sources */,

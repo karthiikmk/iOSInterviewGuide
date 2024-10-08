@@ -18,10 +18,14 @@ extension LeetCode {
     
     func runArray() {
         // reverse([1,2,3,4,5])
-        sortedSquares([-2, -1, 0, 1, 2, 3])
+        // sortedSquares([-2, -1, 0, 1, 2, 3])
         // maxSumOfSubarray()
         // minSumOfSubArray()
         // maxSumOfSubarray(arr: [5,4,3,1,8], size: 3)
+        // findSecondLargest([1,2,4,3])
+        // findSecondSmallest([16,17,15])
+        // findCharCount(in: "a2b3")
+        // subarraySum([1,2,3,5,4], 2)
     }
 }
 
@@ -217,6 +221,107 @@ extension LeetCode {
             }
         }
         return array
+    }
+    
+    /// NOTE: if its already sorted, then last index - 1 should give the second largest number
+    /// for unsorted array only we need to follow this.
+    @discardableResult
+    func findSecondLargest(_ array: [Int]) -> Int {
+        guard !array.isEmpty else { return -1 }
+        guard array.count > 1 else { return array[0] }
+                
+        // we gonna iterate linearly
+        var largest: Int = array[0]
+        var secondLargest: Int = Int.min
+        var index = 0
+
+        while index < array.count {
+            let value = array[index]
+            /// if its not largest, then it should be smallest
+            if value > largest {
+                secondLargest = largest
+                largest = value
+            } else if value > secondLargest && value < largest {
+                secondLargest = value
+            }
+            index += 1
+        }
+        print("Second largest: \(secondLargest)")
+        return secondLargest
+    }
+        
+    /// NOTE: First try to understand what is second smallest one.
+    /// For Eg: 17, 16, 12, Here 12 is the smallest one, 16 is the second smallest one.
+    /// IDEA: Array must be unsorted, if its sorted, then we can taken endIndex - 1
+    /// Find the last one, then previous of the last one is second smallest.
+    @discardableResult
+    func findSecondSmallest(_ array: [Int]) -> Int {
+        guard !array.isEmpty else { return -1 }
+        guard array.count > 1 else { return array[0] }
+        
+        var smallest: Int = array[0]
+        var secondSmallest: Int = Int.max
+        var index: Int = 0
+        
+        while index < array.count {
+            let value = array[index]
+            
+            if value < smallest {
+                secondSmallest = smallest
+                smallest = value
+            } else if value < secondSmallest && value != smallest {
+                // value is the smallest, then there can be chance of second smalest
+                secondSmallest = value
+            }
+            index += 1
+        }
+        let result = secondSmallest == Int.max ? -1 : secondSmallest
+        print("Second smallest: \(result)")
+        return result
+    }
+    
+    /// NOTE:
+    /// Input: b3c6d15
+    /// Output: bbbccccccddddddddddddddd
+    /// If not we should make use of regex pattern matching.
+    func findCharCount(in string: String) {
+        var charDict: [String: Int] = [:]
+        let array = Array(string)
+        
+        var index = 0
+        var currentLetter = ""
+        var currentNumber = ""
+                
+        while index < array.count {
+            let element = array[index]
+            if element.isLetter {
+                if !currentLetter.isEmpty && !currentNumber.isEmpty {
+                    charDict[currentLetter] = Int(currentNumber)
+                    currentLetter = String(element)
+                    currentNumber = ""
+                } else if currentNumber.isEmpty {
+                    currentLetter += String(element) // Expanding window
+                } else {
+                    currentLetter = String(element)
+                    currentNumber = ""
+                }
+            } else if element.isNumber {
+                currentNumber += String(element)
+            }
+            index += 1
+        }
+        
+        /// last pair, as we are updating the dictinoary only on the isLetter case.
+        if !currentLetter.isEmpty && !currentNumber.isEmpty {
+            charDict[currentLetter] = Int(currentNumber)
+        }
+        
+        var resultString = ""
+        for (char, count) in charDict {
+            resultString +=  String(repeating: char, count: count)
+        }
+        
+        print("result: \(resultString)")
     }
 }
 
@@ -659,6 +764,7 @@ extension LeetCode {
     }
 }
 
+// - MARK: Kth
 extension LeetCode {
 
     func kthSmallest(_ array: [Int], _ k: Int) -> Int? {
@@ -673,6 +779,36 @@ extension LeetCode {
         guard k > 0 && k <= array.count else { return nil } // valid index
         let sortedArray = array.sorted(by: >)  // Sort in descending order
         return sortedArray[k - 1]
+    }
+    
+    /// NOTE: Array will be having only 3 elements
+    func findKthLargestElement(_ array: [Int], _ k: Int) -> Int? {
+        /// Ensure array has exactly 3 elments and k is valid
+        guard array.count == 3, k > 0 && k <= 3 else { return nil }
+        
+        var firstLargest: Int = Int.min
+        var secondLargest: Int = Int.min
+        var thirdLargest: Int = Int.min
+        
+        var index = 0
+        while index < array.count {
+            let value = array[index]
+            if value > firstLargest {
+                thirdLargest = secondLargest
+                secondLargest = firstLargest
+                firstLargest = value
+            } else if value > secondLargest {
+                thirdLargest = secondLargest
+                secondLargest = value
+            } else if value > thirdLargest {
+                thirdLargest = value
+            }
+            index += 1
+        }
+        
+        return k == 0
+        ? firstLargest
+        : k == 1 ? secondLargest : thirdLargest
     }
 
     func kthLargestUsingHeap(_ array: [Int], _ k: Int) -> Int? {
@@ -723,17 +859,52 @@ extension LeetCode {
         return subArrays
     }
     
-    /// update the running sum
-    /// calculate the lenght
-    /// shrink the window
-    /// next loop
+    /// [1,2,3] where k = 3
+    /// A prefix sum is the cumulative sum of the array elements from the beginning of the array up to a certain point.
+    /// The sum of any subarray can be derived from the difference between two prefix sums.
+    /// The prefixSums dictionary helps track how many times a certain prefix sum has been encountered so far.
+    /// When the current prefix sum minus k has been seen before, it indicates that there are one or more subarrays that sum to k.
+    func countOfSubArrayWithSum(_ k: Int, _ nums: [Int]) -> Int {
+        var sum = 0
+        /// This means that there is one subarray with a sum of 0 before any elements are considered
+        var prefixSums = [0: 1]
+        var count = 0
+        
+        for num in nums {
+            sum += num
+            if let prefixCount = prefixSums[sum - k] {
+                count += prefixCount
+            }
+            prefixSums[sum, default: 0] += 1
+        }
+        print("prefix sums: \(prefixSums)")
+        return count
+    }
     
+    func countOfSubArraysDivisable(by k: Int, nums: [Int]) -> Int {
+        
+        var count: Int = 0
+        var prefixMods = [0: 1]
+        var runningSum = 0
+        
+        for num in nums {
+            runningSum += num
+            /// (sum % k + k) % k ensures that the result of the modulo operation is always non-negative, even when sum is negative.
+            let mod = (runningSum % k + k) % k
+            if let prefixCount = prefixMods[mod] {
+                count += prefixCount
+            }
+            prefixMods[runningSum, default: 0] += 1
+        }
+        return count
+    }
+
     /// NOTE: Find the maximum length of a subarray whose sum is `greater than or equal` to a given value k.
     /// Eg: [5,4,3,1,8] where k = 8
     /// Idea: Start enlarging the window, and start shrinking as soon as we found the subarray
     /// Returnt the length of the sub array.
     @discardableResult
-    func maxSumOfSubarray(arr: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
+    func maxLengthOfSubarray(arr: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
         
         var maxLength = Int.min // ***
         var subArrayStartIndex = 0
@@ -768,10 +939,10 @@ extension LeetCode {
     
         /// NOTE: Find the minimum length of a subarray whose sum is `greater than or equal` to a given value k.
     @discardableResult
-    func minSumOfSubArray(array: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
+    func minSubArrayLength(array: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
         
         var subArray: [Int] = []
-        var miniumSum = Int.max // ***
+        var miniumLength = Int.max // ***
         var runningSum  = 0
         
         var left = 0
@@ -784,8 +955,8 @@ extension LeetCode {
             while runningSum >= k { // ** important
                 /// Length calculation
                 let length = right - left + 1
-                if length < miniumSum {
-                    miniumSum = length
+                if length < miniumLength {
+                    miniumLength = length
                     subArray = Array(array[left...right])
                 }
                 /// Shrink the window as soon as we found the subarray
@@ -795,8 +966,8 @@ extension LeetCode {
             ///
             right += 1
         }
-        print("Min subArray: \(subArray) - lenght: \(miniumSum)")
-        return miniumSum
+        print("Min subArray: \(subArray) - lenght: \(miniumLength)")
+        return miniumLength
     }
     
     /// NOTE: Find the sum of a continuous subarray of `size k`.
@@ -838,7 +1009,7 @@ extension LeetCode {
     /// Output: [4, -1, 2, 1]
     /// Hint: No need to shrink the window.
     /// Important.
-    func findSumOfMaxSubArray(_ array: [Int]) {
+    func maxSubArray(_ array: [Int]) {
         
         var maximumSum: Int = Int.min
         var runningSum: Int = 0
@@ -863,6 +1034,39 @@ extension LeetCode {
         }        
     }
     
+    /// NOTE: return the `number of contiguous subarrays` where the product of all the elements in the subarray is strictly `less than k`.
+    /// Eg: [10, 5, 2, 6], k = 100
+    func subArrayWithProduct(_ nums: [Int], _ k: Int) -> Int {
+        guard !nums.isEmpty else { return 0 }
+        
+        var count = 0 // 5
+        var runningProduct = 1 /// ** since its multiplication
+        
+        var left = 0 // 1
+        var right = 0 // 3
+        
+        while right < nums.count {
+            /// Enlarnging the window
+            runningProduct *= nums[right] // 5*2*6
+            ///
+            while runningProduct >= k { // ** while is very important
+                /// Shrinking the window
+                runningProduct /= nums[left]
+                left += 1 // 1
+            }
+            /// Each subarray ending at `right` with a product less than k is valid subarray
+            /// The place is very much important in calculating the count
+            count += right - left + 1 // 3-1+1 = 3
+            ///
+            right += 1
+        }
+        return count
+    }
+}
+
+// - MARK: Subsequence
+extension LeetCode {
+ 
     /// NOTE: longest consecutive sequence
     /// We need to find consequitve number, but it doesn't need to be in sequence
     /// Eg: [100, 4, 200, 1, 3, 2], Op: [1,2,3,4]
@@ -896,34 +1100,5 @@ extension LeetCode {
             index += 1
         }
         return sequence
-    }
-    
-    /// NOTE: return the `number of contiguous subarrays` where the product of all the elements in the subarray is strictly `less than k`.
-    /// Eg: [10, 5, 2, 6], k = 100
-    func subArrayWithProduct(_ nums: [Int], _ k: Int) -> Int {
-        guard !nums.isEmpty else { return 0 }
-        
-        var count = 0 // 5
-        var runningProduct = 1 /// ** since its multiplication
-        
-        var left = 0 // 1
-        var right = 0 // 3
-        
-        while right < nums.count {
-            /// Enlarnging the window
-            runningProduct *= nums[right] // 5*2*6
-            ///
-            while runningProduct >= k { // ** while is very important
-                /// Shrinking the window
-                runningProduct /= nums[left]
-                left += 1 // 1
-            }
-            /// Each subarray ending at `right` with a product less than k is valid subarray
-            /// The place is very much important in calculating the count
-            count += right - left + 1 // 3-1+1 = 3
-            ///
-            right += 1
-        }
-        return count
     }
 }
