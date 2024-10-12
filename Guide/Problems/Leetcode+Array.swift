@@ -348,6 +348,15 @@ extension LeetCode {
         }
         return nil
     }
+    
+    /// Given an array containing n distinct numbers in the `range [0, n]`,
+    /// find the one number that is missing from the array.
+    func missingNumber(_ nums: [Int]) -> Int {
+        let n = nums.count
+        let expectedSum = n*(n+1)/2
+        let actualSum = nums.reduce(0, +)
+        return expectedSum-actualSum // will the give missing number.
+    }
 
     /// - NOTE: `Array must be sorted`.
     /// IDEA: The idea is to compare the current and next index
@@ -762,6 +771,17 @@ extension LeetCode {
         
         return []
     }
+    
+    /// https://leetcode.com/problems/jump-game/description/
+    /// Topic: Greedy algo
+    func canJump(_ nums: [Int]) -> Bool {
+        var reach: Int = 0
+        for (index, number) in nums.enumerated() {
+            if index > reach { return false } // when index goes beyond the reach
+            reach = max(reach, index+number)
+        }
+        return reach >= nums.count - 1 // able to reach last index
+    }
 }
 
 // - MARK: Kth
@@ -846,6 +866,7 @@ extension LeetCode {
 // - MARK: Sliding Window
 extension LeetCode {
     
+    /// NOTE: A subarray is a contiguous part of the array. The elements must be consecutive.
     func findAllSubArrays(_ array: [Int]) -> [[Int]] {
         guard !array.isEmpty else { return [] }
         var subArrays = [[Int]]()
@@ -1005,35 +1026,6 @@ extension LeetCode {
         return maximumSum
     }
     
-    /// Eg:  [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-    /// Output: [4, -1, 2, 1]
-    /// Hint: No need to shrink the window.
-    /// Important.
-    func maxSubArray(_ array: [Int]) {
-        
-        var maximumSum: Int = Int.min
-        var runningSum: Int = 0
-        
-        var left = 0 // start of the window
-        var right = 0 // end of the window
-        
-        while right < array.count {
-            /// Set the starting point
-            if runningSum == 0 {
-                left = right
-            }
-            /// Enlarging the window
-            runningSum += array[right]
-            ///
-            if runningSum > maximumSum {
-                maximumSum = runningSum
-                print(array[left...right])
-            }
-            /// Next loop
-            right += 1
-        }        
-    }
-    
     /// NOTE: return the `number of contiguous subarrays` where the product of all the elements in the subarray is strictly `less than k`.
     /// Eg: [10, 5, 2, 6], k = 100
     func subArrayWithProduct(_ nums: [Int], _ k: Int) -> Int {
@@ -1067,13 +1059,25 @@ extension LeetCode {
 // - MARK: Subsequence
 extension LeetCode {
  
+    /// NOTE: A subset is any selection of elements from the array.
+    /// The elements of a subset do not need to be contiguous.
+    func subsets(_ nums: [Int]) -> [[Int]] {
+        var result = [[Int]]()
+        result.append([])
+        
+        for num in nums {
+            result += result.map { $0 + [num] }
+        }
+        return result
+    }
+    
     /// NOTE: longest consecutive sequence
-    /// We need to find consequitve number, but it doesn't need to be in sequence
+    /// We need to find consequitve number, but it `doesn't need` to be in sequence
     /// Eg: [100, 4, 200, 1, 3, 2], Op: [1,2,3,4]
     /// Idea is take the number, and check if that is fresh start,
     /// then check the number set for the consective numbers using counter.
     /// if there is previous number then its not fresh start.
-    func longestConsecutiveNumbers(_ nums: [Int]) -> [Int] {
+    func longestConsecutiveSubsequence(_ nums: [Int]) -> [Int] {
         
         var maxLength: Int = Int.min
         var sequence = [Int]()

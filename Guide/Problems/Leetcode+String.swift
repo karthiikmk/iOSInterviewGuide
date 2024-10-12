@@ -468,7 +468,7 @@ extension LeetCode {
     }
     
     /// https://leetcode.com/problems/longest-palindromic-substring/
-    /// Find the longest palindrome substring in a string
+    /// Find the longest palindrome `substring` in a string (shoud be contagious)
     ///
     /// - precondition: string shoult not be empty, indides should be in the limit
     /// - returns: longest palindrome substring
@@ -539,7 +539,7 @@ extension LeetCode {
     /// The idea is to have the visited entires to enloarge the range.
     /// if already visited, then we should start sliding the window as its starts repeating.
     /// Window is not to calculate the length.
-    func lengthOfLongestSubstring(_ s: String) -> Int {
+    func lengthOfLongestSubstringWithoutRepeatingCharacters(_ s: String) -> Int {
         let chars = Array(s)
         var maxLength = 0
         var startIndexOfMaxSubstring = 0
@@ -550,7 +550,7 @@ extension LeetCode {
 
         while right < chars.count {
             let char = chars[right]
-            if !charSet.contains(char) {
+            if !charSet.contains(char) { // ** important
                 charSet.insert(char)
                 let length = right - left + 1
                 if length > maxLength {
@@ -564,32 +564,8 @@ extension LeetCode {
                 left += 1
             }
         }
-
         let longestSubstring = String(chars[startIndexOfMaxSubstring..<(startIndexOfMaxSubstring + maxLength)])
         print(longestSubstring)
-        return maxLength
-    }
-    
-    /// abcabcbb
-    func lengthOfLongestSubstringWithoutRepeatingCharacters(_ s: String) -> Int {
-        
-        let array = Array(s)
-        var charIndex = [Character: Int]()
-        var maxLength = Int.min
-        var left: Int = 0
-        var right: Int = 0
-        
-        while right < array.count {
-            let char = array[right]
-            /// when repeating found, take that as fresh start
-            if let prevIndex = charIndex[char] {
-                left = prevIndex + 1
-            }
-            charIndex[char] = right // updating the char with proper index.
-            maxLength = max(maxLength, right - left + 1)
-            /// Nextloop
-            right += 1
-        }
         return maxLength
     }
 
@@ -597,6 +573,7 @@ extension LeetCode {
     /// NOTE: The idea is to check for the left and right equalance
     /// lengthOfLongestSubStringWithSameCharacters
     /// Idea: Take the left and compare it with right
+    /// Topi: Sliding window
     func lengthOfLongestConsecutiveSubstring(_ s: String = "aaabbbbaaaa") {
 
         let array = Array(s)
@@ -607,7 +584,7 @@ extension LeetCode {
         var right = 0
 
         while right < array.count {
-            if array[left] == array[right] {
+            if array[left] == array[right] { // important
                 let length = right - left + 1
                 if length >= maxLength {
                     maxLength = length
@@ -669,8 +646,7 @@ extension LeetCode {
             /// (right - left + 1) - maxCount represents how many characters you would need to change
             /// to turn all the characters in the window into the most frequent character.
             if (right - left + 1) - maxFreq > k {
-                let leftChar = array[left]
-                charFreq[leftChar]! -= 1
+                charFreq[array[left]]! -= 1
                 left += 1
             }
             /// Update the maximum length of a valid window
@@ -687,12 +663,86 @@ extension LeetCode {
 
 // - MARK: Subsequence
 
-/// NOTE: A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+/// NOTE: A subsequence of a string is a new string generated from the original string with
+/// some characters deleted `without changing the order` of the remaining characters.
 /// For example, "ace" is a subsequence of "abcde".
 extension LeetCode {
     
-    // https://leetcode.com/problems/longest-common-subsequence/
-    func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int {
-        return -1
+    /// https://www.youtube.com/watch?v=_nCsPn7_OgI&list=PLrmLmBdmIlpsHaNTPP_jHHDx_os9ItYXr&index=9
+    func longestPalindromicSubsequence(_ s: String) -> String {
+        let n = s.count
+        guard n > 0 else { return "" }
+        
+        let sArray = Array(s)
+        // DP table to store the length of longest palindromic subsequence
+        var dp = Array(repeating: Array(repeating: 0, count: n), count: n)
+        
+        // Every single character is a palindrome of length 1
+        for i in 0..<n {
+            dp[i][i] = 1
+        }
+        
+        // Fill the table (starting with 2 chars)
+        for length in 2...n {
+            for i in 0...(n - length) {
+                let j = i + length - 1 //  0 + 2 - 1 = 1
+                if sArray[i] == sArray[j] {
+                    dp[i][j] = 2 + dp[i + 1][j - 1]
+                } else {
+                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])
+                }
+            }
+        }
+        
+        // Reconstruct the longest palindromic subsequence
+        var i = 0
+        var j = n - 1
+        var result = ""
+        
+        while i <= j {
+            if sArray[i] == sArray[j] {
+                if i != j {
+                    result = String(sArray[i]) + result + String(sArray[j])
+                } else {
+                    result = String(sArray[i]) + result
+                }
+                i += 1
+                j -= 1
+            } else if dp[i + 1][j] > dp[i][j - 1] {
+                i += 1
+            } else {
+                j -= 1
+            }
+        }
+        
+        return result
+    }
+}
+
+// - MARK: Pattern Matching
+extension LeetCode {
+    
+    /// NOTE: return starting index if pattern is matched
+    /// Timecomplexity: O(m*n*)
+    /// m is lenth of the text, n is the lenght of the pattern
+    func naivePatternSearch(text: String, pattern: String) -> Int? {
+    
+        var textArray = Array(text)
+        var patternArray = Array(pattern)
+        
+        var m = textArray.count
+        var n = patternArray.count
+        
+        for i in 0...(m-n) {
+            var j = 0
+            /// j should be lesser than the pattern count
+            while j < n && textArray[i+j] == patternArray[j] {
+                j += 1
+            }
+            if j == n {
+                return i // we reached pattern
+            }
+        }
+        return nil
     }
 }

@@ -29,6 +29,7 @@
 		258C6E6E2BA1BE11004DBB00 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6D2BA1BE11004DBB00 /* Tree.swift */; };
 		258C6E702BA1CB81004DBB00 /* BSTTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */; };
 		259452F62CB5229500495031 /* iOSQuestions+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */; };
+		259452F82CB7E90500495031 /* Leetcode+DP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259452F72CB7E90500495031 /* Leetcode+DP.swift */; };
 		2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597D33B2C89BA9600DA9C07 /* LRUCache.swift */; };
 		2597D33F2C8C591200DA9C07 /* tree-terminology.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2597D33E2C8C591200DA9C07 /* tree-terminology.svg */; };
 		259AB43B2CB41394000A46FD /* SystemDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259AB43A2CB41394000A46FD /* SystemDesign.swift */; };
@@ -100,6 +101,7 @@
 		258C6E6D2BA1BE11004DBB00 /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSTTree.swift; sourceTree = "<group>"; };
 		259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+SwiftUI.swift"; sourceTree = "<group>"; };
+		259452F72CB7E90500495031 /* Leetcode+DP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+DP.swift"; sourceTree = "<group>"; };
 		2597D33B2C89BA9600DA9C07 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
 		2597D33E2C8C591200DA9C07 /* tree-terminology.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "tree-terminology.svg"; sourceTree = "<group>"; };
 		259AB43A2CB41394000A46FD /* SystemDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemDesign.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				25EE9C632BAF0D7C008F7DF1 /* Leedcode+Graph.swift */,
 				25B714572C9C28880095BC70 /* Leetcode+Sort.swift */,
 				257FDA4F2C9B57210055C14B /* Leetcode+Ext.swift */,
+				259452F72CB7E90500495031 /* Leetcode+DP.swift */,
 			);
 			path = Problems;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				258C6E5F2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift in Sources */,
 				25EE9C582BAB3765008F7DF1 /* ZeroMatrix.swift in Sources */,
 				250020682BBB24C400F64285 /* MinStack.swift in Sources */,
+				259452F82CB7E90500495031 /* Leetcode+DP.swift in Sources */,
 				25EE9C642BAF0D7C008F7DF1 /* Leedcode+Graph.swift in Sources */,
 				25EE9C5A2BACCC1D008F7DF1 /* Leetcode+String.swift in Sources */,
 				258C6E6A2BA1BA9A004DBB00 /* DesignPatterns.swift in Sources */,

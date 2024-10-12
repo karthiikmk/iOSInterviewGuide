@@ -7,6 +7,13 @@
 
 import Foundation
 
+/*
+ 
+ References:
+ 
+ https://www.youtube.com/@tusharroy2525/playlists
+*/
+
 class LeetCode {
 
     func run() {
@@ -173,6 +180,12 @@ extension LeetCode {
             start += 1
         }
         return result
+    }
+    
+    // Given an array containing n distinct numbers in the range [0, n], find the one number that is missing from the array.
+    /// Eg: n = 3, 3(3+1)/2 = 6 is the sum of 3 natural numbers 
+    func sumOfNaturalNumbers(_ n: Int) -> Int {
+        return n * (n+1)/2
     }
 
     // Converting Int to String,

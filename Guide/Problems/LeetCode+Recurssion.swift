@@ -54,13 +54,6 @@ extension LeetCode {
         return fib(position)
     }
 
-    /// - complexity:: O(n)
-    func climbStairs(_ n: Int) -> Int {
-        // Base cases: 0 ways to climb 0 or 1 step, 1 way to climb 2 steps
-        if n == 0 || n == 1 || n == 2 { return n } // ** important.
-        return climbStairs(n - 2) + climbStairs(n - 1)
-    }
-
     /// sum(n) = 1 + 2 + 3 + ... + n
     /// sum(n) = sum(n-1)+n
     /// Addition should be done on returning time, not on exuction time.
@@ -78,6 +71,8 @@ extension LeetCode {
     /// mulitiplication should be done on returning time, not on exuction time.
     /// The product of all positive intergers less than or equal to a given positive integer.
     /// - complexity:: O(n), space: O(n)
+    /// - usage: The number of ways to arrange n distinct objects is calculated as n!.
+    /// For example, the number of ways to arrange 5 people in a line is 5! = 120.
     func factorial(of number: Int) -> Int {
         /// BaseCondtion
         guard number > 0 else { return 1 } // as it multiplication, should not return 0
