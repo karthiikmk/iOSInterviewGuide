@@ -54,7 +54,7 @@ class CombineExample {
         
         // zip waits for publisher1 and publisher2 to emit a value
         // When both publishers emit, zip produces a tuple with the combined values, which is then handled by sink.
-        let cancellable = publisher1
+        _ = publisher1
             .zip(publisher2)
             .sink { (string, number) in
                 print("Received values: \(string) and \(number)")
@@ -71,8 +71,8 @@ class CombineExample {
             .map { _ in return Int.random(in: 0...100) }
             .share() //
         
-        let sub1 = pub.sink { print ("Stream 1 received: \($0)") }
-        let sub2 = pub.sink { print ("Stream 2 received: \($0)") }
+        _ = pub.sink { print ("Stream 1 received: \($0)") }
+        _ = pub.sink { print ("Stream 2 received: \($0)") }
         
         // Operator: ReplaceNil
         [1, nil, 3]

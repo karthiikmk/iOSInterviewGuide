@@ -12,7 +12,6 @@ import Foundation
  To build the number, multiply the number with 10
  To find the digits, divite it by 10
 */
-
 extension Int {
     
     /// NOTE: Idea is to convert number to string, then map into whole numbers 

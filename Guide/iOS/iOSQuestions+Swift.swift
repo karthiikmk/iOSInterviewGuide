@@ -47,8 +47,6 @@ import Foundation
  
  Closure: A block of code, that can be passed around and executed in our code. closures can capture the reference in which they are defined.
  Escaping closure: can be exectuted after the function it was passed, this means that the closure escapes the funtion body and can be called later. caches the reference in order to execute later point
- Non-escaping closure: ensures that the closures executes with in the function scope, in this case swift assumes that the closures will not escape and
- doesn't need any special memory handling to retain variables
  Autoclosures: automatically wraps an expression passed as an arugment to function - eg print.
  Completion handler: These are function passed as parameter to an other function. its a techinque for implementing callback functionality using closures.
  
@@ -97,8 +95,6 @@ import Foundation
   - Make sure to use weak reference to get rid of strong reference cycles
   - Stong, weak and unowned: These are related to object references and how its stored in memory.
  strong reference increase the retain count of an object ( A <-> B which creates retain count 1 )
- weak references do not increase the retain count and are set to nil when the referenced object is deallocated. (B refers A as a weak, so A will be nill if its deallocated)
- unowned reference are similar to weak but are expected to have a value, hence they aren't set to nil
  
  Performance & Optimization
  - Remove unwanted codes and assets
@@ -147,9 +143,34 @@ import Foundation
  - Improve the customer app engagment using push notification and intercom notificatoin
  - Social sharing and added referals
  - Continously monitoring analytics and user retentions to optimize the app for improvmenets
- 
- 
+
 */
+
+/// `Non-escaping closure`: Ensures that the closures executes with in the function scope, This means the closure does not “escape” or outlive
+/// the scope of the function. Non-escaping closures are the default in Swift and doesn't need any special  memory handling to retain variables.
+/// ```
+/// func performTask(_ task: () -> Void) {
+///     print("Start Task")
+///     task()  // The closure is executed within the function scope
+///     print("End Task")
+/// }
+/// ```
+///
+///
+/// `Copy-on-Write (COW)`
+///  An optimization technique used in some Swift value types like arrays, dictionaries, sets, and strings.
+///  Instead of copying the entire value type immediately, Swift creates a reference to the same memory location. This helps save memory.
+///  when you modify the copied value, Swift creates a new memory space with the updated data.
+///  Note: value types are stored in the stack, while their references are managed in the heap.
+///
+///  `weak` Weak references are always declared as optional types because, they can become nil if the referenced object is deallocated
+///   weak reference is used where there is possibility for that reference to become nil at some point during its lifetime.
+///   weak references do not increase the retain count and are set to nil when the referenced object is deallocated. (B refers A as a weak, so A will be nill if its deallocated)
+///
+///  `unowned` an unowned reference is used where there is no possibility for that reference becoming nil at any point until the self-object exist
+///  unowned reference are similar to weak but are expected to have a value, hence they aren't set to nil
+
+/// TODO: - https://github.com/shobhakartiwari/iOS_Lead_Interview (complete this)
 
 class Test  {
     

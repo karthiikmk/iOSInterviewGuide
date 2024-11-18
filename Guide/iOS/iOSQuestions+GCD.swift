@@ -29,9 +29,10 @@ import Foundation
  
  Quality of service:
  - User interactive - tasks that need to be done immediately in order to provide a nice user experience.
- - UserInitiated - tasks that are initiated from the UI and can be performed asynchronously
+ - UserInitiated - Tasks that are initiated from the UI and can be performed asynchronously.
+ eg: Selecting something to view it details where it needs to fetch the data from server. these can go inside useriniated qos.
  - Default - priority level of this QoS falls between user-initiated and utility.
- - Utility - long-running tasks, typically with a user-visible progress indicator
+ - Utility - Task which user is aware of but doesn't need immediately, typically long-running tasks (downloading files, processing data in background)
  - Background - Use it for prefetching, maintenance, and other tasks that don’t require user interaction
  
  highest priority qos task completes first then lowest qos task finishes its execution.

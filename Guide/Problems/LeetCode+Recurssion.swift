@@ -9,10 +9,12 @@ import Foundation
 
 extension LeetCode {
     
+    /// fib(0) = 0, fib(1) = 1, fib is summmation
+    /// factorial is product (multiplication), fact(0) or fact(1) = 1
     func runRecurrsion() {
         // permutations(of: "123")
         // permutations(for: [1,2,3])
-        nextPermutationUsingBruteForce(of: 123)
+        // nextPermutationUsingBruteForce(of: 123)
     }
 }
 
@@ -20,7 +22,7 @@ extension LeetCode {
 
     ///  Find the fibonacci value for the given number.
     ///
-    /// The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, usually starting with 0 and 1.<##>
+    /// The Fibonacci sequence is a series of numbers where each number is the `sum of the two preceding ones`, usually starting with 0 and 1.<##>
     /// The given fib is a excessive recursion. Draw the tree for the given number so that we can understant that the fib is excessively called
     /// for same number in multiple places.
     ///
@@ -35,7 +37,7 @@ extension LeetCode {
     }
 
     /// excessive fibonacci can be improved by caching the result of the fib
-    ///
+    /// Idea: Cache the position if not available.
     func fibUsingMemoization(_ position: Int) -> Int {
         var cache = Array(repeating: -1, count: position + 1)
 
@@ -64,19 +66,19 @@ extension LeetCode {
     }
 
     /// Factorial is based upon mulitplication
+    /// Factorial is the `product of all positive intergers` less than or equal to a `given positive integer`.
     ///
     /// factorial of 0 or 1 is 1
     /// fact(n) = 1 * 2 * 3 * ... * n
     /// fact(n) = fact(n-1) * n
     /// mulitiplication should be done on returning time, not on exuction time.
-    /// The product of all positive intergers less than or equal to a given positive integer.
     /// - complexity:: O(n), space: O(n)
     /// - usage: The number of ways to arrange n distinct objects is calculated as n!.
     /// For example, the number of ways to arrange 5 people in a line is 5! = 120.
-    func factorial(of number: Int) -> Int {
+    func factorial(_ n: Int) -> Int {
         /// BaseCondtion
-        guard number > 0 else { return 1 } // as it multiplication, should not return 0
-        return factorial(of: number - 1) * number // order is very important here.
+        guard n > 0 else { return 1 } // as it multiplication, should not return 0
+        return factorial(n - 1) * n // order is very important here.
     }
 
     /// pow(m, n) = m * m * m * ... * n times
@@ -103,19 +105,21 @@ extension LeetCode {
 extension LeetCode {
 
     /// Tower of Hanoi
+    /// Follows excessive recurssion
     ///
     /// Understand the idea behind this first before reading code.
     ///  Condition 1: Only one disk can be moved at a time
     ///  Condition 2: No larger disk can be placed on top of smaller disk
     ///
+    ///  s: source, a: auxilary, d: destination 
     /// Time complexity calculation = (1+2+2^2+2^3+....2^n) - 1
     /// - complexity: O(2^n)
-    func TOH(n: Int, a: Int, b: Int, c: Int) {
+    func TOH(n: Int, _ s: Int, _ a: Int, _ d: Int) {
         // BaseCondition
         guard n > 0 else { return }
-        TOH(n: n - 1, a: a, b: c, c: b) // Moving a -> b using c
-        debugPrint("(\(a) -> \(c))", terminator: ",")
-        TOH(n: n - 1, a: b, b: a, c: c) // Moving b -> c using a
+        TOH(n: n - 1, s, d, a)
+        debugPrint("(\(s) -> \(d))", terminator: ",")
+        TOH(n: n - 1, a, s, d)
     }
 }
 
@@ -139,7 +143,7 @@ extension LeetCode {
             
             for index in startIndex..<arr.count {
                 arr.swapAt(startIndex, index)
-                permute(startIndex + 1)
+                permute(startIndex + 1) // ** important
                 arr.swapAt(startIndex, index) // resetting the org position
             }
         }
@@ -177,6 +181,8 @@ extension LeetCode {
     }
     
     /// Brute force approace
+    /// Idea: Convert number to array
+    /// Find permutations for given array
     ///  - Find out all the permuation, among which find the smallest one which is larger than the given
     func nextPermutationUsingBruteForce(of number: Int) -> String {
         let array = number.toArray()
@@ -196,11 +202,19 @@ extension LeetCode {
     // This is because the digits on the right side of the number are in descending order, which is the largest possible arrangement for those digits.
     // Therefore, the first point where a smaller digit is followed by a larger digit is the first place where we can make the number larger.
     /// Idea is to have `pivotIndex` and `successorIndex`
+    /// Eg: 534976
+    ///
+    /// Step 1: Find the asceding pair from right to left side using pivotIndex
+    /// Step 2: Find number which is large than pivotIndex number from right to left side using successor index
+    /// Step 3: Swap successor index with pivotIndex
+    /// Step 4: Split the array into 2 parts using pivot
+    /// Step 5: Sort the right part
+    /// Step 6: Group togeather which gives the next permutation
     func nextPermuation(of number: Int) -> String {
         var array = Array(String(number))
         
         /// Find the pivotIndex
-        var pivotIndex = array.count - 2 // this is very important 
+        var pivotIndex = array.count - 2 // this is very important as we are finding the pair.
         while pivotIndex >= 0 && array[pivotIndex] >= array[pivotIndex+1] {
             pivotIndex -= 1
         }

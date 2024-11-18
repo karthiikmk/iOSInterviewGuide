@@ -56,8 +56,7 @@ extension LeetCode {
         guard !array.isEmpty else { return nil }
         let node: ListNode = .init(array[0])
         for index in 1..<array.count {
-            let value = array[index]
-            node.insert(value: value)
+            node.insert(value: array[index])
         }
         print("Array to linkedList: \(node)")
         return node
@@ -76,7 +75,7 @@ extension LeetCode {
         return array
     }
 
-    /// NOTE: We should be using three window technique here.
+    /// NOTE: We should be using three pointer technique here.
     func reverse(from node: ListNode) -> ListNode? {
 
         var previousNode: ListNode? = nil
@@ -94,6 +93,9 @@ extension LeetCode {
     /// Reverse k nodes in a linked list
     /// Consider single node has single value. so that we can complete the full flow
     /// Reversing linked list by 2 nodes (k nodes)
+    ///
+    /// `current?.next` = previous modifies the list structure by reversing the pointer for the current node, which is part of reversing the segment.
+    /// `current = next` is used to advance the iteration through the list without altering any nodes.
     @discardableResult
     func reverse(from node: Node<Int>?, by offset: Int) -> Node<Int>? {
         guard node != nil else { return nil }
@@ -105,7 +107,7 @@ extension LeetCode {
         // Using two rooms startagy, first offset
         while index < offset && current != nil {
             let next = current?.next // sending it to next room
-            current?.next = previous // using the previous one
+            current?.next = previous // ** using the previous one (where node value will be updated)
             previous = current // going to previous room
             current = next // for next iteration
             index += 1
@@ -136,6 +138,8 @@ extension LeetCode {
 
     /// NOTE: Starting both slow and fast from the same node.
     /// Then advancing slow by 1, and fast by 2 step
+    /// By the time fast reaches the end of the list, slow will be at the middle node.
+    /// Eg: 1 → 2 → 3 → 4 → 5
     func middleElement(of node: ListNode?) -> ListNode? {
         var slow = node
         var fast = node
@@ -172,6 +176,11 @@ extension LeetCode {
     ///                                11 -> 12 -> 13
     ///                               ↗
     /// second:            2 -> 4 -> 6
+    ///
+    /// Hint:
+    /// Step1: Calculate the length
+    /// Step2: Align the starting point
+    /// Step3: Start comparing each node reference.
     func getIntersectionNode(_ first: ListNode?, _ second: ListNode?) -> ListNode? {
 
         func getLength(for node: ListNode?) -> Int {
@@ -184,8 +193,8 @@ extension LeetCode {
             return counter
         }
 
-        var firstLength = getLength(for: first)
-        var secondLength = getLength(for: second)
+        let firstLength = getLength(for: first)
+        let secondLength = getLength(for: second)
 
         var firstNode = first
         var secondNode = second

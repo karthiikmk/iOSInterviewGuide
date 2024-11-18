@@ -107,6 +107,7 @@ extension LeetCode {
     }
 
     /// - NOTE: Merge two sorted list into a single sorted list
+    /// Naive approch, TimeComplexity O(m*n)
     func mergeTwoSortedArray(_ first: [Int], _ second: [Int]) -> [Int] {
         var result = [Int]()
         var i: Int = 0
@@ -132,6 +133,42 @@ extension LeetCode {
             j += 1
         }
         return result
+    }
+    
+    /// NOTE:
+    /// Time complexity is O(m+n)
+    func mergeTwoSortedArray1(_ num1: [Int], _ num2: [Int]) -> [Int] {
+        
+        var nums = Array(repeating: 0, count: num1.count+num2.count)
+        var mIndex = 0
+        var nIndex = 0
+        var index = 0
+        
+        while index < nums.count {
+            /// we should make sure that mIndex and nIndex valid.
+            /// m value taken if n reached the end || m is lesser than n value.
+            if mIndex < num1.count && (nIndex == num2.count || num1[mIndex] < num2[nIndex]) {
+                nums[index] = num1[mIndex]
+                mIndex += 1
+            } else {
+                nums[index] = num2[nIndex]
+                nIndex += 1
+            }
+            index += 1
+        }
+        
+        return nums
+    }
+    
+    func findMedianInSortedArrays(_ num1: [Int], _ num2: [Int]) -> Double {
+        let sortedArray = mergeTwoSortedArray1(num1, num2)
+        /// findout the median (for odd length n is the median, for even the avg of n and n-1)
+        let n = sortedArray.count
+        if n % 2 == 0 {
+            return Double(sortedArray[(n/2)-1] + sortedArray[n/2]) / 2.0 // avg
+        } else {
+            return Double(sortedArray[n/2])
+        }
     }
 
     /// - NOTE: same thing we can do for the above as well.
