@@ -10,6 +10,7 @@ import Foundation
 /// Least Recently Used Cache
 /// Capacity is very much important
 /// LRU Cache using double linked list
+/// cache key is key, value is Node (not some concrete value) ***
 /// Need to implement set, get
 /// While setting, add or move it to head
 /// Whiel getting, move it to head
@@ -28,7 +29,7 @@ final class LRUCache<K: Hashable, V> {
     }
 
     var capacity: Int
-    var cache: [K: Node]
+    var cache: [K: Node] // ** important, we are keeping the node as value.
     var head: Node?
     var tail: Node?
 

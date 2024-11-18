@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// References:
+/// https://www.youtube.com/@tusharroy2525/playlists
 class LeetCode {
 
     func run() {
@@ -14,13 +16,29 @@ class LeetCode {
     }
     
     /// NOTE: Before learning about ALDS, do this brushups
-    /// Stack - LIFO
-    /// Queue - FIFO
+    /// Stack - LIFO, Queue - FIFO
+    /// String(repeating: char, count: count) to create sequence with default string
+    /// "" is not a char, where as " " is char (a space)
+    /// `Non alphanumeric characters`: Any character that is not a letter or number
+    /// To sort an array, we need atleast 2 elements, which means count > 1
+    /// Think about counters always when working with offsets
+    /// How to find out subarrays in array
+    /// Learn about how stride works
+    /// substring sum, use left and right window, but calculate the lenth separately
+    /// 2D array subscript(row, column) = array[row * columns + column]
+    /// `Contiguous`: Contiguous means touching or next to each other `without any gaps` in between.
+    /// `Substring` is a contiguous sequence of characters within the string.
+    /// `Consecutive` means elements that follow one another in a particular order, usually increasing (or sometimes decreasing) by 1 or a fixed interval.
+    /// 1, 2, 3 are consecutive, but in the array [3, 1, 2], they are consecutive but not contiguous.
+    /// Think about using the sort for anagrams
+    /// Think about stack, if any adjacent problems
+    /// Think about slidingWidow if asked for length
     func brushUp() {
         intBasics()
+        strideBasics()
         stringBasics()
     }
-    
+
     private func intBasics() {
         let number = 123
         let numberToString = String(number)
@@ -29,6 +47,8 @@ class LeetCode {
         let numberToStringArray = Array(String(number))
         print("Number to string array \(numberToStringArray)")
         
+        /// Int can't be directly converted into an array.
+        /// Instead, Int -> String -> Mapped to whole number
         let numberToIntArray = String(number).compactMap(\.wholeNumberValue)
         print("Number to int array \(numberToIntArray)")
         
@@ -54,6 +74,16 @@ class LeetCode {
         let stringToInt = Int(numberString) ?? -1
         print("String to int: \(stringToInt)")
     }
+    
+    /// Returns a sequence from a starting value to, but not including, an end value,
+    /// stepping by the specified amount.
+    private func strideBasics() {
+        /// Think of like an iterator
+        for i in stride(from: 0, to: 4, by: 2) {
+            print("i: \(i)")
+        }
+    }
+    
 
     /// - NOTE: To complete this, need to understand how modulo and division works.
     /// Modulo returns remainder, whereas division returns the quotient.
@@ -73,7 +103,7 @@ class LeetCode {
         return result
     }
 
-    /// - NOTE: Palindrome isa word, phrase, or a number which reads the same in backwords as forword.
+    /// - NOTE: Palindrome is a word, phrase, or a number which reads the same in backwords as forward.
     /// Eg 75257, 1234321
     ///
     /// Given an integer x, return true if x is a palindrome , and false otherwise.
@@ -97,6 +127,26 @@ class LeetCode {
 
 /// - NOTE: Miscellenous
 extension LeetCode {
+    
+    /// NOTE: Eg 36
+    /// Sqrt of 36 is 6
+    /// Pairs: (1,36) (2,18) (3,12) (4,9) (6,6)
+    ///
+    /// Idea: Find square root of the given number
+    /// Iterate from 1 to that square root
+    /// capture the pairs
+    func findAllDivisingPairs(_ number: Int) -> [(Int, Int)] {
+        var result: [(Int, Int)] = []
+        
+        let squareRoot = Int(sqrt(Double(number)))
+        for divisor in 1...squareRoot {
+            if number % divisor == 0 { // **
+                result.append((divisor, number / divisor))
+            }
+        }
+        print("Divising Pairs of \(number): \(result)")
+        return result
+    }
 
     func isPrime(_ number: Int) -> Bool {
 
@@ -114,8 +164,8 @@ extension LeetCode {
         /// if we notice that the first element of each pair is always lesser than or equal to the squareroot of that number
         /// so if a number has a larger divisor, its pairs is always lesser than or equal to its square root
         ///
-        /// by 2: Any even number which is greater than 2 is divisable by 2, so it cant be prime number
-        /// so to check only the odd divisors we are striding by 2
+        /// why by 2?: Any even number which is greater than 2 is divisable by 2, so it cant be prime number
+        /// so to check only the `odd divisors` we are striding by 2, so starting with 3, then 5 and goes
         for divisor in stride(from: 3, through: squareRoot, by: 2) {
             if number % divisor == 0 {
                 return false
@@ -142,6 +192,12 @@ extension LeetCode {
             start += 1
         }
         return result
+    }
+    
+    /// Given an array containing n distinct numbers in the range [0, n], find the one number that is missing from the array.
+    /// Eg: n = 3, 3(3+1)/2 = 6 is the sum of 3 natural numbers
+    func sumOfNaturalNumbers(_ n: Int) -> Int {
+        return n*(n+1)/2
     }
 
     // Converting Int to String,

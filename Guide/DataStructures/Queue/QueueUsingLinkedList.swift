@@ -25,10 +25,13 @@ class QueueUsingLinkedList<T>: CustomStringConvertible {
         + "\n----------- Queue Ends ----------"
     }
 
+    /// should be inserted at the bottom
     func enqueue(_ value: T) {
-        let newNode = Node(value: value)
-        newNode.next = self.head
-        self.head = newNode
+        guard let head else {
+            self.head = Node(value: value)
+            return
+        }
+        head.insert(value)
     }
 
     // Can be decided to return value or return node.

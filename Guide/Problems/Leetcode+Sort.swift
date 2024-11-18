@@ -8,8 +8,8 @@
 import Foundation
 
 /*
- BubbleSort: Forward sorting - lookign for the next value and swap if its lesser
- InsertSort: Backward sorting - pick a card, check with previous values, find a right place and insert it
+ BubbleSort: Forward sorting - lookign for the next value and swap if its lesser (for i, for j)
+ InsertSort: Backward sorting - pick a card, check with previous values, find a right place and insert it (for i, while j)
  QuickSort - Partition sort - Find a pivot, move all smaller to the left of the pivot and biggers to the right of the pivot
  MergeSort - Divide, Sort, And Merge togeather
 */
@@ -28,6 +28,11 @@ extension LeetCode {
     /// If the current element is larger than the next one, they are swapped.
     /// After each full pass through the array, the largest unsorted element “bubbles” to the correct position. (**)
     /// Eg: [5, 1, 4, 2, 8]:
+    ///
+    /// Step: Iterate the entire array (i)
+    /// Step: Compare adjacent element using j
+    /// Step: if current is > than the next, then swap.
+    /// Step: As every pass completion, the largest element would have moved to the last. (so we are subtracting the i)
     func bubbleSort(_ array: [Int]) -> [Int] {
         var result = array
         var swapped: Bool
@@ -78,11 +83,12 @@ extension LeetCode {
             let current = array[i]
             var j = i-1 // looking into previous cars
             /// Move elements of array[0...i-1] that are greater than current to one position ahead
+            /// j contition is very important as we are `looking backwards`
             while j >= 0 && array[j] > current {
                 array[j+1] = array[j]
-                j -= 1
+                j -= 1 // ** we are looking backwards, not forward
             }
-            array[j+1] = current
+            array[j+1] = current // injecting at the right position.
         }
         return array
     }
@@ -94,7 +100,6 @@ extension LeetCode {
     /// Quick Sort is a highly efficient sorting algorithm that uses the divide and conquer strategy to sort an array.
     /// It selects a “pivot” element, partitions the array around the pivot, and recursively sorts the subarrays.
     func quickSort(_ array: [Int]) -> [Int] {
-        /// BaseCondition
         /// Array needs to have 2+ elements to sort
         guard array.count > 1 else { return array }
         
@@ -132,7 +137,7 @@ extension LeetCode {
                 while endIndex >= start && array[endIndex] > pivot {
                     endIndex -= 1
                 }
-                if startIndex < endIndex {
+                if startIndex < endIndex { // very very important. failing which can make the sort wrong.
                     array.swapAt(startIndex, endIndex)
                 }
             }
@@ -159,13 +164,14 @@ extension LeetCode {
  
     func mergeSort(_ array: inout [Int]) {
 
-        /// NOTE: Think in two array perspective 
+        /// NOTE: Think in two array perspective
+        /// Be careful on which array taking and in which inserting it.
         func merge(_ array: inout [Int], startIndex: Int, middleIndex: Int, endIndex: Int) {
-            let left = Array(array[startIndex...middleIndex])
+            let left = Array(array[startIndex...middleIndex]) // Array conversion is important 
             let right = Array(array[middleIndex+1...endIndex])
             
             var i = 0
-            var j = 0 // we aren't coming backwards.
+            var j = 0
             var k = startIndex // tracking the write index
             
             while i < left.count && j < right.count {
@@ -180,7 +186,7 @@ extension LeetCode {
             }
             // Remaining items on left array
             while i < left.count {
-                array[k] = array[i]
+                array[k] = left[i]
                 i += 1
                 k += 1
             }
@@ -198,7 +204,6 @@ extension LeetCode {
             let middleIndex = startIndex + (endIndex - startIndex) / 2
             sort(&array, startIndex: startIndex, endIndex: middleIndex)
             sort(&array, startIndex: middleIndex + 1, endIndex: endIndex)
-            // Merge
             merge(&array, startIndex: startIndex, middleIndex: middleIndex, endIndex: endIndex)
         }
                 

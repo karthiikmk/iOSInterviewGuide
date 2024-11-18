@@ -41,7 +41,7 @@ class AVLNode<T: Comparable> {
     var right: AVLNode<T>?
     /// in many implementations, the height of a leaf node is often initialized as 1
     /// because the AVL tree manipulations (like rotations) depend on height differences.
-    var height: Int = 1
+    var height: Int = 1 // always keeps the max height of subtrees
 
     init(value: T) {
         self.value = value
@@ -57,12 +57,8 @@ class AVLTree<T: Comparable> {
 
     init() { }
 
-    func insert(value: T) { 
-        guard let root = root else {
-            self.root = AVLNode(value: value)
-            return
-        }
-        insert(value: value, root)
+    func insert(value: T) {
+      root = insert(value: value, root)
     }
 
     func search(value: T) -> AVLNode<T>? {
@@ -76,34 +72,33 @@ class AVLTree<T: Comparable> {
 
 // MARK: - Insert operation
 extension AVLTree {
-
+    
     /// - NOTE: Recurssive function
     @discardableResult
     private func insert(value: T, _ node: AVLNode<T>?) -> AVLNode<T> {
         guard let node else {
             return AVLNode(value: value)
         }
-        if value < node.value {
-            node.left = insert(value: value, node)
-        } else if value > node.value {
+        if value == node.value {
+            // duplicate can't be inserted
+        } else if value < node.value {
+            // Reassign the left child after recursive insert
+            node.left = insert(value: value, node) // ** not returning.
+        } else  {
+            // Reassign the right child after recursive insert
             node.right = insert(value: value, node)
-        } else {
-            return node // Value already exists in the tree; don't insert duplicates.
         }
-        // Update the height of this ancestor node.
-        updateHeight(of: node)
-        // Balance the node if needed.
-        return balance(node: node)
+        return rebalance(node)
     }
 
     func search(value: T, node: AVLNode<T>?) -> AVLNode<T>? {
         guard let node else { return nil }
-        if value < node.value {
-            return search(value: value, node: node.left)
-        } else if value > node.value {
-            return search(value: value, node: node.right)
-        } else {
+        if value == node.value {
             return node // Match found
+        } else if value < node.value {
+            return search(value: value, node: node.left)
+        } else {
+            return search(value: value, node: node.right)
         }
     }
 
@@ -117,13 +112,26 @@ extension AVLTree {
             // Reassign the right child after recursive deletion
             node.right = remove(value: value, node: node.right) // Recursive
         } else {
+            /// At this place we found the node, this is the node which gonna be removed.
+            
+            /// for the current node, if both the childs are not there, then simply returning
+            /// nil will delete the current node.
             if node.left == nil && node.right == nil {
                 return nil // If the node is a leaf, return nil to remove it
-            } else if node.left == nil {
+            }
+            /// if current node which gonna be deleted has right child, then return that.
+            else if node.left == nil {
                 return node.right  // No left child, return right child
-            } else if node.right == nil {
+            }
+            /// if current node which gonna be deleted has left child, return that.
+            else if node.right == nil {
                 return node.left   // No right child, return left child
-            } else {
+            }
+            /// if the current node which gonna be deleted has both the child.
+            /// then we should find the min child in the right sub tree..
+            /// swap that as the current node, and remove the min child from the right sub tree
+            /// because we are using the bst.
+            else {
                 // Node with two children: Get the inorder successor (smallest in the right subtree).
                 let successor = minimum(of: node.right!)
                 node.value = successor.value
@@ -131,14 +139,24 @@ extension AVLTree {
                 node.right = remove(value: successor.value, node: node.right) // Recursive
             }
         }
+        return rebalance(node)
+    }
+}
+
+extension AVLTree {
+    
+    func rebalance(_ node: AVLNode<T>) -> AVLNode<T> {
         // Update the height of this ancestor node.
         updateHeight(of: node)
         // Balance the node if needed.
         return balance(node: node)
     }
-}
-
-extension AVLTree {
+    
+    func updateHeight(of node: AVLNode<T>) {
+        let leftHeight = node.left?.height ?? 0
+        let rightHeight = node.right?.height ?? 0
+        node.height = 1 + max(leftHeight, rightHeight)
+    }
 
     /// NOTE: To understand more on rotation
     /// draw BST with 4 levels.
@@ -151,20 +169,18 @@ extension AVLTree {
     func balance(node: AVLNode<T>) -> AVLNode<T> {
         let bf = balanceFactor(of: node)
         if bf >= -1 && bf <= 1 {
-            // No imbalance found
-        } else if bf > 1 {
-            if balanceFactor(of: node.left) < 0 {
-                node.left = rotateLeft(node.left!) // double rotation
-            }
-            return rotateRight(node)
-        } else if bf < -1 {
+            return node
+        } else if bf < -1 { // has only right subtree
             if balanceFactor(of: node.right) > 0 {
                 node.right = rotateRight(node.right!) // double rotation
             }
             return rotateLeft(node)
+        } else { // has only right subtree
+            if balanceFactor(of: node.left) < 0 { // +ve, -ve check
+                node.left = rotateLeft(node.left!) /// `node.left` is rotated left (not node)
+            }
+            return rotateRight(node) /// `node` is rotated right (not node.left)
         }
-        // no imblance found
-        return node
     }
 }
 
@@ -179,12 +195,6 @@ extension AVLTree {
         return _node
     }
 
-    func updateHeight(of node: AVLNode<T>) {
-        let leftHeight = node.left?.height ?? 0
-        let rightHeight = node.right?.height ?? 0
-        node.height = 1 + max(leftHeight, rightHeight)
-    }
-
     func height(of node: AVLNode<T>?) -> Int {
         return node?.height ?? 0
     }
@@ -195,9 +205,10 @@ extension AVLTree {
         return leftHeight - rightHeight
     }
 
+    /// NOTE: Considering all 3 nodes should be available to rotate. 
     func rotateRight(_ node: AVLNode<T>) -> AVLNode<T> {
 
-        let newRoot = node.left!
+        let newRoot = node.left! // for sure left will be there
         node.left = newRoot.right // order is very important. else EXE BADACCESS
         newRoot.right = node
 

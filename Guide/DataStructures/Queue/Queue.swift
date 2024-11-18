@@ -20,13 +20,8 @@ struct Queue<T> {
 
     //Optional to nill the elements.
     var storage = [T?]()
-    var index: Int = 0 {
-        didSet { print("Head is at: \(index)") }
-    }
-
-    var isEmpty: Bool {
-        return storage.isEmpty
-    }
+    var index: Int = 0
+    var isEmpty: Bool { storage.isEmpty }
 
     var front: T? {
         guard !isEmpty else { return nil }

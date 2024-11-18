@@ -42,6 +42,13 @@ R2 | 2 | 5 | 8 | 11 |
 //        matrixArray[0, 1] = 3
 //        matrixArray[1, 1] = 4
 //        debugPrint(matrixArray)
+
+
+/// NOTE:
+/// `array[row * columns + column]` is important to read and write in index
+/// rows: 2 (0, 1)
+/// colums: 4 (0, 1, 2, 3)
+/// In array columns size decides in which position the value has to be inserted
 class TwoDimensionalArray<T>: CustomStringConvertible {
 
     public let columns: Int
@@ -64,7 +71,7 @@ class TwoDimensionalArray<T>: CustomStringConvertible {
         get {
             assert(column >= 0 && column < columns, "Column \(column) Index out of range")
             assert(row >= 0 && row < rows, "Row \(row) Index out of range")
-            return array[row * columns + column] // imp
+            return array[row * columns + column] // *** important
         }
         set {
             assert(column >= 0 && column < columns, "Column \(column) Index out of range")
@@ -88,7 +95,7 @@ class ConvertArrayToTwoDimensionalArray<T> {
         let matrix = TwoDimensionalArray<T>(columns: columns, rows: rows, defaultValue: defaultValue)
         for (index, element) in array.enumerated() {
             let column = index % columns // % circular behaviour
-            let row = index / column // incremental behaviour
+            let row = index / columns // incremental behaviour
             matrix[column, row] = element
         }
         debugPrint(matrix)

@@ -17,48 +17,56 @@ import Foundation
  - inserting and deleting is expensive
  - Deleting needs to move the old indeces to new position
 */
-struct FixedSizeArray<T> {
 
+/// Default size, and count is very very important to build the fixed size array.
+/// But the thing is the `order is not guarnteed` here.
+/// While removing, we gonna put the end index value to the removing and reducing the count.
+class FixedSizeArray<T>: CustomStringConvertible {
+    
     let maxSize: Int
     let defaultValue: T
     var array: [T]
-
+    
     /// - NOTE: as array.count always provides the max value,
     /// so we need additional counter to track how much data inserted.
     private var count: Int = 0
-
+    private var endIndex: Int { count - 1 }
+    
     init(max: Int, defaultValue: T) {
         self.maxSize = max
         self.defaultValue = defaultValue
         self.array = Array(repeating: defaultValue, count: max)
     }
-
-    mutating func append(item: T) {
+    
+    func append(_ item: T) {
         guard count < maxSize else {
-            debugPrint("array reached max size, new item can't be inserte")
+            print("array reached max size, new item can't be inserte")
             return
         }
-        self.count += 1
-        self.array.append(item)
+        array[count] = item
+        count += 1
     }
-
+    
     /// - NOTE: Won't maintian the index order.<##>
-    mutating func remove(at index: Int) -> T {
-        assert(index >= 0)
-        assert(index < count)
-        self.count -= 1 // works like total array count;
-
+    func remove(at index: Int) -> T {
+        precondition(index >= 0 && index < count)
+        
         let result = array[index]
-        array[index] = array[count] // moving the last element to remvoing index
-        array[count] = defaultValue // resettig the last index to deafult value
+        array[index] = array[endIndex] // moving the last element to remvoing index
+        array[endIndex] = defaultValue // resettig the last index to deafult value
+        count -= 1
         return result
     }
-
+    
     /// - NOTE: Resetting all index to the default value. <##>
-    mutating func removeAll() {
+    func removeAll() {
         for i in 0..<count {
             self.array[i] = defaultValue
         }
         count = 0
+    }
+    
+    var description: String {
+        "\(array)"
     }
 }

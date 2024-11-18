@@ -20,6 +20,10 @@ import Foundation
 
 extension LeetCode {
 
+    /// Use struct for both vertex and edges
+    /// Struct must be hashable, value inside the strcut should be hashable
+    /// AdjacentList (dict) where vertex and edges stored
+    /// All visiteds should be created for Vertex only.
     func runGraph() {
 
         let one: Vertex<Int> = .init(value: 1)
@@ -87,78 +91,88 @@ extension LeetCode {
 
         func add(vertex: Vertex<T>) {
             if adjacentList[vertex] == nil {
-                adjacentList[vertex] = []
+                adjacentList[vertex] = [] // empty edges.
             }
         }
 
         /// NOTE: Make sure source and destination vertext already added to the list
         /// Failing which can't map the edges to the vertex
         func addEdge(_ edge: Edge<T>) {
-            adjacentList[edge.source]?.insert(edge)
+            adjacentList[edge.source]?.insert(edge) // ** insert in the source edges
         }
 
         func addEdge(source: Vertex<T>, destination: Vertex<T>, weight: Double? = nil) {
             let edge: Edge<T> = .init(source: source, desitination: destination, weight: weight)
             adjacentList[source]?.insert(edge)
         }
-
+        
+        /// DFS explores as far down a branch as possible before backtracking to explore the next branch.
+        /// Step 1: We gonna play with the list.
         func dfs(_ vertex: Vertex<T>) -> [T] {
             var result = [T]()
-            var visiteds = Set<Vertex<T>>()
-            var stack = Stack<Vertex<T>>()
+            var visiteds = Set<Vertex<T>>() // to void revisits
+            
+            let stack = Stack<Vertex<T>>()
             stack.push(vertex)
 
             while !stack.isEmpty {
                 if let vertex = stack.pop(), !visiteds.contains(vertex) {
+                    ///
                     visiteds.insert(vertex)
                     result.append(vertex.value)
-                    // Neighbours
-                    if let edges = adjacentList[vertex] {
-                        for edge in edges where !visiteds.contains(edge.desitination) {
-                            stack.push(edge.desitination)
-                        }
+                    /// Edges
+                    let edges = adjacentList[vertex] ?? []
+                    for edge in edges where !visiteds.contains(edge.desitination) {
+                        stack.push(edge.desitination)
                     }
                 }
             }
             return result
         }
 
+        /// BFS explores all nodes at the `present depth level` before moving on to nodes at the next depth level.
+        /// Step 1: Use queue
         func bfs(_ vertex: Vertex<T>) -> [T] {
             var result = [T]()
             var visiteds = Set<Vertex<T>>()
+            
             var queue = [Vertex<T>]()
             queue.append(vertex)
 
             while !queue.isEmpty {
                 let vertex = queue.removeFirst()
                 if !visiteds.contains(vertex) {
+                    ///
                     visiteds.insert(vertex)
                     result.append(vertex.value)
-                    if let edges = adjacentList[vertex] {
-                        for edge in edges where !visiteds.contains(edge.desitination) {
-                            queue.append(edge.desitination)
-                        }
+                    /// Edges
+                    let edges = adjacentList[vertex] ?? []
+                    for edge in edges where !visiteds.contains(edge.desitination) {
+                        queue.append(edge.desitination)
                     }
                 }
             }
             return result
         }
 
-        /// NOTE: Need minimum priorty queue
-        /// As we are finding minimum spanning, we should work with edges and its weights
+        /// A Minimum Spanning Tree (MST) of a graph is a subset of the edges that connects all vertices in the graph `without any cycles` and
+        /// with the minimum possible `total edge weight`.
+        /// As we are finding minimum spanning, we should work with `edges and its weights`
+        /// Step 1: Priority Queue (edges)
+        /// Step 2: Edges for given vertex
         func mst(_ vertex: Vertex<T>) -> [Edge<T>] {
             var result = [Edge<T>]()
+            
             var visiteds = Set<Vertex<T>>()
-            var queue = PriorityQueue<Edge<T>>(.min) // Important
-
             visiteds.insert(vertex)
+            
+            let queue = PriorityQueue<Edge<T>>(.min) // ***
             let edges = adjacentList[vertex] ?? []
             edges.forEach { queue.enqueue($0) } // Enqueueing all the edges first.
 
             while !queue.isEmpty {
-                if let edge = queue.dequeue() {
+                if let edge = queue.dequeue(), !visiteds.contains(edge.desitination) {
                     ///
-                    if visiteds.contains(edge.desitination) { continue }
                     result.append(edge)
                     visiteds.insert(edge.desitination)
                     ///
@@ -174,16 +188,17 @@ extension LeetCode {
         /// - NOTE: A connected graph is one where all vertices are reachable from any other vertex.
         /// Kind of dfs traversal, visiting all the vertex.
         /// Eg: 1,2,3,4,5 (1 -> 2 -> 3 -> 4 - > 5 -> 1)
+        /// Idea is just to dfs
+        /// Step 1: Visited for count
         func isConnected(_ rootVertex: Vertex<T>? = nil) -> Bool {
             guard let vertex = rootVertex ?? adjacentList.first?.key else { return false }
 
             var visiteds = Set<Vertex<T>>()
-            var stack = Stack<Vertex<T>>()
+            let stack = Stack<Vertex<T>>()
             stack.push(vertex)
 
             while !stack.isEmpty {
-                if let vertex = stack.pop() {
-                    if visiteds.contains(vertex) { continue } /// Already visited
+                if let vertex = stack.pop(), !visiteds.contains(vertex) {
                     visiteds.insert(vertex)
                     let edges = adjacentList[vertex] ?? []
                     for edge in edges where !visiteds.contains(edge.desitination) {

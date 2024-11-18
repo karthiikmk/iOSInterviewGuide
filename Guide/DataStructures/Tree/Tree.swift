@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// A tree represents hierarchical relationships between objects. consists of nodes, and these nodes are linked to one another.
+/// A tree represents `hierarchical relationships` between objects. consists of nodes, and these nodes are linked to one another.
 ///
 /// Nodes: Each node in a tree contains some data and may have a reference to one or more child nodes.
 /// Root: The topmost node in a tree is called the root. It is the starting point for traversing the tree.

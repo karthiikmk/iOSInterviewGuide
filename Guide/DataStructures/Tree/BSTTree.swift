@@ -138,8 +138,9 @@ extension BinarySearchTree {
             node.left = insert(value: value, node: node.left)
         } else if value > node.value {
             node.right = insert(value: value, node: node.right)
-        } else if value == node.value {
+        } else {
             print("duplicate can't be inserted")
+            // ** we aren't returning anything here.
         }
         return node
     }
@@ -149,13 +150,12 @@ extension BinarySearchTree {
 extension BinarySearchTree {
     private func search(value: T, node: BinaryTreeNode<T>?) -> BinaryTreeNode<T>? {
         guard let node = node else { return nil }
-
-        if value < node.value {
+        if node.value == value {
+            return node
+        } else if value < node.value {
             return search(value: value, node: node.left)
-        } else if value > node.value {
-            return search(value: value, node: node.right)
         } else {
-            return node // found
+            return search(value: value, node: node.right)
         }
     }
 }
@@ -182,11 +182,11 @@ extension BinarySearchTree {
             } else {
                 // Case 3: Node has two children
                 let successor = findMin(node.right!)
-                node.value = successor.value
+                node.value = successor.value // still this holds both left and right. just updating the value
                 node.right = remove(value: successor.value, node: node.right)
             }
         }
-        return node
+        return node // ** important
     }
 
     private func findMin(_ node: BinaryTreeNode<T>) -> BinaryTreeNode<T> {

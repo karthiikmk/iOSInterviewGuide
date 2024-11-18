@@ -23,7 +23,7 @@ class MinStack {
         }
     }
 
-    var head: Node? = nil
+    var head: Node? = nil // root
 
     func push(_ val: Int) {
         if head == nil {

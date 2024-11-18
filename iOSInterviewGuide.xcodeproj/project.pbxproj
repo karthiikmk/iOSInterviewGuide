@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		250020682BBB24C400F64285 /* MinStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250020672BBB24C400F64285 /* MinStack.swift */; };
+		253A9F2D2CDD061100838A41 /* iOSQuestions+GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A9F2C2CDD061100838A41 /* iOSQuestions+GCD.swift */; };
 		2564A7E7257403C200C7065C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A7E6257403C200C7065C /* AppDelegate.swift */; };
 		2564A7E9257403C200C7065C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A7E8257403C200C7065C /* SceneDelegate.swift */; };
 		2564A7EB257403C200C7065C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A7EA257403C200C7065C /* ViewController.swift */; };
@@ -21,17 +22,21 @@
 		258C6E542BA0D825004DBB00 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E532BA0D825004DBB00 /* Stack.swift */; };
 		258C6E562BA0D886004DBB00 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E552BA0D886004DBB00 /* Queue.swift */; };
 		258C6E592BA0D9CD004DBB00 /* SingleLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E572BA0D9CD004DBB00 /* SingleLinkedList.swift */; };
-		258C6E5A2BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E582BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift */; };
 		258C6E5F2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E5E2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift */; };
 		258C6E612BA0E65A004DBB00 /* 2DArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E602BA0E65A004DBB00 /* 2DArray.swift */; };
-		258C6E672BA1A2D9004DBB00 /* QA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E662BA1A2D9004DBB00 /* QA.swift */; };
-		258C6E6A2BA1BA9A004DBB00 /* DesignPatterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E692BA1BA9A004DBB00 /* DesignPatterns.swift */; };
-		258C6E6C2BA1BABD004DBB00 /* RetainCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6B2BA1BABD004DBB00 /* RetainCycle.swift */; };
+		258C6E6A2BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E692BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift */; };
 		258C6E6E2BA1BE11004DBB00 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6D2BA1BE11004DBB00 /* Tree.swift */; };
 		258C6E702BA1CB81004DBB00 /* BSTTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */; };
+		259452F62CB5229500495031 /* iOSQuestions+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */; };
+		259452F82CB7E90500495031 /* Leetcode+DP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259452F72CB7E90500495031 /* Leetcode+DP.swift */; };
 		2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597D33B2C89BA9600DA9C07 /* LRUCache.swift */; };
 		2597D33F2C8C591200DA9C07 /* tree-terminology.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2597D33E2C8C591200DA9C07 /* tree-terminology.svg */; };
+		259AB43B2CB41394000A46FD /* SystemDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259AB43A2CB41394000A46FD /* SystemDesign.swift */; };
 		25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B714572C9C28880095BC70 /* Leetcode+Sort.swift */; };
+		25BA9FB12CDE5B5E008C425D /* iOSQuestions+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */; };
+		25C0105F2CEB0EB300015447 /* iOSQuestions+SOLID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C0105E2CEB0EB300015447 /* iOSQuestions+SOLID.swift */; };
+		25DA71762C9EFB1600F1150E /* MyPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DA71752C9EFB1600F1150E /* MyPlayground.swift */; };
+		25ED79432CA02AF5001A2347 /* iOSQuestions+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */; };
 		25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BE82BA46EF0008F7DF1 /* PriorityQueue.swift */; };
 		25EE9BEB2BA47498008F7DF1 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BEA2BA47498008F7DF1 /* AVLTree.swift */; };
 		25EE9BF12BA4D9D2008F7DF1 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BF02BA4D9D2008F7DF1 /* Graph.swift */; };
@@ -39,7 +44,6 @@
 		25EE9BFA2BA4EF1A008F7DF1 /* StackUsingLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BF92BA4EF1A008F7DF1 /* StackUsingLinkedList.swift */; };
 		25EE9BFC2BA4F040008F7DF1 /* QueueUsingLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BFB2BA4F040008F7DF1 /* QueueUsingLinkedList.swift */; };
 		25EE9C062BA7603C008F7DF1 /* Prims.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C052BA7603C008F7DF1 /* Prims.swift */; };
-		25EE9C542BA9EEB5008F7DF1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C532BA9EEB5008F7DF1 /* Array.swift */; };
 		25EE9C562BAB3619008F7DF1 /* LeetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C552BAB3619008F7DF1 /* LeetCode.swift */; };
 		25EE9C582BAB3765008F7DF1 /* ZeroMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C572BAB3765008F7DF1 /* ZeroMatrix.swift */; };
 		25EE9C5A2BACCC1D008F7DF1 /* Leetcode+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9C592BACCC1D008F7DF1 /* Leetcode+String.swift */; };
@@ -71,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		250020672BBB24C400F64285 /* MinStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinStack.swift; sourceTree = "<group>"; };
+		253A9F2C2CDD061100838A41 /* iOSQuestions+GCD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+GCD.swift"; sourceTree = "<group>"; };
 		2564A7E3257403C200C7065C /* iOSInterviewGuide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSInterviewGuide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2564A7E6257403C200C7065C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2564A7E8257403C200C7065C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,17 +95,21 @@
 		258C6E532BA0D825004DBB00 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		258C6E552BA0D886004DBB00 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		258C6E572BA0D9CD004DBB00 /* SingleLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleLinkedList.swift; sourceTree = "<group>"; };
-		258C6E582BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReverseSingleLinkedList.swift; sourceTree = "<group>"; };
 		258C6E5E2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueusingRingBuffer.swift; sourceTree = "<group>"; };
 		258C6E602BA0E65A004DBB00 /* 2DArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DArray.swift; sourceTree = "<group>"; };
-		258C6E662BA1A2D9004DBB00 /* QA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QA.swift; sourceTree = "<group>"; };
-		258C6E692BA1BA9A004DBB00 /* DesignPatterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignPatterns.swift; sourceTree = "<group>"; };
-		258C6E6B2BA1BABD004DBB00 /* RetainCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetainCycle.swift; sourceTree = "<group>"; };
+		258C6E692BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+DesignPattern.swift"; sourceTree = "<group>"; };
 		258C6E6D2BA1BE11004DBB00 /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSTTree.swift; sourceTree = "<group>"; };
+		259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+SwiftUI.swift"; sourceTree = "<group>"; };
+		259452F72CB7E90500495031 /* Leetcode+DP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+DP.swift"; sourceTree = "<group>"; };
 		2597D33B2C89BA9600DA9C07 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
 		2597D33E2C8C591200DA9C07 /* tree-terminology.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "tree-terminology.svg"; sourceTree = "<group>"; };
+		259AB43A2CB41394000A46FD /* SystemDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemDesign.swift; sourceTree = "<group>"; };
 		25B714572C9C28880095BC70 /* Leetcode+Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+Sort.swift"; sourceTree = "<group>"; };
+		25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+Combine.swift"; sourceTree = "<group>"; };
+		25C0105E2CEB0EB300015447 /* iOSQuestions+SOLID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+SOLID.swift"; sourceTree = "<group>"; };
+		25DA71752C9EFB1600F1150E /* MyPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlayground.swift; sourceTree = "<group>"; };
+		25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+Swift.swift"; sourceTree = "<group>"; wrapsLines = 0; };
 		25EE9BE82BA46EF0008F7DF1 /* PriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
 		25EE9BEA2BA47498008F7DF1 /* AVLTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVLTree.swift; sourceTree = "<group>"; };
 		25EE9BF02BA4D9D2008F7DF1 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
@@ -108,7 +117,6 @@
 		25EE9BF92BA4EF1A008F7DF1 /* StackUsingLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackUsingLinkedList.swift; sourceTree = "<group>"; };
 		25EE9BFB2BA4F040008F7DF1 /* QueueUsingLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueUsingLinkedList.swift; sourceTree = "<group>"; };
 		25EE9C052BA7603C008F7DF1 /* Prims.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prims.swift; sourceTree = "<group>"; };
-		25EE9C532BA9EEB5008F7DF1 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		25EE9C552BAB3619008F7DF1 /* LeetCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeetCode.swift; sourceTree = "<group>"; };
 		25EE9C572BAB3765008F7DF1 /* ZeroMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroMatrix.swift; sourceTree = "<group>"; };
 		25EE9C592BACCC1D008F7DF1 /* Leetcode+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+String.swift"; sourceTree = "<group>"; };
@@ -169,8 +177,11 @@
 		2564A7E5257403C200C7065C /* Guide */ = {
 			isa = PBXGroup;
 			children = (
+				25DA71752C9EFB1600F1150E /* MyPlayground.swift */,
 				25EE9C6D2BB1C552008F7DF1 /* Documentation.docc */,
 				258C6E4F2BA0CCC1004DBB00 /* Main */,
+				25ED79412CA02AE8001A2347 /* iOS */,
+				259AB4392CB41380000A46FD /* SystemDesign */,
 				258C6E4C2BA0CC88004DBB00 /* DataStructures */,
 				258C6E5B2BA0DB19004DBB00 /* Problems */,
 			);
@@ -217,7 +228,6 @@
 				2564A7E8257403C200C7065C /* SceneDelegate.swift */,
 				2564A7E6257403C200C7065C /* AppDelegate.swift */,
 				2564A7EA257403C200C7065C /* ViewController.swift */,
-				25EE9C692BB1BCD7008F7DF1 /* YTD */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -226,33 +236,17 @@
 			isa = PBXGroup;
 			children = (
 				25EE9C552BAB3619008F7DF1 /* LeetCode.swift */,
-				25EE9C672BB08B1A008F7DF1 /* LeetCode+Recurssion.swift */,
 				25EE9C592BACCC1D008F7DF1 /* Leetcode+String.swift */,
+				25EE9C672BB08B1A008F7DF1 /* LeetCode+Recurssion.swift */,
 				25EE9C5B2BACCC24008F7DF1 /* Leetcode+Array.swift */,
 				25EE9C5F2BAE1B15008F7DF1 /* Leetcode+LinkedList.swift */,
 				25EE9C612BAE2537008F7DF1 /* Leetcode+Tree.swift */,
 				25EE9C632BAF0D7C008F7DF1 /* Leedcode+Graph.swift */,
 				25B714572C9C28880095BC70 /* Leetcode+Sort.swift */,
+				259452F72CB7E90500495031 /* Leetcode+DP.swift */,
 				257FDA4F2C9B57210055C14B /* Leetcode+Ext.swift */,
 			);
 			path = Problems;
-			sourceTree = "<group>";
-		};
-		258C6E652BA1A2C1004DBB00 /* QA */ = {
-			isa = PBXGroup;
-			children = (
-				258C6E662BA1A2D9004DBB00 /* QA.swift */,
-				258C6E6B2BA1BABD004DBB00 /* RetainCycle.swift */,
-			);
-			path = QA;
-			sourceTree = "<group>";
-		};
-		258C6E682BA1BA8C004DBB00 /* DesignPatterns */ = {
-			isa = PBXGroup;
-			children = (
-				258C6E692BA1BA9A004DBB00 /* DesignPatterns.swift */,
-			);
-			path = DesignPatterns;
 			sourceTree = "<group>";
 		};
 		2597D33D2C8C58F400DA9C07 /* Resources */ = {
@@ -261,6 +255,27 @@
 				2597D33E2C8C591200DA9C07 /* tree-terminology.svg */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		259AB4392CB41380000A46FD /* SystemDesign */ = {
+			isa = PBXGroup;
+			children = (
+				259AB43A2CB41394000A46FD /* SystemDesign.swift */,
+			);
+			path = SystemDesign;
+			sourceTree = "<group>";
+		};
+		25ED79412CA02AE8001A2347 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */,
+				25C0105E2CEB0EB300015447 /* iOSQuestions+SOLID.swift */,
+				258C6E692BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift */,
+				253A9F2C2CDD061100838A41 /* iOSQuestions+GCD.swift */,
+				259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */,
+				25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */,
+			);
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		25EE9BEE2BA4D051008F7DF1 /* Tree */ = {
@@ -287,7 +302,6 @@
 		25EE9BF42BA4EE21008F7DF1 /* Array */ = {
 			isa = PBXGroup;
 			children = (
-				25EE9C532BA9EEB5008F7DF1 /* Array.swift */,
 				258C6E512BA0CF4D004DBB00 /* OrderedArray.swift */,
 				25EE9BF22BA4ECAE008F7DF1 /* OrderedArrayUsingBS.swift */,
 				258C6E4D2BA0CC9C004DBB00 /* FixedSizeArray.swift */,
@@ -321,20 +335,10 @@
 		25EE9BFD2BA4F0C8008F7DF1 /* LinkedList */ = {
 			isa = PBXGroup;
 			children = (
-				258C6E582BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift */,
 				258C6E572BA0D9CD004DBB00 /* SingleLinkedList.swift */,
 				2597D33B2C89BA9600DA9C07 /* LRUCache.swift */,
 			);
 			path = LinkedList;
-			sourceTree = "<group>";
-		};
-		25EE9C692BB1BCD7008F7DF1 /* YTD */ = {
-			isa = PBXGroup;
-			children = (
-				258C6E682BA1BA8C004DBB00 /* DesignPatterns */,
-				258C6E652BA1A2C1004DBB00 /* QA */,
-			);
-			path = YTD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -399,8 +403,9 @@
 		2564A7DB257403C200C7065C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1220;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					2564A7E2257403C200C7065C = {
 						CreatedOnToolsVersion = 12.2;
@@ -471,40 +476,44 @@
 				25EE9BEB2BA47498008F7DF1 /* AVLTree.swift in Sources */,
 				258C6E592BA0D9CD004DBB00 /* SingleLinkedList.swift in Sources */,
 				2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */,
+				25BA9FB12CDE5B5E008C425D /* iOSQuestions+Combine.swift in Sources */,
 				258C6E562BA0D886004DBB00 /* Queue.swift in Sources */,
 				258C6E522BA0CF4D004DBB00 /* OrderedArray.swift in Sources */,
 				25EE9BF12BA4D9D2008F7DF1 /* Graph.swift in Sources */,
 				25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */,
-				25EE9C542BA9EEB5008F7DF1 /* Array.swift in Sources */,
 				2564A7EB257403C200C7065C /* ViewController.swift in Sources */,
-				258C6E672BA1A2D9004DBB00 /* QA.swift in Sources */,
+				25ED79432CA02AF5001A2347 /* iOSQuestions+Swift.swift in Sources */,
 				258C6E612BA0E65A004DBB00 /* 2DArray.swift in Sources */,
 				25EE9C602BAE1B15008F7DF1 /* Leetcode+LinkedList.swift in Sources */,
 				2564A7E7257403C200C7065C /* AppDelegate.swift in Sources */,
+				259AB43B2CB41394000A46FD /* SystemDesign.swift in Sources */,
 				25EE9BFC2BA4F040008F7DF1 /* QueueUsingLinkedList.swift in Sources */,
 				25EE9C6E2BB1C552008F7DF1 /* Documentation.docc in Sources */,
 				25EE9BFA2BA4EF1A008F7DF1 /* StackUsingLinkedList.swift in Sources */,
 				258C6E702BA1CB81004DBB00 /* BSTTree.swift in Sources */,
 				25EE9C682BB08B1A008F7DF1 /* LeetCode+Recurssion.swift in Sources */,
-				258C6E5A2BA0D9CD004DBB00 /* ReverseSingleLinkedList.swift in Sources */,
 				257FDA502C9B57210055C14B /* Leetcode+Ext.swift in Sources */,
 				25F461B92BA31D4B008D8C4E /* Heap.swift in Sources */,
 				25EE9BF32BA4ECAE008F7DF1 /* OrderedArrayUsingBS.swift in Sources */,
 				25EE9C622BAE2537008F7DF1 /* Leetcode+Tree.swift in Sources */,
+				25DA71762C9EFB1600F1150E /* MyPlayground.swift in Sources */,
+				259452F62CB5229500495031 /* iOSQuestions+SwiftUI.swift in Sources */,
 				25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */,
 				2564A7E9257403C200C7065C /* SceneDelegate.swift in Sources */,
 				258C6E5F2BA0DFBE004DBB00 /* QueueusingRingBuffer.swift in Sources */,
 				25EE9C582BAB3765008F7DF1 /* ZeroMatrix.swift in Sources */,
 				250020682BBB24C400F64285 /* MinStack.swift in Sources */,
+				259452F82CB7E90500495031 /* Leetcode+DP.swift in Sources */,
+				253A9F2D2CDD061100838A41 /* iOSQuestions+GCD.swift in Sources */,
 				25EE9C642BAF0D7C008F7DF1 /* Leedcode+Graph.swift in Sources */,
 				25EE9C5A2BACCC1D008F7DF1 /* Leetcode+String.swift in Sources */,
-				258C6E6A2BA1BA9A004DBB00 /* DesignPatterns.swift in Sources */,
+				25C0105F2CEB0EB300015447 /* iOSQuestions+SOLID.swift in Sources */,
+				258C6E6A2BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift in Sources */,
 				25EE9C5C2BACCC24008F7DF1 /* Leetcode+Array.swift in Sources */,
 				258C6E4E2BA0CC9C004DBB00 /* FixedSizeArray.swift in Sources */,
 				258C6E542BA0D825004DBB00 /* Stack.swift in Sources */,
 				258C6E6E2BA1BE11004DBB00 /* Tree.swift in Sources */,
 				25EE9C562BAB3619008F7DF1 /* LeetCode.swift in Sources */,
-				258C6E6C2BA1BABD004DBB00 /* RetainCycle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +605,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -657,6 +667,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -680,7 +691,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Guide/Main/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -689,6 +701,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.full.algorithms.Algorithms;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -702,7 +715,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Guide/Main/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -711,6 +725,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.full.algorithms.Algorithms;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -722,7 +737,6 @@
 		2564A811257403C300C7065C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = AlgorithmsTests/Info.plist;
@@ -743,7 +757,6 @@
 		2564A812257403C300C7065C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = AlgorithmsTests/Info.plist;
@@ -764,7 +777,6 @@
 		2564A814257403C300C7065C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = AlgorithmsUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -783,7 +795,6 @@
 		2564A815257403C300C7065C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = AlgorithmsUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
