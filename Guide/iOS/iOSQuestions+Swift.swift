@@ -121,13 +121,6 @@ import Foundation
  - Reqularly updating the app 3rd party frameworks to reduce the security vulnerabilities
  - Properly following guidelines like GDPR, HIPPA for data handling
  
- Design Pattern
- - Singleton - A design pattern which ensures only one instace exists for a given class.
- when needed for the first time, it generally uses lazy loading to create a single instace.
- - Adapter - A design patterh which allows objects with incompatible interfaces to work togeather.
- it acts as a bridge or a wrapper between two exisiting interfaces, converting the interface of one object into another interface that client expect.
- 
- 
  Cost Control
  - improve the app performance inorder to increase the customer base
  - rate limiter

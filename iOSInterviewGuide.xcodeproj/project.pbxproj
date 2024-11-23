@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		250020682BBB24C400F64285 /* MinStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250020672BBB24C400F64285 /* MinStack.swift */; };
+		25217B642CEF044400A17E99 /* SD+BMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25217B632CEF044400A17E99 /* SD+BMS.swift */; };
+		25217B662CEF0FDE00A17E99 /* SD+UPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25217B652CEF0FDE00A17E99 /* SD+UPI.swift */; };
 		253A9F2D2CDD061100838A41 /* iOSQuestions+GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A9F2C2CDD061100838A41 /* iOSQuestions+GCD.swift */; };
 		2564A7E7257403C200C7065C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A7E6257403C200C7065C /* AppDelegate.swift */; };
 		2564A7E9257403C200C7065C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2564A7E8257403C200C7065C /* SceneDelegate.swift */; };
@@ -31,11 +33,16 @@
 		259452F82CB7E90500495031 /* Leetcode+DP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259452F72CB7E90500495031 /* Leetcode+DP.swift */; };
 		2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597D33B2C89BA9600DA9C07 /* LRUCache.swift */; };
 		2597D33F2C8C591200DA9C07 /* tree-terminology.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2597D33E2C8C591200DA9C07 /* tree-terminology.svg */; };
+		25998C872CF07CEA002C615E /* SD+URLShortner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25998C862CF07CEA002C615E /* SD+URLShortner.swift */; };
+		25998C892CF0AB48002C615E /* SD+Messaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25998C882CF0AB48002C615E /* SD+Messaging.swift */; };
 		259AB43B2CB41394000A46FD /* SystemDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259AB43A2CB41394000A46FD /* SystemDesign.swift */; };
 		25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B714572C9C28880095BC70 /* Leetcode+Sort.swift */; };
 		25BA9FB12CDE5B5E008C425D /* iOSQuestions+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */; };
 		25C0105F2CEB0EB300015447 /* iOSQuestions+SOLID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C0105E2CEB0EB300015447 /* iOSQuestions+SOLID.swift */; };
 		25DA71762C9EFB1600F1150E /* MyPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DA71752C9EFB1600F1150E /* MyPlayground.swift */; };
+		25DD93342CF0DC03000906FA /* SD+EComm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD93332CF0DC03000906FA /* SD+EComm.swift */; };
+		25DD93362CF0F2E4000906FA /* SD+SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD93352CF0F2E4000906FA /* SD+SocialMedia.swift */; };
+		25DD93382CF1AC72000906FA /* DS+ParkingLot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD93372CF1AC72000906FA /* DS+ParkingLot.swift */; };
 		25ED79432CA02AF5001A2347 /* iOSQuestions+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */; };
 		25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BE82BA46EF0008F7DF1 /* PriorityQueue.swift */; };
 		25EE9BEB2BA47498008F7DF1 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE9BEA2BA47498008F7DF1 /* AVLTree.swift */; };
@@ -75,6 +82,8 @@
 
 /* Begin PBXFileReference section */
 		250020672BBB24C400F64285 /* MinStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinStack.swift; sourceTree = "<group>"; };
+		25217B632CEF044400A17E99 /* SD+BMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SD+BMS.swift"; sourceTree = "<group>"; };
+		25217B652CEF0FDE00A17E99 /* SD+UPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SD+UPI.swift"; sourceTree = "<group>"; };
 		253A9F2C2CDD061100838A41 /* iOSQuestions+GCD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+GCD.swift"; sourceTree = "<group>"; };
 		2564A7E3257403C200C7065C /* iOSInterviewGuide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSInterviewGuide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2564A7E6257403C200C7065C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,11 +113,16 @@
 		259452F72CB7E90500495031 /* Leetcode+DP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+DP.swift"; sourceTree = "<group>"; };
 		2597D33B2C89BA9600DA9C07 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
 		2597D33E2C8C591200DA9C07 /* tree-terminology.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "tree-terminology.svg"; sourceTree = "<group>"; };
+		25998C862CF07CEA002C615E /* SD+URLShortner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SD+URLShortner.swift"; sourceTree = "<group>"; };
+		25998C882CF0AB48002C615E /* SD+Messaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SD+Messaging.swift"; sourceTree = "<group>"; };
 		259AB43A2CB41394000A46FD /* SystemDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemDesign.swift; sourceTree = "<group>"; };
 		25B714572C9C28880095BC70 /* Leetcode+Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+Sort.swift"; sourceTree = "<group>"; };
 		25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+Combine.swift"; sourceTree = "<group>"; };
 		25C0105E2CEB0EB300015447 /* iOSQuestions+SOLID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+SOLID.swift"; sourceTree = "<group>"; };
 		25DA71752C9EFB1600F1150E /* MyPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlayground.swift; sourceTree = "<group>"; };
+		25DD93332CF0DC03000906FA /* SD+EComm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SD+EComm.swift"; sourceTree = "<group>"; };
+		25DD93352CF0F2E4000906FA /* SD+SocialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SD+SocialMedia.swift"; sourceTree = "<group>"; };
+		25DD93372CF1AC72000906FA /* DS+ParkingLot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DS+ParkingLot.swift"; sourceTree = "<group>"; };
 		25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+Swift.swift"; sourceTree = "<group>"; wrapsLines = 0; };
 		25EE9BE82BA46EF0008F7DF1 /* PriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
 		25EE9BEA2BA47498008F7DF1 /* AVLTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVLTree.swift; sourceTree = "<group>"; };
@@ -261,6 +275,13 @@
 			isa = PBXGroup;
 			children = (
 				259AB43A2CB41394000A46FD /* SystemDesign.swift */,
+				25998C862CF07CEA002C615E /* SD+URLShortner.swift */,
+				25217B652CEF0FDE00A17E99 /* SD+UPI.swift */,
+				25998C882CF0AB48002C615E /* SD+Messaging.swift */,
+				25217B632CEF044400A17E99 /* SD+BMS.swift */,
+				25DD93332CF0DC03000906FA /* SD+EComm.swift */,
+				25DD93352CF0F2E4000906FA /* SD+SocialMedia.swift */,
+				25DD93372CF1AC72000906FA /* DS+ParkingLot.swift */,
 			);
 			path = SystemDesign;
 			sourceTree = "<group>";
@@ -269,9 +290,9 @@
 			isa = PBXGroup;
 			children = (
 				25ED79422CA02AF5001A2347 /* iOSQuestions+Swift.swift */,
+				253A9F2C2CDD061100838A41 /* iOSQuestions+GCD.swift */,
 				25C0105E2CEB0EB300015447 /* iOSQuestions+SOLID.swift */,
 				258C6E692BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift */,
-				253A9F2C2CDD061100838A41 /* iOSQuestions+GCD.swift */,
 				259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */,
 				25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */,
 			);
@@ -476,9 +497,12 @@
 				25EE9BEB2BA47498008F7DF1 /* AVLTree.swift in Sources */,
 				258C6E592BA0D9CD004DBB00 /* SingleLinkedList.swift in Sources */,
 				2597D33C2C89BA9600DA9C07 /* LRUCache.swift in Sources */,
+				25998C872CF07CEA002C615E /* SD+URLShortner.swift in Sources */,
+				25998C892CF0AB48002C615E /* SD+Messaging.swift in Sources */,
 				25BA9FB12CDE5B5E008C425D /* iOSQuestions+Combine.swift in Sources */,
 				258C6E562BA0D886004DBB00 /* Queue.swift in Sources */,
 				258C6E522BA0CF4D004DBB00 /* OrderedArray.swift in Sources */,
+				25217B642CEF044400A17E99 /* SD+BMS.swift in Sources */,
 				25EE9BF12BA4D9D2008F7DF1 /* Graph.swift in Sources */,
 				25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */,
 				2564A7EB257403C200C7065C /* ViewController.swift in Sources */,
@@ -497,6 +521,7 @@
 				25EE9BF32BA4ECAE008F7DF1 /* OrderedArrayUsingBS.swift in Sources */,
 				25EE9C622BAE2537008F7DF1 /* Leetcode+Tree.swift in Sources */,
 				25DA71762C9EFB1600F1150E /* MyPlayground.swift in Sources */,
+				25DD93342CF0DC03000906FA /* SD+EComm.swift in Sources */,
 				259452F62CB5229500495031 /* iOSQuestions+SwiftUI.swift in Sources */,
 				25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */,
 				2564A7E9257403C200C7065C /* SceneDelegate.swift in Sources */,
@@ -504,6 +529,8 @@
 				25EE9C582BAB3765008F7DF1 /* ZeroMatrix.swift in Sources */,
 				250020682BBB24C400F64285 /* MinStack.swift in Sources */,
 				259452F82CB7E90500495031 /* Leetcode+DP.swift in Sources */,
+				25217B662CEF0FDE00A17E99 /* SD+UPI.swift in Sources */,
+				25DD93382CF1AC72000906FA /* DS+ParkingLot.swift in Sources */,
 				253A9F2D2CDD061100838A41 /* iOSQuestions+GCD.swift in Sources */,
 				25EE9C642BAF0D7C008F7DF1 /* Leedcode+Graph.swift in Sources */,
 				25EE9C5A2BACCC1D008F7DF1 /* Leetcode+String.swift in Sources */,
@@ -511,6 +538,7 @@
 				258C6E6A2BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift in Sources */,
 				25EE9C5C2BACCC24008F7DF1 /* Leetcode+Array.swift in Sources */,
 				258C6E4E2BA0CC9C004DBB00 /* FixedSizeArray.swift in Sources */,
+				25DD93362CF0F2E4000906FA /* SD+SocialMedia.swift in Sources */,
 				258C6E542BA0D825004DBB00 /* Stack.swift in Sources */,
 				258C6E6E2BA1BE11004DBB00 /* Tree.swift in Sources */,
 				25EE9C562BAB3619008F7DF1 /* LeetCode.swift in Sources */,
