@@ -127,7 +127,6 @@ import Foundation
  - Adapter - A design patterh which allows objects with incompatible interfaces to work togeather.
  it acts as a bridge or a wrapper between two exisiting interfaces, converting the interface of one object into another interface that client expect.
  
- 
  Cost Control
  - improve the app performance inorder to increase the customer base
  - rate limiter

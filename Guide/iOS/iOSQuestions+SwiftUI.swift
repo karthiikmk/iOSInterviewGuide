@@ -77,8 +77,7 @@ import SwiftUI
  - Using SwiftUI Previews:
  - Print Statements and Debugging Logs
  - Xcode’s View Debugger to inspect the view hierarchy during runtime.
- 
- 
+
  Perfromance:
  How do you identify performance issue in SwiftUI app
  - TimeProfiler, CoreAniation and Leaks
@@ -87,6 +86,20 @@ import SwiftUI
  - Redraws and layout updates - SwiftUI’s declarative nature might trigger unnecessary redraws or layout updates.
  - Reduce View Updates: Use @State, @Binding, or @StateObject sparingly and only when necessary. Leverage EquatableView or id() for preventing unnecessary view updates. 
 */
+
+/// `@Environment` - Accesses system-defined (ColorScheme, Locale) or custom values provided by the environment.
+/// Read-only. You cannot mutate a value accessed through @Environment. but we can override the object.
+/// Eg: @Environment(\.colorScheme) var colorScheme
+
+/// `@EnvironmentObject` - Used to pass a shared, mutable reference to an observable object down the view hierarchy.
+/// Mutable. If the underlying ObservableObject changes, it notifies all views that depend on it.
+
+/// `@ObservedObject` which confirms observerable object protcol, enables the view to update on changes
+
+/// `StateObject vs ObservableObject`:
+/// - both used to manage and propogate changes to the view on data changes.
+/// - @ObservedObject is used to observe an external object, where the view does not own the object but reacts to changes.
+/// - @StateObject is used when a view owns and manages the lifecycle of an object. SwiftUI will create, initialize, and manage the object’s lifecycle based on the view’s lifecycle.
 
 // Instead of struct, keeping it as class.
 class Item: Identifiable, ObservableObject {

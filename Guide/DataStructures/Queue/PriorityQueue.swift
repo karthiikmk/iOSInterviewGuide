@@ -33,6 +33,11 @@ class PriorityQueue<T: Comparable> {
         array.append(item)
         heapify()
     }
+    
+    func enqueue(items: [T]) {
+        items.forEach { array.append($0) }
+        heapify()
+    }
 
     func dequeue() -> T? {
         return (array.isEmpty) ? nil : array.removeFirst()
