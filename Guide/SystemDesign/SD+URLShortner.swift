@@ -91,7 +91,7 @@ extension URLShortner {
         /// Redirect to original url for the given shortUrl
         func redirectToOriginal(for shortUrl: String) {
             incrementHitCount(for: shortUrl)
-            guard let orignalUrl = getOriginalUrl(for: shortUrl) else { return }
+            guard getOriginalUrl(for: shortUrl) != nil else { return }
         }
         
         // - MARK: Privates

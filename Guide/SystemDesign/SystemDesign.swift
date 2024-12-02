@@ -190,7 +190,7 @@ import Foundation
 /// Design a video streaming service like YouTube or Netflix.
 /// Design a ride-hailing service like Uber or Lyft.
 /// File Storage System: Design a global file storage and sharing service like Dropbox or Google Drive.
-=======
+
 /*
  The key to answering system design interview questions is understanding the big picture of how your system works.
  

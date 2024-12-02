@@ -90,34 +90,6 @@ extension LeetCode {
         return array
     }
     
-    /// Eg: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    /// Output: [3, 2, 1, 6, 5, 4, 9, 8, 7]
-    ///
-    /// Offset is kind of count, so we should be converting that to index.
-    func reverse(array: inout [Int], by offset: Int) {
-        
-        func rotate(_ array: inout [Int], _ start: Int, _ end: Int) {
-            var startIndex = start
-            var endIndex = end
-            while startIndex < endIndex {
-                array.swapAt(start, end)
-                startIndex += 1
-                endIndex -= 1
-            }
-        }
-        
-        var startIndex = 0
-        let endIndex = array.count-1
-        
-        while startIndex < array.count { // iterate upto the last number
-            let start = startIndex
-            let end = min((startIndex+offset-1), endIndex) // to avoid index outofbounds
-            rotate(&array, start, end)
-            startIndex += offset // increasing by offset
-        }
-        print("Reversed array by offset: \(offset) - \(array)")
-    }
-
     // let d = 3 // index
     // let arr = [1, 2, 3, 4, 5]
     func rotateLeft(arr: [Int], d: Int) -> [Int] {
@@ -1093,7 +1065,7 @@ extension LeetCode {
         
         var left = 0
         var right = 0
-        var subArrayStartIndex: Int = 0
+        // var subArrayStartIndex: Int = 0
         
         /// Iterate the initial window size
         while right < k {
@@ -1130,56 +1102,5 @@ extension LeetCode {
             result += result.map { $0 + [num] }
         }
         return result
-    }
-}
-
-// - MARK: Subsequence
-extension LeetCode {
- 
-    /// NOTE: A subset is any selection of elements from the array.
-    /// The elements of a subset do not need to be contiguous.
-    func subsets(_ nums: [Int]) -> [[Int]] {
-        var result = [[Int]]()
-        result.append([])
-        
-        for num in nums {
-            result += result.map { $0 + [num] }
-        }
-        return result
-    }
-    
-    /// NOTE: longest consecutive sequence
-    /// We need to find consequitve number, but it `doesn't need` to be in sequence
-    /// Eg: [100, 4, 200, 1, 3, 2], Op: [1,2,3,4]
-    /// Idea is take the number, and check if that is fresh start,
-    /// then check the number set for the consective numbers using counter.
-    /// if there is previous number then its not fresh start.
-    func longestConsecutiveSubsequence(_ nums: [Int]) -> [Int] {
-        
-        var maxLength: Int = Int.min
-        var sequence = [Int]()
-        let numberSet = Set(nums)
-        var index = 0
-        
-        while index < nums.count {
-            let number = nums[index]
-            /// Looking for the fresh start.
-            if !numberSet.contains(number-1) {
-                var runningNumber = number
-                var length = 1
-                
-                while numberSet.contains(runningNumber+1) {
-                    length += 1
-                    runningNumber += 1
-                }
-                if length > maxLength {
-                    maxLength = length
-                    sequence = Array(number...runningNumber) // ** creating sequence using `running number` not with lenght.
-                }
-            }
-            /// Next loop
-            index += 1
-        }
-        return sequence
     }
 }
