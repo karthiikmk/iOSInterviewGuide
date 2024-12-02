@@ -31,8 +31,16 @@ import SwiftUI
  - Used to pass a @State variable to child views. Allows a child view to mutate a state owned by a parent view.
  - Must not be private
  
+ @ObservedObject which confirms observerable object protcol, enables the view to update on changes
+ 
+ @EnvironmentObject - similar to observed object but for passing an observable object deep into the view hierarchy
  without manually passing it down.
  - Shared state management, object propagation, and automatic update propogation.
+ 
+ Difference between StateObject and ObservableObject:
+ - both used to manage and propogate changes to the view on data changes.
+ - @ObservedObject is used to observe an external object, where the view does not own the object but reacts to changes.
+ - @StateObject is used when a view owns and manages the lifecycle of an object. SwiftUI will create, initialize, and manage the object’s lifecycle based on the view’s lifecycle.
  
  Views: SwiftUI views are the building blocks of your UI. Each view in SwiftUI is a struct conforming to the View protocol.
  Modifiers - Views are immutable, so you apply modifiers (like .padding(), .font()) to change a view’s properties or layout.

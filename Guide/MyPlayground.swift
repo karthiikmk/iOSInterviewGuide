@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /*
  Given a string s and a character c that occurs in s,
  return an array of integers answer where answer.length == s.length and
