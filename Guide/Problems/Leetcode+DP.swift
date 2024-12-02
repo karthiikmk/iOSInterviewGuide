@@ -29,8 +29,8 @@ extension LeetCode {
      Diagnal Iteration
      We need a difference to iterate and fill the dp table diagnolly.
      
-     for diff in 0..<5 {
-        for i in 0..<(5-diff) {
+     for diff in 0..<n {
+        for i in 0..<(n-diff) {
             let j = i+diff
             print("(\(i), \(j))")
         }
@@ -50,10 +50,11 @@ extension LeetCode {
 
         /// using diff, we can easily iterate diagnally
         /// if diff == 1, then its 2 chars check.
-        for diff in 0..<n {
-            for i in 0..<(n-diff) {
+        for diff in 0..<n { // 0, 1, 2, 3, 4
+            for i in 0..<(n-diff) { // 0, 1, 2, 3, 4
                 let j = i+diff
                 
+                /// array: aabaa
                 if i == j { // single char is valid palindrome
                     dp[i][j] = 1
                 } else if diff == 1 { // for 2 chars
@@ -247,39 +248,6 @@ extension LeetCode {
         return dp[m][n]
     }
     
-    /// https://leetcode.com/problems/longest-increasing-subsequence/
-    /// Input: nums = [10,9,2,5,3,7,101,18]
-    /// Output: 4
-    func lengthOfLongestIncreasingSequence(_ nums: [Int]) -> Int {
-        
-        var dp = Array(repeating: 1, count: nums.count) // DP array to store the length of LIS at each index
-        var idx = Array(repeating: -1, count: nums.count) // To track the indices of the previous element in the subsequence
-        
-        for i in 1..<nums.count {
-            for j in 0..<i {
-                if nums[i] > nums[j] {
-                    if (dp[j] + 1) >= dp[i] {
-                        dp[i] = dp[j] + 1
-                        idx[i] = j // if we use max, then this will create ovverriden problem
-                    }
-                }
-            }
-        }
-        /// Calculating the sequence.
-        var index = nums.count-1
-        var result = [Int]()
-        
-        while index != -1 {
-            let prevIndex = idx[index]
-            let value = nums[index]
-            result.append(value)
-            index = prevIndex
-        }
-        print("idx: \(idx)")
-        print("subseq: \(Array(result.reversed()))")
-        return dp.max() ?? 1
-    }
-    
     /// Check if any subsequence has the given target
     /// Topics: Dynamic programming
     func isSubsetSum(_ array: [Int], _ target: Int) -> Bool {
@@ -318,39 +286,104 @@ extension LeetCode {
         /// the maximum sum we can achieve by including that index in a subarray ending there
         var dp = Array(repeating: 0, count: array.count)
         dp[0] = array[0]
-        var maxSum: Int = array[0]
         
-        var tempStart = 0
+        var maxSum: Int = array[0]
         var start = 0
-        var end = 0
         
         /// tempStart only marks the beginning of a potential maximum subarray.
         /// We only set start to tempStart when we actually find a new maximum sum.
-        for i in 1..<array.count {
-            
+        for index in 1..<array.count {
             /// Old method.
             /// dp[i] = max(dp[i-1]+array[i], array[i])
             /// maxSum = max(maxSum, dp[i])
-            let currentValue = array[i]
-            let previousSum = dp[i-1]
+            let currentValue = array[index]
+            let previousSum = dp[index-1]
             
             if currentValue > previousSum+currentValue { /// fresh start
-                dp[i] = currentValue
-                tempStart = i
+                dp[index] = currentValue
+                start = index
             } else {
-                dp[i] = previousSum+currentValue
+                dp[index] = previousSum+currentValue
             }
         
             /// Here is what the subarray is expanding
-            if dp[i] > maxSum {
-                maxSum = dp[i]
-                start = tempStart
-                end = i
+            if dp[index] > maxSum {
+                maxSum = dp[index]
+                print("subArray: \(array[start...index])")
             }
         }
-        
-        let subarray = array[start...end]
-        print("subarray: \(subarray)")
         print("maxsum: \(maxSum)")
+    }
+}
+
+extension LeetCode {
+    
+    /// NOTE: longest consecutive sequence
+    /// We need to find consequitve number, but it `doesn't need` to be in sequence
+    /// Eg: [100, 4, 200, 1, 3, 2], Op: [1,2,3,4]
+    /// Idea is take the number, and check if that is fresh start,
+    /// then check the number set for the consective numbers using counter.
+    /// if there is previous number then its not fresh start.
+    func longestConsecutiveSubsequence(_ nums: [Int]) -> [Int] {
+        
+        var maxLength: Int = Int.min
+        var sequence = [Int]()
+        let numberSet = Set(nums)
+        var index = 0
+        
+        while index < nums.count {
+            let number = nums[index]
+            /// Looking for the fresh start.
+            if !numberSet.contains(number-1) {
+                
+                var runningNumber = number // why becoz we cant say its always 1. it can be any number, from there the sequence.
+                var length = 1
+                while numberSet.contains(runningNumber+1) {
+                    length += 1
+                    runningNumber += 1
+                }
+                
+                if length > maxLength {
+                    maxLength = length
+                    sequence = Array(number...runningNumber) // ** creating sequence using `running number` not with lenght.
+                }
+            }
+            /// Next loop
+            index += 1
+        }
+        return sequence
+    }
+    
+    /// https://leetcode.com/problems/longest-increasing-subsequence/
+    /// Input: nums = [10,9,2,5,3,7,101,18]
+    /// Output: 4
+    func lengthOfLongestIncreasingSequence(_ nums: [Int]) -> Int {
+        
+        var dp = Array(repeating: 1, count: nums.count) // DP array to store the length of LIS at each index
+        var idx = Array(repeating: -1, count: nums.count) // To track the indices of the previous element in the subsequence
+        
+        for i in 1..<nums.count {
+            for j in 0..<i {
+                if nums[i] > nums[j] {
+                    if (dp[j] + 1) >= dp[i] {
+                        dp[i] = dp[j] + 1
+                        idx[i] = j // if we use max, then this will create ovverriden problem
+                    }
+                }
+            }
+        }
+        /// Calculating the sequence.
+        var index = nums.count-1
+        var result = [Int]()
+        
+        while index != -1 {
+            let prevIndex = idx[index]
+            let value = nums[index]
+            result.append(value)
+            index = prevIndex
+        }
+        print("idx: \(idx)")
+        print("subseq: \(Array(result.reversed()))")
+        return dp.max() ?? 1
     }
 }

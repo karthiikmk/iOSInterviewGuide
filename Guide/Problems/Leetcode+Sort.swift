@@ -25,12 +25,12 @@ extension LeetCode {
 extension LeetCode {
     
     /// NOTE: Bubble sort repeatedly compares adjacent elements in the array.
-    /// If the current element is larger than the next one, they are swapped.
+    /// If the current element is larger than the next one, they are swapped. (interms of j only)
     /// After each full pass through the array, the largest unsorted element “bubbles” to the correct position. (**)
     /// Eg: [5, 1, 4, 2, 8]:
     ///
     /// Step: Iterate the entire array (i)
-    /// Step: Compare adjacent element using j
+    /// Step: Compare adjacent element using `j`
     /// Step: if current is > than the next, then swap.
     /// Step: As every pass completion, the largest element would have moved to the last. (so we are subtracting the i)
     func bubbleSort(_ array: [Int]) -> [Int] {

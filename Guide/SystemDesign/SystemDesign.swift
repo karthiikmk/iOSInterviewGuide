@@ -56,6 +56,13 @@ import Foundation
 /// Graph Database - Graph databases use graph structures to store, map and query relationships. `Neo4j` is a popular graph database
 /// Document Databases - Document databases store data in documents similar to JSON objects. MongoDB is a famous document database.
 /// Key value stores - In this type of database, data is stored as a collection of key-value pairs where each unique key is associated with a value
+///
+/// `Distributed Storage` Distributed Storage refers to a system where data is `stored across multiple physical or virtual machines`, often in a way that makes the system scalable, fault-tolerant, and highly available.
+/// Eg: Amazon S3, Google file system (GFS)
+///
+/// `Distributed Cache` is a high-performance, scalable caching system where `frequently accessed data is stored in memory across multiple nodes` in a cluster.
+/// Eg: Reddis, memcached
+///
 /// `Indexing`
 /// `Sharding` - Sharding involves breaking your data into smaller parts, or "shards", each held on a separate database server. helping to boost performance and adding redundancy.
 /// - to reduce the latency. (reddis, mem-cache)
@@ -80,8 +87,85 @@ import Foundation
 ///
 /// `Communication`
 /// `Peer-to-Peer (P2P)` - sharing resources directly without a centralized coordination. eg group of friends sharing files among themself.
-/// `Publisher-Subscriber` - "Newspaper pattern", publisher produces data and subscriber consumes it.
+/// `Publisher-Subscriber` - "Newspaper pattern", publisher produces data and subscriber consumes
 ///
+/// `Database
+///
+/// DBMS Software - SQL, PostgressSQL, MongoDB
+/// ACID Properties - Automicity, Consistency, Isolation and Durability (use ticket booking example for understanding)
+/// Automicity - task should done completely (not half succussful half failure), like booking 10 tickets, 5 gets booked and 5 failed
+/// Consistency - Table A -> Table B (relationship should kept in proper shape even after the update), basically should follow table constraints properly.
+/// Isolation - read/write should happen in isolation. (should handle the concurrency properly)
+/// Durability - Transaction should be show the result properly, should not revert its state after sometime
+///
+/// `Normalization` - process of organizing database to avoid redundancy
+/// PrimaryKey (PK) - unique key in the table. used for `indexing` as well.
+/// ForeignKey (FK) - connecting tables, (when delete parent table row, cascading will delete this row as well)
+/// CandidateKey (CK) - Having multipleKey to create primary key (uniqueKey), eg email+phone = candidateKey
+///
+/// `Normal Forms`
+///
+/// 1NF - Each row should have atomic value, no duplicated value
+///
+/// 2NF - should not have paritial dependency
+/// -------------------------------------------------------
+/// StudentId | CourseId | StudentName | CourseName
+/// -------------------------------------------------------
+/// 1         | 101      | Karthik     | Maths
+/// 2         | 102      | Vishwa      | Science
+/// 1         | 103      | Karthi      | English
+/// -------------------------------------------------------
+/// Primary Key - studentId, courseId
+/// Partial Dependency - Student name depends on studentId, not on courseId
+/// So we should be removing the partial depenceny from the above entity.
+/// Normalization help to update the records easily, as it needs to update in single place rather manyplace
+///
+///-----------------------
+/// StudentId | StudentName
+///-----------------------
+/// 1         | Karthik
+/// 2         | Vishwa
+///-----------------------
+///
+///-----------------------
+/// CourseId | CourseName
+///-----------------------
+/// 101      | Maths
+/// 102      | Science
+/// 103      | English
+///-----------------------
+///
+/// 3NF - should not have transitive dependency
+///
+/// `Denormalization` (combining multiple table for efficient access)
+///  Creating new table where having freqent access properites from other tables
+///
+///  `Locking`
+///  Table level locking
+///  Row level locking
+///  Page level locking
+///
+///  `Indexing` - Datastructure
+///  Type of indexing - BalancedTree, Hashing
+///  Clustered,
+///  Non Clustered - Hashtable (maintains referene for the acutal data)
+///
+///  `Optimization`
+///  QueryOptimization
+///  indexing
+///  Caching
+///  Sharding
+///  CAP Therom (Consistency, Availabilty, and Partition Tolerance)
+///
+///  `Weak Entity` - data stored in this entity can't be uniquely identified by its attributes alone.
+///  Eg: EmployeeSkill, AccessControll entity 
+///
+///  `Summary`
+///
+///  Use 1NF to check the row values automicity
+///  Apply 2NF and 3NF for removing paritial or transitive dependencies
+///  Apply 3.5NF for makeing the 3NF better.
+
 /// `Components`
 /// UserService
 /// AnalyticsService
@@ -89,7 +173,7 @@ import Foundation
 /// ChatService
 /// WebSocketService
 /// NotificationService
-///
+
 /// `Common Desing Patterns`
 ///
 /// `Example`
@@ -99,8 +183,10 @@ import Foundation
 /// E-Commerce System: Design an e-commerce store like Amazon.
 /// Social Media: Design a social network like Facebook, Instagram, or Twitter.
 /// Messaging System: Design a chat service like Facebook Messenger or WhatsApp.
-///
 /// Design a parking lot system.
+///
+/// Authentication
+/// Search
 /// Design a video streaming service like YouTube or Netflix.
 /// Design a ride-hailing service like Uber or Lyft.
 /// File Storage System: Design a global file storage and sharing service like Dropbox or Google Drive.

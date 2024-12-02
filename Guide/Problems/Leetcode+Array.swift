@@ -16,6 +16,9 @@ import Foundation
 
 extension LeetCode {
     
+    /// Use `max(by: {})` to find the max or min element from the dictionary.
+    /// Use `reduce` to convert array into dictionary
+    /// Use `stride(from: through, by: -1` to iterate the array in reverse **
     func runArray() {
         // reverse([1,2,3,4,5])
         // sortedSquares([-2, -1, 0, 1, 2, 3])
@@ -26,29 +29,29 @@ extension LeetCode {
         // findSecondSmallest([16,17,15])
         // findCharCount(in: "a2b3")
         // subarraySum([1,2,3,5,4], 2)
+    
+        findCharCountUsingRegex()
     }
 }
 
 extension LeetCode {
 
-    /// NOTE: Reverse using auxilary index
-    @discardableResult
-    func reverse(_ arr: [Int]) -> [Int] {
-        var array: [Int] = arr
-        let startIndex: Int = 0 // remains same
-        let endIndex: Int = array.count-1 // remains same
-        var index: Int = 0
-
-        while startIndex+index < endIndex-index {
-            array.swapAt(startIndex+index, endIndex-index)
-            index += 1
+    /// NOTE: Recommended way
+    func reverse<T>(array: inout [T]) -> [T] {
+        var start: Int = 0
+        var end: Int = array.count - 1
+        while start < end {
+            array.swapAt(start, end)
+            start += 1
+            end -= 1
         }
-        print("Reversed: \(array)")
         return array
     }
     
     /// Eg: [1, 2, 3, 4, 5, 6, 7, 8, 9]
     /// Output: [3, 2, 1, 6, 5, 4, 9, 8, 7]
+    ///
+    /// Offset is kind of count, so we should be converting that to index.
     func reverse(array: inout [Int], by offset: Int) {
         
         func rotate(_ array: inout [Int], _ start: Int, _ end: Int) {
@@ -68,29 +71,15 @@ extension LeetCode {
             let start = startIndex
             let end = min((startIndex+offset-1), endIndex) // to avoid index outofbounds
             rotate(&array, start, end)
-            startIndex += offset
+            startIndex += offset // increasing by offset
         }
         print("Reversed array by offset: \(offset) - \(array)")
-    }
-    
-    /// NOTE: Recommended way
-    func reverseUsingRotate<T>(array: inout [T]) -> [T] {
-        var start: Int = 0
-        var end: Int = array.count - 1
-        while start < end {
-            array.swapAt(start, end)
-            start += 1
-            end -= 1
-        }
-        return array
     }
 
     // let d = 3 // index
     // let arr = [1, 2, 3, 4, 5]
     func rotateLeft(arr: [Int], d: Int) -> [Int] {
-        let endIndex = arr.count-1
         var array: [Int] = arr
-
         func rotate(_ start: Int, _ end: Int) {
             var startIndex = start
             var endIndex = end
@@ -101,8 +90,8 @@ extension LeetCode {
             }
         }
         rotate(0, d-1)
-        rotate(d, endIndex)
-        rotate(0, endIndex)
+        rotate(d, arr.count-1)
+        rotate(0, arr.count-1)
         return array
     }
 
@@ -137,37 +126,48 @@ extension LeetCode {
     
     /// NOTE:
     /// Time complexity is O(m+n)
-    func mergeTwoSortedArray1(_ num1: [Int], _ num2: [Int]) -> [Int] {
+    /// Idea: Approach this interms of num1
+    /// 1. if num2 reached the end, then take num1 blindly
+    /// 2. if num2 didn't reached the end, then put the condition.
+    /// 3. j == num2.count is they key for everything.
+    func mergeTwoSortedArray1(_ first: [Int], _ second: [Int]) -> [Int] {
         
-        var nums = Array(repeating: 0, count: num1.count+num2.count)
-        var mIndex = 0
-        var nIndex = 0
-        var index = 0
+        var result = Array(repeating: 0, count: first.count + second.count)
+        var i = 0
+        var j = 0
+        var k = 0 // Auxilary
         
-        while index < nums.count {
-            /// we should make sure that mIndex and nIndex valid.
-            /// m value taken if n reached the end || m is lesser than n value.
-            if mIndex < num1.count && (nIndex == num2.count || num1[mIndex] < num2[nIndex]) {
-                nums[index] = num1[mIndex]
-                mIndex += 1
-            } else {
-                nums[index] = num2[nIndex]
-                nIndex += 1
+        while k < result.count {
+            if i < first.count && j < second.count {
+                if first[i] < second[j] {
+                    result[k] = first[i]
+                    i += 1
+                } else {
+                    result[k] = second[j]
+                    j += 1
+                }
+            } else if i < first.count {
+                result[k] = first[i]
+                i += 1
+            } else if j < second.count {
+                result[k] = second[j]
+                j += 1
             }
-            index += 1
+            k += 1
         }
         
-        return nums
+        return result
     }
     
     func findMedianInSortedArrays(_ num1: [Int], _ num2: [Int]) -> Double {
-        let sortedArray = mergeTwoSortedArray1(num1, num2)
+        let array = mergeTwoSortedArray(num1, num2)
         /// findout the median (for odd length n is the median, for even the avg of n and n-1)
-        let n = sortedArray.count
-        if n % 2 == 0 {
-            return Double(sortedArray[(n/2)-1] + sortedArray[n/2]) / 2.0 // avg
+        let n = array.count
+        let isEven = n % 2 == 0
+        if isEven { // interms of index
+            return Double(array[(n/2)-1] + array[n/2]) / 2.0 // avg
         } else {
-            return Double(sortedArray[n/2])
+            return Double(array[n/2])
         }
     }
 
@@ -208,7 +208,7 @@ extension LeetCode {
         var endIndex: Int = nums.count - 1
 
         /// Need to check the endIndex value as well.
-        while startIndex <= endIndex {
+        while startIndex <= endIndex { // **
             let middleIndex = startIndex + (endIndex - startIndex) / 2
             let middleValue = nums[middleIndex]
             
@@ -229,7 +229,8 @@ extension LeetCode {
     func plusOne(_ digits: [Int]) -> [Int] {
         let result = digits.reduce(0) { $0 * 10 + $1 }
         let incrementedResult = result + 1
-        let array = String(incrementedResult).compactMap(\.wholeNumberValue)
+        let array = String(incrementedResult)
+            .compactMap(\.wholeNumberValue)
         debugPrint("plush one \(array)")
         return array
     }
@@ -242,6 +243,9 @@ extension LeetCode {
     /// Input: nums = [3,1,2,4]
     /// Output: [2,4,3,1]
     /// Explanation: The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.
+    ///
+    /// Idea: Iterate from left to rigth
+    /// Move all the odd to the end (reduce endIndex on each)
     func sortArrayByParity(_ array: inout [Int]) -> [Int] {
         guard array.count > 1 else { return array }
 
@@ -260,8 +264,10 @@ extension LeetCode {
         return array
     }
     
-    /// NOTE: if its already sorted, then last index - 1 should give the second largest number
-    /// for unsorted array only we need to follow this.
+    /// NOTE: if its already sorted, then
+    /// For `sorted`: last index - 1 should give the second largest number
+    /// For `unsorted` Keep two reference (largest, second largest), update while iterating through
+    /// In both largest, and smallest case, we should `look for largest and smallest case first`.
     @discardableResult
     func findSecondLargest(_ array: [Int]) -> Int {
         guard !array.isEmpty else { return -1 }
@@ -274,7 +280,6 @@ extension LeetCode {
 
         while index < array.count {
             let value = array[index]
-            /// if its not largest, then it should be smallest
             if value > largest {
                 secondLargest = largest
                 largest = value
@@ -289,8 +294,10 @@ extension LeetCode {
         
     /// NOTE: First try to understand what is second smallest one.
     /// For Eg: 17, 16, 12, Here 12 is the smallest one, 16 is the second smallest one.
-    /// IDEA: Array must be unsorted, if its sorted, then we can taken endIndex - 1
-    /// Find the last one, then previous of the last one is second smallest.
+    ///
+    /// IDEA: Iterate the entire array
+    /// Use two pointer variables to hold the smallest and second smallest
+    /// Update the smallest and second smallest as per our conditions
     @discardableResult
     func findSecondSmallest(_ array: [Int]) -> Int {
         guard !array.isEmpty else { return -1 }
@@ -302,7 +309,6 @@ extension LeetCode {
         
         while index < array.count {
             let value = array[index]
-            
             if value < smallest {
                 secondSmallest = smallest
                 smallest = value
@@ -322,7 +328,7 @@ extension LeetCode {
     /// Output: bbbccccccddddddddddddddd
     /// If not we should make use of regex pattern matching.
     func findCharCount(in string: String) {
-        var charDict: [String: Int] = [:]
+        var charFrequency = [String: Int]()
         let array = Array(string)
         
         var index = 0
@@ -333,7 +339,7 @@ extension LeetCode {
             let element = array[index]
             if element.isLetter {
                 if !currentLetter.isEmpty && !currentNumber.isEmpty {
-                    charDict[currentLetter] = Int(currentNumber)
+                    charFrequency[currentLetter] = Int(currentNumber)
                     currentLetter = String(element)
                     currentNumber = ""
                 } else if currentNumber.isEmpty {
@@ -350,15 +356,32 @@ extension LeetCode {
         
         /// last pair, as we are updating the dictinoary only on the isLetter case.
         if !currentLetter.isEmpty && !currentNumber.isEmpty {
-            charDict[currentLetter] = Int(currentNumber)
+            charFrequency[currentLetter] = Int(currentNumber)
         }
         
         var resultString = ""
-        for (char, count) in charDict {
+        for (char, count) in charFrequency {
             resultString +=  String(repeating: char, count: count)
         }
         
         print("result: \(resultString)")
+    }
+    
+    func findCharCountUsingRegex(in string: String = "b31c6d15e120", regex: String = "([a-zA-Z])(\\d+)") {
+        let matches = RegexBuilder(regex: regex)
+            .getMatches(input: string)
+        var result = [String: Int]()
+        
+        for match in matches {
+            if let charGroup = match.getRange(at: 1, in: string),
+               let countGroup = match.getRange(at: 2, in: string) {
+                
+                let character = String(string[charGroup])
+                let count = Int(string[countGroup]) ?? 0
+                print("\(character) (\(count))")
+                result[character, default: 0] += count
+            }
+        }
     }
 }
 
@@ -388,6 +411,8 @@ extension LeetCode {
     
     /// Given an array containing n distinct numbers in the `range [0, n]`,
     /// find the one number that is missing from the array.
+    /// Idea: Use sum of natural numbers
+    /// nums array should contains values from `0 to n`
     func missingNumber(_ nums: [Int]) -> Int {
         let n = nums.count
         let expectedSum = n*(n+1)/2
@@ -401,18 +426,20 @@ extension LeetCode {
     func findDuplicatesInSortedArray(in array: [Int]) -> [Int: Int] {
         var duplicates = [Int: Int]()
         var startIndex: Int = 0
-        let endIndex: Int = array.count - 1
         
-        while startIndex < endIndex { // ** we need next element to check, < endIndex.
-            if array[startIndex] == array[startIndex+1] {
-                duplicates[array[startIndex], default: 1] += 1
+        while startIndex < array.count - 1 { // ** we need next element to check, < endIndex.
+            let current = array[startIndex]
+            let next = array[startIndex+1]
+            if current == next {
+                duplicates[current, default: 1] += 1
             }
+            /// next loop
             startIndex += 1
         }
         return duplicates
     }
     
-    /// NOTE: Array need not to be sorted.
+    /// NOTE: Array is `unsorted`
     /// Return all the elements which appears more than once.
     func findDuplicates(in array: [Int]) -> [Int: Int] {
         
@@ -453,13 +480,12 @@ extension LeetCode {
     /// Remove Element, lenth of the array after removing the value
     /// Eg: [0,1,2,2,3,0,4,2], val = 2
     /// Idea: is to move the element which is equal to the value to the right side pointer (endIndex)
+    /// Length can be calculated with the endIndex (endIndex = count-1), if we need count then endIndex+1
     func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
-        
         var startIndex: Int = 0
         var endIndex: Int = nums.count - 1
         
         while startIndex <= endIndex {
-            // Switch only if first index is not same as value
             if nums[startIndex] == val {
                 nums.swapAt(startIndex, endIndex)
                 endIndex -= 1 // This part is tricky.
@@ -489,11 +515,13 @@ extension LeetCode {
         var fast = 1 // ** important as its sorted array, we should look for the next
 
         while fast < array.count {
-            if array[slow] != array[fast] { // important
+            if array[slow] == array[fast] {
+                fast += 1
+            } else {
                 slow += 1
                 array[slow] = array[fast]
+                fast += 1
             }
-            fast += 1
         }
         // The unique elements are from index 0 to slow (inclusive)
         return slow + 1 // length
@@ -502,22 +530,22 @@ extension LeetCode {
     /// NOTE:
     /// Eg: [0,2,1,0,1,3]
     /// Hint: Using visited, we can look for duplication
+    /// Keep writeIndex, and insert the non duplicated values in writeIndex repeatedly.
     func removeDuplicatesInUnsortedArray(_ array: inout [Int]) -> Int {
-        
         var visiteds: Set<Int> = []
-        var left = 0 // treat as write index
-        var right = 0  // iterator
+        var writeIndex = 0 // treat as write index
+        var index = 0  // iterator
         
-        while right < array.count {
-            let element = array[right]
+        while index < array.count {
+            let element = array[index]
             if !visiteds.contains(element) {
                 visiteds.insert(element)
-                array[left] = array[right]
-                left += 1
+                array[writeIndex] = element // ** important
+                writeIndex += 1
             }
-            right += 1 // loop
+            index += 1 // loop
         }
-        return left
+        return writeIndex
     }
 }
 
@@ -565,14 +593,16 @@ extension LeetCode {
         var count = 0
         
         for (index, vehicle) in array.enumerated() {
-            guard vehicle == ">" else { continue }
-            var start = index + 1 // looking for pairs from the next elements
-            while start < array.count {
-                if array[start] == "<" {
-                    count += 1
-                    break
+            if vehicle == ">" {
+                var start = index + 1
+                while start < array.count {
+                    if array[start] == "<" {
+                        count += 1
+                        break // break as we found the pair
+                    } else {
+                        start += 1
+                    }
                 }
-                start += 1
             }
         }
         return count
@@ -582,20 +612,20 @@ extension LeetCode {
     ///  The numbers in an array would be 0, 1's. Eg: [0, 1, 1, 1, 0, 0, 1]
     /// - Returns: Maximum number of times 1 appears consecutively
     /// - Complexity: O(n)
+    /// Idea: as its asing for max, think about the window (left, right)
     func findMaxConsecutiveOnces(_ nums: [Int]) -> Int {
-        
         var maximum = 0
         var left = 0 // track where its started, to find the length
         var right = 0 // iterate through the array
         
         while right < nums.count {
             if nums[right] == 1 {
-                let lenght = right - left + 1 // 2 - 1 + 1 = 2
-                maximum = max(maximum, lenght)
+                maximum = max(maximum, (right - left + 1))
+                right += 1 // enlarging
             } else {
-                left = right + 1
+                right += 1 // as current right is 0, we dont need to consider that as starting point, so right+1 could be a starting point.
+                left = right // starting point
             }
-            right += 1
         }
         return maximum
     }
@@ -604,7 +634,8 @@ extension LeetCode {
     /// Write down and think how it works.
     /// - seealso: incrementing decrementing
     /// Eg: [2,2,1,1,1,2,2]
-    /// Hint: we can also solve this by num_count cache. then looking for the bigger one there.
+    /// Idea 1: Using count increment & decrement we can solve this
+    /// Idea 2: we can also solve this by num_count cache. then looking for the bigger one there.
     func majorityElement(_ nums: [Int]) -> Int {
         var element = nums[0] // starting from first number.
         var count: Int = 0
@@ -619,22 +650,13 @@ extension LeetCode {
             }
         }
         return element
+        
         // Alternative way.
-        //    var nums_count = [Int: Int]()
-        //    for num in nums {
-        //        nums_count[num, default: 0] += 1
-        //    }
-        //    print(nums_count)
-        //    // which ever the count is maximum return that number
-        //    var max = Int.min
-        //    var number: Int = -1
-        //    for (_number, count) in nums_count {
-        //        if count > max {
-        //            number = _number
-        //            max = count
-        //        }
-        //    }
-        //    return number
+//        _ = nums
+//            .reduce(into: [Int: Int]()) { result, num in
+//                result[num, default: 0] += 1
+//            }
+//            .max { a, b in a.value < b.value }
     }
 }
 
@@ -674,14 +696,14 @@ extension LeetCode {
     /// if we didn't buy for an index, try to check the selling profit in that index
     func maxProfitSingeBuySell(_ prices: [Int]) -> Int {
         guard !prices.isEmpty else { return 0 }
-        var ourPrice = Int.max
+        var buyPrice = Int.max
         var maxProfit: Int = 0
 
-        for price in prices {
-            if price < ourPrice { // buy
-                ourPrice = price
+        for currentPrice in prices {
+            if currentPrice < buyPrice { // buy
+                buyPrice = currentPrice
             } else { // sell
-                let profilt = price - ourPrice
+                let profilt = currentPrice - buyPrice
                 maxProfit = max(maxProfit, profilt)
             }
         }
@@ -692,6 +714,8 @@ extension LeetCode {
         var maxProfit: Int = 0
 
         /// We need previous day price, in order to take decesion.
+        /// Working with index, not price.
+        /// Assume 0th index - yesterday price
         for day in 1..<prices.count {
             let previousDayPrice = prices[day - 1]
             let currentDayPrice = prices[day]
@@ -723,12 +747,13 @@ extension LeetCode {
             if array[midIndex] == 0 {
                 array.swapAt(midIndex, lowIndex) // swapping middle to low
                 lowIndex += 1
-                midIndex += 1
+                midIndex += 1 // ** important
             } else if array[midIndex] == 1 {
                 midIndex += 1
             } else {
                 array.swapAt(midIndex, highIndex) // swapping middle to high
                 highIndex -= 1
+                // We don’t increment midIndex because the new element at midIndex (swapped from highIndex) has not been processed yet
             }
         }
     }
@@ -784,7 +809,7 @@ extension LeetCode {
         return []
     }
 
-    /// Two Sum II - Input Array Is Sorted
+    /// Two Sum II - Input Array Is `Sorted`
     /// OJ: https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
     ///
     /// - seealso: Binary search, two sum
@@ -796,16 +821,15 @@ extension LeetCode {
         var endIndex: Int = numbers.count - 1
         
         while startIndex <= endIndex {
-            let sum = numbers[startIndex] + numbers[endIndex] // ***
+            let sum = numbers[startIndex] + numbers[endIndex] // *** important (Not with `middleIndex`)
             if sum == target {
                 return [startIndex + 1, endIndex + 1] // 1 Indexed array.
             } else if sum < target {
-                startIndex += 1
+                startIndex += 1 // Not with middleIndex
             } else {
-                endIndex -= 1
+                endIndex -= 1 // Not with middleIndex
             }
         }
-        
         return []
     }
     
@@ -828,7 +852,7 @@ extension LeetCode {
         guard !array.isEmpty else { return nil }
         guard k > 0 && k <= array.count else { return nil } // valid index
         let sortedArray = array.sorted()  // Sort in ascending order
-        return sortedArray[k - 1]
+        return sortedArray[k - 1] // if k is 2 then 1st index is the second smallest
     }
 
     func kthLargest(_ array: [Int], _ k: Int) -> Int? {
@@ -843,17 +867,17 @@ extension LeetCode {
         /// Ensure array has exactly 3 elments and k is valid
         guard array.count == 3, k > 0 && k <= 3 else { return nil }
         
-        var firstLargest: Int = Int.min
+        var largest: Int = Int.min
         var secondLargest: Int = Int.min
         var thirdLargest: Int = Int.min
         
         var index = 0
         while index < array.count {
             let value = array[index]
-            if value > firstLargest {
+            if value > largest {
                 thirdLargest = secondLargest
-                secondLargest = firstLargest
-                firstLargest = value
+                secondLargest = largest
+                largest = value
             } else if value > secondLargest {
                 thirdLargest = secondLargest
                 secondLargest = value
@@ -864,7 +888,7 @@ extension LeetCode {
         }
         
         return k == 0
-        ? firstLargest
+        ? largest
         : k == 1 ? secondLargest : thirdLargest
     }
 
@@ -882,7 +906,7 @@ extension LeetCode {
     }
 
     /// By keeping the largest element at the top, we can quickly remove it if we encounter a smaller element in the array.
-    /// When the heap contains exactly k elements, the root of the max-heap will be the k-th smallest element after processing the entire array.
+    /// the root of the max-heap will be the k-th smallest element after processing the entire array.
     func kthSmallestUsingHeap(_ array: [Int], _ k: Int) -> Int? {
         guard k > 0 && k <= array.count else { return nil }
 
@@ -904,6 +928,7 @@ extension LeetCode {
 extension LeetCode {
     
     /// NOTE: A subarray is a contiguous part of the array. The elements must be consecutive.
+    /// Eg: [1,2,3] => [1] [1,2] [1,2,3] [2] [2,3] [3]
     func findAllSubArrays(_ array: [Int]) -> [[Int]] {
         guard !array.isEmpty else { return [] }
         var subArrays = [[Int]]()
@@ -916,48 +941,12 @@ extension LeetCode {
         }
         return subArrays
     }
-    
-    /// [1,2,3] where k = 3
-    /// A prefix sum is the cumulative sum of the array elements from the beginning of the array up to a certain point.
-    /// The sum of any subarray can be derived from the difference between two prefix sums.
-    /// The prefixSums dictionary helps track how many times a certain prefix sum has been encountered so far.
-    /// When the current prefix sum minus k has been seen before, it indicates that there are one or more subarrays that sum to k.
-    func countOfSubArrayWithSum(_ k: Int, _ nums: [Int]) -> Int {
-        var sum = 0
-        /// This means that there is one subarray with a sum of 0 before any elements are considered
-        var prefixSums = [0: 1]
-        var count = 0
         
-        for num in nums {
-            sum += num
-            if let prefixCount = prefixSums[sum - k] {
-                count += prefixCount
-            }
-            prefixSums[sum, default: 0] += 1
-        }
-        print("prefix sums: \(prefixSums)")
-        return count
-    }
-    
-    func countOfSubArraysDivisable(by k: Int, nums: [Int]) -> Int {
-        
-        var count: Int = 0
-        var prefixMods = [0: 1]
-        var runningSum = 0
-        
-        for num in nums {
-            runningSum += num
-            /// (sum % k + k) % k ensures that the result of the modulo operation is always non-negative, even when sum is negative.
-            let mod = (runningSum % k + k) % k
-            if let prefixCount = prefixMods[mod] {
-                count += prefixCount
-            }
-            prefixMods[runningSum, default: 0] += 1
-        }
-        return count
-    }
+    /// Length of subarray sums
+    /// 1. calculate the running sum
+    /// 2. enlarge and shrink the window as per logic
 
-    /// NOTE: Find the maximum length of a subarray whose sum is `greater than or equal` to a given value k.
+    /// NOTE: Find the `maximum length` of a subarray whose sum is `greater than or equal` to a given value k.
     /// Eg: [5,4,3,1,8] where k = 8
     /// Idea: Start enlarging the window, and start shrinking as soon as we found the subarray
     /// Returnt the length of the sub array.
@@ -965,7 +954,6 @@ extension LeetCode {
     func maxLengthOfSubarray(arr: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
         
         var maxLength = Int.min // ***
-        var subArrayStartIndex = 0
         var runningSum = 0
         
         var left = 0
@@ -973,15 +961,14 @@ extension LeetCode {
         
         /// [5,4,3,1,8]
         while right < arr.count {
-            /// Enlarging the window
             runningSum += arr[right]
             
-            while runningSum >= k {
+            while runningSum >= k { // `while` is very improtant
                 /// Lenght calculation
                 let length = right - left + 1
                 if length > maxLength {
                     maxLength = length
-                    subArrayStartIndex = left
+                    print("subarray \(arr[left...right])")
                 }
                 /// Shrinking the window, as we found the subarray
                 runningSum -= arr[left]
@@ -990,14 +977,12 @@ extension LeetCode {
             ///
             right += 1
         }
-        let subArray = Array(arr[subArrayStartIndex..<subArrayStartIndex+maxLength])
-        print("Max subarray: \(subArray) - lenght: \(maxLength)")
         return maxLength
     }
     
-        /// NOTE: Find the minimum length of a subarray whose sum is `greater than or equal` to a given value k.
+        /// NOTE: Find the `minimum length` of a subarray whose sum is `greater than or equal` to a given value k.
     @discardableResult
-    func minSubArrayLength(array: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
+    func minLengthOfSubArray(array: [Int] = [5,4,3,1,8], k: Int = 8) -> Int {
         
         var subArray: [Int] = []
         var miniumLength = Int.max // ***
@@ -1007,7 +992,6 @@ extension LeetCode {
         var right = 0
         
         while right < array.count {
-            /// Maximizing the window
             runningSum += array[right]
              
             while runningSum >= k { // ** important
@@ -1028,44 +1012,9 @@ extension LeetCode {
         return miniumLength
     }
     
-    /// NOTE: Find the sum of a continuous subarray of `size k`.
-    /// HINT: Sub array size should be equal to k, which is also called as fixed size subarray
-    @discardableResult
-    func maxSumOfSubarray(array: [Int], size k: Int = 3) -> Int {
-        
-        var maximumSum = Int.min
-        var runningSum = 0
-        
-        var left = 0
-        var right = 0
-        var subArrayStartIndex: Int = 0
-        
-        /// Iterate the initial window size
-        while right < k {
-            runningSum += array[right]
-            right += 1
-        }        
-        maximumSum = runningSum
-        subArrayStartIndex = left
-        
-        while right < array.count {
-            /// Shrink the window from left side
-            runningSum += array[right] - array[left]
-            left += 1 // as soon as we reduce the left, we should update the pointer
-            /// Length Calculation
-            if runningSum > maximumSum {
-                maximumSum = runningSum
-                subArrayStartIndex = left
-            }
-            right += 1
-        }
-        print("Max subArray of size \(k): \(array[subArrayStartIndex..<(subArrayStartIndex+k)])")
-        return maximumSum
-    }
-    
     /// NOTE: return the `number of contiguous subarrays` where the product of all the elements in the subarray is strictly `less than k`.
     /// Eg: [10, 5, 2, 6], k = 100
-    func subArrayWithProduct(_ nums: [Int], _ k: Int) -> Int {
+    func countOfSubArrayWithProductSize(_ k: Int, _ nums: [Int]) -> Int {
         guard !nums.isEmpty else { return 0 }
         
         var count = 0 // 5
@@ -1079,7 +1028,6 @@ extension LeetCode {
             runningProduct *= nums[right] // 5*2*6
             ///
             while runningProduct >= k { // ** while is very important
-                /// Shrinking the window
                 runningProduct /= nums[left]
                 left += 1 // 1
             }
@@ -1090,6 +1038,39 @@ extension LeetCode {
             right += 1
         }
         return count
+    }
+    
+    /// NOTE: Find the sum of a continuous subarray of `size k`.
+    /// HINT: Sub array `size should be equal to k`, which is also called as fixed size subarray
+    /// Idea: Calculate the first k window
+    /// Then enlarge and shrink the window by index
+    @discardableResult
+    func maxSumOfSubarray(array: [Int], size k: Int = 3) -> Int {
+        var maximumSum = Int.min
+        var runningSum = 0
+        
+        var left = 0
+        var right = 0
+        
+        /// Iterate the initial window size
+        while right < k {
+            runningSum += array[right]
+            right += 1
+        }        
+        maximumSum = runningSum
+        
+        while right < array.count {
+            /// Shrink the window from left side
+            runningSum += array[right] - array[left]
+            left += 1
+            /// Length Calculation
+            if runningSum > maximumSum {
+                maximumSum = runningSum
+                print("subarray: \(array[left...right])")
+            }
+            right += 1
+        }
+        return maximumSum
     }
 }
 
@@ -1106,40 +1087,5 @@ extension LeetCode {
             result += result.map { $0 + [num] }
         }
         return result
-    }
-    
-    /// NOTE: longest consecutive sequence
-    /// We need to find consequitve number, but it `doesn't need` to be in sequence
-    /// Eg: [100, 4, 200, 1, 3, 2], Op: [1,2,3,4]
-    /// Idea is take the number, and check if that is fresh start,
-    /// then check the number set for the consective numbers using counter.
-    /// if there is previous number then its not fresh start.
-    func longestConsecutiveSubsequence(_ nums: [Int]) -> [Int] {
-        
-        var maxLength: Int = Int.min
-        var sequence = [Int]()
-        let numberSet = Set(nums)
-        var index = 0
-        
-        while index < nums.count {
-            let number = nums[index]
-            /// Looking for the fresh start.
-            if !numberSet.contains(number-1) {
-                var runningNumber = number
-                var length = 1
-                
-                while numberSet.contains(runningNumber+1) {
-                    length += 1
-                    runningNumber += 1
-                }
-                if length > maxLength {
-                    maxLength = length
-                    sequence = Array(number...runningNumber) // ** creating sequence using `running number` not with lenght.
-                }
-            }
-            /// Next loop
-            index += 1
-        }
-        return sequence
     }
 }
