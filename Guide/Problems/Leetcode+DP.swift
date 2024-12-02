@@ -367,7 +367,6 @@ extension LeetCode {
             let number = nums[index]
             /// Looking for the fresh start.
             if !numberSet.contains(number-1) {
-                
                 var runningNumber = number // why becoz we cant say its always 1. it can be any number, from there the sequence.
                 var length = 1
                 while numberSet.contains(runningNumber+1) {
@@ -384,38 +383,5 @@ extension LeetCode {
             index += 1
         }
         return sequence
-    }
-    
-    /// https://leetcode.com/problems/longest-increasing-subsequence/
-    /// Input: nums = [10,9,2,5,3,7,101,18]
-    /// Output: 4
-    func lengthOfLongestIncreasingSequence(_ nums: [Int]) -> Int {
-        
-        var dp = Array(repeating: 1, count: nums.count) // DP array to store the length of LIS at each index
-        var idx = Array(repeating: -1, count: nums.count) // To track the indices of the previous element in the subsequence
-        
-        for i in 1..<nums.count {
-            for j in 0..<i {
-                if nums[i] > nums[j] {
-                    if (dp[j] + 1) >= dp[i] {
-                        dp[i] = dp[j] + 1
-                        idx[i] = j // if we use max, then this will create ovverriden problem
-                    }
-                }
-            }
-        }
-        /// Calculating the sequence.
-        var index = nums.count-1
-        var result = [Int]()
-        
-        while index != -1 {
-            let prevIndex = idx[index]
-            let value = nums[index]
-            result.append(value)
-            index = prevIndex
-        }
-        print("idx: \(idx)")
-        print("subseq: \(Array(result.reversed()))")
-        return dp.max() ?? 1
     }
 }
