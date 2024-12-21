@@ -111,6 +111,7 @@
 		258C6E692BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+DesignPattern.swift"; sourceTree = "<group>"; };
 		258C6E6D2BA1BE11004DBB00 /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		258C6E6F2BA1CB81004DBB00 /* BSTTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSTTree.swift; sourceTree = "<group>"; };
+		25923AB32D1687CD00553B86 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+SwiftUI.swift"; sourceTree = "<group>"; };
 		259452F72CB7E90500495031 /* Leetcode+DP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+DP.swift"; sourceTree = "<group>"; };
 		2597D33B2C89BA9600DA9C07 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 		2564A7DA257403C200C7065C = {
 			isa = PBXGroup;
 			children = (
+				25923AB32D1687CD00553B86 /* README.md */,
 				2564A7E5257403C200C7065C /* Guide */,
 				2564A7FC257403C300C7065C /* AlgorithmsTests */,
 				2564A807257403C300C7065C /* AlgorithmsUITests */,

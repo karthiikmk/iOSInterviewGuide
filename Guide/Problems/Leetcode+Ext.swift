@@ -89,3 +89,11 @@ extension Range where Bound == String.Index {
         return substring
     }
 }
+
+extension CharacterSet {
+    
+    @available(macOS 10.10, iOS 8.0, watchOS 2.0, tvOS 9.0, *)
+    public static var word: CharacterSet {
+        return .alphanumerics.inverted
+    }
+}
