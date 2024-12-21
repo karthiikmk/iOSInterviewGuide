@@ -72,11 +72,20 @@ import Foundation
 /// `Messaging Queue`- for Asyncronous processing. Eg: kafka, RabbitMQ
 /// `Cloud Services` - AWS, Azure, Google Cloud
 /// 
+/// `ApiGateWay`: In general api gateway is a centralized service that act as a proxy to manage and route incoming api requests to one or more backend services.
 ///
-/// `ApiGateWay`:
-/// Authorization
-/// Rate limiting (prevents DDOS attack)
-/// Load Balancing
+/// `AWS ApiGateway` - Service provided by amazon webservice to build, deploy, maintain, monitor and secure api at scale
+/// - Scalability
+/// - Security (AWS Cognito)
+///     - Authentication
+///     - Authorization (IAM, Lambda Authorizers, OAUth2 for securing Apis)
+///  - Request Validation: Validate request payloads, headers and queryparams before forwarding to backend.
+///  - DDos Protection (AWS Schield)
+///     -  for distribured denia-of-service protection
+///     - Implements throttlening and rate-limiting to prevent misuse.
+///  - Mointoring (AWS Cloudwatch)
+///
+/// `Load Balancing`
 /// - routing the req to the service which is free or in less load eg: round robbin, least connection
 /// - Routing (which req should go to which server)
 ///
@@ -97,6 +106,16 @@ import Foundation
 /// Consistency - Table A -> Table B (relationship should kept in proper shape even after the update), basically should follow table constraints properly.
 /// Isolation - read/write should happen in isolation. (should handle the concurrency properly)
 /// Durability - Transaction should be show the result properly, should not revert its state after sometime
+///
+/// `SQL` - MySQL, PostgreSQL
+///  - use when data is very much structured and having relation ships
+///  - when schema doesn't change very often
+///  - ACID complience (ƒinance, banking sectors ect)
+///
+/// `NOSQL` - Cassandra, ElasticSearch, AWSDynamoDB, Reddis
+///  - use when data is not structured (like json etc)
+///  - to handle fast read and write (eg: analtyics, feeds etc)
+///  - to store large amount of data (eg: click streams, sensor data, logs etc)
 ///
 /// `Normalization` - process of organizing database to avoid redundancy
 /// PrimaryKey (PK) - unique key in the table. used for `indexing` as well.
@@ -183,13 +202,14 @@ import Foundation
 /// E-Commerce System: Design an e-commerce store like Amazon.
 /// Social Media: Design a social network like Facebook, Instagram, or Twitter.
 /// Messaging System: Design a chat service like Facebook Messenger or WhatsApp.
+/// File Storage System: Design a global file storage and sharing service like Dropbox or Google Drive.
 /// Design a parking lot system.
 ///
 /// Authentication
 /// Search
+/// Design a google maps
 /// Design a video streaming service like YouTube or Netflix.
 /// Design a ride-hailing service like Uber or Lyft.
-/// File Storage System: Design a global file storage and sharing service like Dropbox or Google Drive.
 
 /*
  The key to answering system design interview questions is understanding the big picture of how your system works.
@@ -272,18 +292,9 @@ import Foundation
  5. Data Storage and Databases
     - Describe the database(s) you plan to use (SQL, NoSQL, in-memory caches) and the rationale behind your choice.
     - For storing product catalogs, a NoSQL database like MongoDB could be used for scalability.
- 
- ApiGateWay
-    - Authorization
-    - Validation
-    - Rate limiting
-    - Routing (which req should go to which server)
-    - Load Balancing (routing the req to the service which is free or in less load)
-    - Request Transformation
   
  DNS: Api Hits the dns to get the ip address followed by hitting the correspoinding api gateway.
  CDN: kind of cache for static contents to reduce the latency in loading contents
- 
  
  Mallescious request,
  DDOS Attack - rate limiting can prevent

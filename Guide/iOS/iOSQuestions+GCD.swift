@@ -21,9 +21,17 @@ import Foundation
  - It Abstracts thread managment and allows devs to focus on the task they want to perform concurrently
  
  - DispatchQueue is a class that manages tasks serially or concurrently using system threads.
- - Tasks can be dispatched serially or concurrently to queues. In serial queue, tasks are executed one after the other. In concurrent queue they are executed in parallel/concurrently.
+ - Every time a task is dispatched, there is a source and target queue.
+ - Source queue is the queue from where the Dispatch is called.
+ - Target is the queue on which the code is dispatched.
+ 
+ - Tasks can be dispatched serially or concurrently to queues.
+    - In serial queue, tasks are executed one after the other. Serial queues execute tasks one by one.
+    - In concurrent queue they are executed in parallel/concurrently.
+ 
  - GCD provides instance methods called sync & async that are popularly used to control the manner of execution of tasks.
-    - Sync: The current task is executed and all other tasks are halted from using resources until the task at hand is completed.
+ - The task from where we have dispatched a new task (source queue) will have an impact based on the dispatched operation type (sync or async)
+ - Sync: The current task is executed and all other tasks are halted from using resources until the task at hand is completed. Sync Operation keeps the source in waiting mode.
     - Async: The current task is submitted and the control returns back to the caller. The submitted task gets executed on availability of resource.
  - GCG manages collection of dispatch queues. work submitted to these queues is exectued on a pool of threads
  
@@ -48,7 +56,6 @@ import Foundation
  - You can’t find how many pending operations are there in queue.
  - You can’t define the maximum number of concurrent operations.
  
-  
  Operation:
  - A framework provides higher level approach to concurrency.
  - allows us to encapsulate tasks as operation object, and offers features like priorities, cancellations, dependencies etc

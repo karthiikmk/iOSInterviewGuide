@@ -43,6 +43,22 @@ extension Array where Element == Int {
     func toInt() -> Int {
         return reduce(0) { $0 * 10 + $1 }
     }
+    
+    func toNaturalNumbersSum() -> Int {
+        let n = self.count
+        return n*(n+1)/2
+    }
+}
+
+public enum SortType {
+    case asc, desc
+}
+
+extension ArraySlice where Element: Comparable {
+    
+    @inlinable public mutating func sort(type: SortType) {
+        type == .asc ? self.sort() : self.sort(by: >)
+    }
 }
 
 // - MARK: Regex
@@ -64,5 +80,12 @@ struct RegexBuilder {
 extension NSTextCheckingResult {
     func getRange(at: Int, in string: String) -> Range<String.Index>? {
         return Range(self.range(at: at), in: string)
+    }
+}
+
+extension Range where Bound == String.Index {
+    func substring(from string: String) -> String {
+        let substring = String(string[self])
+        return substring
     }
 }

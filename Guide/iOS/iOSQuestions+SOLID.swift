@@ -10,6 +10,8 @@ import Foundation
 /*
  SOLID PRINICIPLES
  
+ Helps to write a modular, readable, scalable and easily maintainable.
+ 
 Single Responsibility Principle
  
  1. A class should have only one reason to change, meaning it should only have one responsibility.
@@ -20,7 +22,7 @@ Single Responsibility Principle
 Open/Closed Principle (OCP):
  
  - The code open for extension but closed for modification
- - OCP by allowing you to extend the system's functionality without altering existing code
+ - OCP allowing you to extend the system's functionality without altering existing code
  - we can use protocols and create extensions for each class
  - Eg: DataManager which processes the data of diff type like file, database, api etc
  
@@ -40,6 +42,13 @@ Open/Closed Principle (OCP):
 */
 
 /// ----------------------------------------------------------------------
+/// Eg: Libary
+/// Feature: Add, search, issue and fee
+/// BookManager: Add, Search
+/// FeeCalculator: fee calculation (use open/close with fee strategy)
+/// BookType - LSP (physical, digital)
+/// BookSearchable, BookManageable - ISP
+/// BookManager -> BookManageable - DSP
 struct User {
     let id: String
     let name: String
@@ -70,7 +79,7 @@ class LibraryWithoutSOLID {
     func fee() -> Double { return 0 }
 }
 
-/// Single Responsibility Principle (SRP):
+/// `Single Responsibility Principle (SRP)`:
 /// Single Library class should not manage everything. instead it has to follow single responsibity.
 /// Now BookManager, FeeCalculator has only one responsibiity to chanage. BookManager only manages books, and FeeCalculator calculates fees.
 class Library {
@@ -87,7 +96,7 @@ class BookManager {
     func search(book: Book) { }
 }
 
-/// Open/Closed Principle (OCP):
+/// `Open/Closed Principle (OCP)`:
 /// If you later want to add different fee strategies (e.g., a premium user gets a discount), you need to modify the class, violating OCP.an
 protocol FeeStrategy {
     func fee(_ book: Book) -> Double
@@ -112,7 +121,7 @@ class FeeCalculator {
     }
 }
 
-/// Liskov Substitution Principle (LSP):
+/// `Liskov Substitution Principle` (LSP):
 class PhysicalBook: Book {
     override var isPhysical: Bool { true }
 }
@@ -121,14 +130,14 @@ class DigitalBook: Book {
     override var isPhysical: Bool { false }
 }
 
-/// Interface Segregation Principle (Consider LibraryWithoutSOLID)
+/// `Interface Segregation Principle` (Consider LibraryWithoutSOLID)
 ///
 /// If a class only needs to add books, it will still inherit unnecessary methods like calculateLateFee.
 protocol BookSearchable {
     func search(book: Book)
 }
 extension BookSearchable {
-    func search(book: Book) { }
+    func search(book: Book) { } // if consumer needs they can implement it.
 }
 
 protocol BookManageable: BookSearchable {
@@ -139,7 +148,7 @@ protocol FeeCaclculatable {
     func fee(_ book: Book) -> Double
 }
 
-/// Dependency inverstion Principle
+/// `Dependency inverstion Principle`
 ///
 /// If Library directly depends on concrete classes like PhysicalBook or RegularFeeStrategy, changing the implementation requires modifying Library:
 class LibraryWithDependencyInversion: BookManageable, FeeCaclculatable {

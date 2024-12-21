@@ -38,6 +38,25 @@ import UIKit
  Bonus: GitHub Repo that has Code examples of above Design Patterns: https://lnkd.in/gr8mr-J8
 */
 
+
+/*
+ Creational
+    - Singleton: Ensure a class has only one instance and provide a global point of access to it (Eg: Userdefaults)
+    - Builder: Allows step-by-step construction of complex object (Eg: SmartPhone builder)
+    - Factory: Provides an interface for creating objects, but lets subclasses alter the type of objects that will be created. (Eg: smart phone factory)
+    - Prototype: Create objects by cloning an existing instance
+ 
+ Structural
+    - Facade: Provides a simplified interface to a library, a framework, or any other complex `set of classes`. (eg: )
+    - Adapter: Converts an interface of a class into another interface that the client expects. (Eg: AudioJackAdatper)
+    - Proxy: Provides a surrogate or placeholder for another object to control access to it. (Eg: Bank Account)
+ 
+ Behavioural
+    - Observer: Allows to define a one-to-many dependency between objects so that when one object changes its state. (Eg: weather station)
+    - Mediator: Centralizes communication between different objects (Eg: Airtraffic controll)
+*/
+
+
 /// `Creational` Design Pattern
 
 /// `Singleton`

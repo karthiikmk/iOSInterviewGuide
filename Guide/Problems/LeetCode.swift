@@ -33,6 +33,11 @@ class LeetCode {
     /// Think about using the sort for anagrams
     /// Think about stack, if any adjacent problems
     /// Think about slidingWidow if asked for length
+    ///
+    /// `SubArray Problems`
+    ///  Use sliding window or 
+    ///  Use prefix sum
+    ///
     func brushUp() {
         intBasics()
         strideBasics()

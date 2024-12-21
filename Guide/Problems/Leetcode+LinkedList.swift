@@ -136,39 +136,6 @@ extension LeetCode {
         return head // *** important (Not currentNode)
     }
 
-    /// NOTE: Starting both slow and fast from the same node.
-    /// Then advancing slow by 1, and fast by 2 step
-    /// By the time fast reaches the end of the list, slow will be at the middle node.
-    /// Eg: 1 → 2 → 3 → 4 → 5
-    func middleElement(of node: ListNode?) -> ListNode? {
-        var slow = node
-        var fast = node
-        // Floyd’s Cycle Detection Algorithm
-        while fast != nil && fast?.next != nil {
-            slow = slow?.next 
-            fast = fast?.next?.next
-        }
-        return slow
-    }
-
-    /// NOTE: Starting both slow and fast from the same node.
-    func hasCycle(node: ListNode?) -> Bool {
-        var slow = node // ***
-        var fast = node // ***
-
-        /// Safely advancing by 2
-        while fast != nil && fast?.next != nil {
-            slow = slow?.next
-            fast = fast?.next?.next
-            // Equating the reference, not value
-            // Same value can be in different node, but that couldn't be a cycle.
-            if slow === fast {
-                return true
-            }
-        }
-        return false
-    }
-
     /// (i.e., they “intersect” at a certain point). After the intersection point, both linked lists share the same nodes.
     /// Both first and second should share some intersection node, so that the reference can be equated
     /// first: 1 -> 3 -> 5 -> 7 -> 9
@@ -216,5 +183,42 @@ extension LeetCode {
             secondNode = secondNode?.next
         }
         return firstNode
+    }
+}
+
+// - MARK: Fast & Slow (involvs cycle)
+extension LeetCode {
+    
+    /// NOTE: Starting both slow and fast from the same node.
+    /// Then advancing slow by 1, and fast by 2 step
+    /// By the time fast reaches the end of the list, slow will be at the middle node.
+    /// Eg: 1 → 2 → 3 → 4 → 5
+    func middleElement(of node: ListNode?) -> ListNode? {
+        var slow = node
+        var fast = node
+        // Floyd’s Cycle Detection Algorithm
+        while fast != nil && fast?.next != nil {
+            slow = slow?.next
+            fast = fast?.next?.next
+        }
+        return slow
+    }
+    
+    /// NOTE: Starting both slow and fast from the same node.
+    func hasCycle(node: ListNode?) -> Bool {
+        var slow = node // ***
+        var fast = node // ***
+        
+        /// Safely advancing by 2
+        while fast != nil && fast?.next != nil {
+            slow = slow?.next
+            fast = fast?.next?.next
+            // Equating the reference, not value
+            // Same value can be in different node, but that couldn't be a cycle.
+            if slow === fast {
+                return true
+            }
+        }
+        return false
     }
 }

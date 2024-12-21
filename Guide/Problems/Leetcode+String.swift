@@ -32,66 +32,34 @@ extension LeetCode {
         // groupAnagramsUsingSort()
     }
 
-    func reverse(string: String) -> String {
-
-        var arr = Array(string)
-        var startIndex = 0
-        var endIndex = arr.count - 1
+    func reverse(string: inout [String.Element], _ start: Int, _ end: Int) {
+        var startIndex = start
+        var endIndex = end
 
         while startIndex < endIndex {
-            arr.swapAt(startIndex, endIndex)
+            string.swapAt(startIndex, endIndex)
             startIndex += 1
             endIndex -= 1
         }
-
-        return String(arr)
     }
 
     /// Eg: abcdef -> badcfe
     /// reversing by offsets (eg, by 2 chars in entire string)
     func reverseString(_ s: String, by offset: Int) -> String {
-        
         var array = Array(s)
-        func reverse(start: Int, end: Int) {
-            var startIndex = start
-            var endIndex = end
-            while startIndex < endIndex {
-                array.swapAt(startIndex, endIndex)
-                startIndex += 1
-                endIndex -= 1
-            }
-        }
-        
-        var index = 0
-        while index < array.count {
+        for index in stride(from: 0, through: array.count-1, by: offset) {
             let startIndex = index
-            let endIndex = min(index+offset-1, array.count-1) // inorder to avoid out of bounds.
-            reverse(start: startIndex, end: endIndex)
-            
-            index += offset // NextLoop
+            let endIndex = min(array.count-1, index+offset-1) // inorder to avoid out of bounds.
+            reverse(string: &array, startIndex, endIndex)
         }
         return String(array)
     }
     
     func rotateString(_ s: String, position: Int) -> String {
-        
         var array: [Character] = Array(s)
-        let endIndex: Int = array.count - 1
-        
-        func rotate(_ start: Int, _ end: Int) {
-            var startIndex: Int = start
-            var endIndex: Int = end
-            
-            while startIndex <= endIndex {
-                array.swapAt(startIndex, endIndex)
-                startIndex += 1
-                endIndex -= 1
-            }
-        }
-        
-        rotate(0, position - 1)
-        rotate(position, endIndex)
-        rotate(0, endIndex)
+        reverse(string: &array, 0, position-1)
+        reverse(string: &array, position, array.count-1)
+        reverse(string: &array, 0, array.count-1)
         
         return String(array)
     }
@@ -102,23 +70,13 @@ extension LeetCode {
 
         var array = Array(s)
         let endIndex = array.count - 1
-
-        func rotate(start: Int, end: Int) {
-            var left = start
-            var right = end
-
-            while left < right {
-                array.swapAt(left, right)
-                left += 1
-                right -= 1
-            }
-        }
+        
         // Bustand
         for _ in 0..<array.count {
             // These two rotation required to complete the entire string rotation
             // Think about moving a chat from first to last position, considered as a single rotation.
-            rotate(start: 1, end: endIndex)
-            rotate(start: 0, end: endIndex)
+            reverse(string: &array, 1, endIndex)
+            reverse(string: &array, 0, endIndex)
 
             let string = String(array)
             debugPrint("rotated string: \(string)")
@@ -127,24 +85,6 @@ extension LeetCode {
             }
         }
         return false
-    }
-
-    /// Reverse String
-    ///
-    /// Write a function that reverses a string. The input string is given as an array of characters s.
-    /// You must do this by modifying the input array in-place with O(1) extra memory.
-    func reverseString(_ s: inout [Character]) {
-
-        var startIndex: Int = 0
-        var endIndex: Int = s.count - 1
-
-        while startIndex < endIndex {
-            s.swapAt(startIndex, endIndex)
-            startIndex += 1
-            endIndex -= 1
-        }
-
-        debugPrint("chars: \(s)")
     }
 
     /// NOTE: Split the string by space
@@ -156,13 +96,7 @@ extension LeetCode {
 
         for word in array {
             var wordArray = Array(word)
-            var startIndex: Int = 0
-            var endIndex: Int = wordArray.count - 1
-            while startIndex <= endIndex {
-                wordArray.swapAt(startIndex, endIndex)
-                startIndex += 1
-                endIndex -= 1
-            }
+            reverse(string: &wordArray, 0, wordArray.count-1)
             let space = newSentence.isEmpty ? "" : " "
             newSentence += (space + "\(String(wordArray))")
         }
@@ -192,11 +126,11 @@ extension LeetCode {
         }
         
         while startIndex < endIndex {
-            /// Step1: finding the vowel from left to right
+            /// Step1: find vowel from left to right
             while startIndex < array.count && !isVowel(startIndex) {
                 startIndex += 1
             }
-            /// Step2: finding the vowel from right to left
+            /// Step2: find vowel from right to left
             while endIndex >= 0 && !isVowel(endIndex) {
                 endIndex -= 1
             }
@@ -379,7 +313,6 @@ extension LeetCode {
             if openBrackets.contains(bracket) {
                 stack.push(bracket)
             } else {
-                /// Checking.
                 if let openBracket = stack.pop() {
                     let closeBracket = brackets[openBracket]
                     /// if stack is empty, but there is closing bracket means its invalid.
@@ -543,78 +476,6 @@ extension LeetCode {
         return count
     }
 
-    /// Longest Substring Without Repeating Characters
-    ///
-    /// OJ: https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
-    ///
-    /// Eg: abcabcbb
-    /// - seealso: Sliding window
-    ///
-    /// Idea: Have the visited entires to enlarge the range.
-    /// if already visited, then we should start sliding the window as its starts repeating.
-    /// Window is not to calculate the length.
-    /// Calculate the length while inserting (where its enlarging the window)
-    func lengthOfLongestSubstringWithoutRepeatingCharacters(_ s: String) -> Int {
-        let arr = Array(s)
-        var maxLength = 0
-        var substringStartIndex = 0
-
-        var visiteds = Set<Character>()
-        var left = 0 // boundaries
-        var right = 0 // boundaris
-
-        while right < arr.count {
-            let char = arr[right]
-            if !visiteds.contains(char) { // ** important
-                visiteds.insert(char)
-                
-                let length = right - left + 1
-                if length > maxLength {
-                    maxLength = length
-                    substringStartIndex = left
-                }
-                /// Next loop
-                right += 1
-            } else {
-                visiteds.remove(arr[left])
-                left += 1
-            }
-        }
-        let longestSubstring = String(arr[substringStartIndex..<(substringStartIndex + maxLength)])
-        print(longestSubstring)
-        return maxLength
-    }
-
-    // Eg: abbaa, answer is aaaa
-    /// NOTE: The idea is to check for the left and right equalance
-    /// lengthOfLongestSubStringWithSameCharacters, arr[right] == arr[left]
-    /// Idea: Take the left and compare it with right
-    /// Topi: Sliding window
-    func lengthOfLongestConsecutiveSubstring(_ s: String = "aaabbbbaaaa") {
-        let array = Array(s)
-        var maxLength = 0
-        var substringStartIndex = 0
-
-        var left = 0
-        var right = 0
-
-        while right < array.count {
-            if array[left] == array[right] { // ** important
-                let length = right - left + 1
-                if length >= maxLength {
-                    maxLength = length
-                    substringStartIndex = left
-                }
-                right += 1
-            } else {
-                left = right
-            }
-        }
-
-        let substring = String(array[substringStartIndex..<(substringStartIndex+maxLength)])
-        print(substring)
-    }
-    
     /// Minimum Length of String After Deleting Similar Ends
     ///
     /// https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends/description/
@@ -676,6 +537,76 @@ extension LeetCode {
         }
         
         return maxLength
+    }
+}
+
+// - MARK: Sliding Window
+extension LeetCode {
+    
+    /// Longest Substring Without Repeating Characters
+    ///
+    /// OJ: https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+    ///
+    /// Eg: abcabcbb
+    /// - seealso: Sliding window
+    ///
+    /// Idea: Have the visited entires to enlarge the range.
+    /// if already visited, then we should start sliding the window as its starts repeating.
+    /// Window is not to calculate the length.
+    /// Calculate the length while inserting (where its enlarging the window)
+    func lengthOfLongestSubstringWithoutRepeatingCharacters(_ s: String) -> Int {
+        let arr = Array(s)
+        var maxLength = 0
+        
+        var visiteds = Set<Character>()
+        var left = 0 // boundaries
+        var right = 0 // boundaris
+        
+        while right < arr.count {
+            let char = arr[right]
+            if !visiteds.contains(char) { // ** important
+                visiteds.insert(char)
+                /// Length calcuation
+                let length = right - left + 1
+                if length > maxLength {
+                    maxLength = length
+                    /// substring can be found here
+                }
+                /// Next loop
+                right += 1
+            } else {
+                visiteds.remove(arr[left]) // **
+                left += 1
+            }
+        }
+        return maxLength
+    }
+    
+    // Eg: abbaa, answer is aaaa
+    /// NOTE: The idea is to check for the left and right equalance
+    /// lengthOfLongestSubStringWithSameCharacters, arr[right] == arr[left]
+    /// Idea: Take the left and compare it with right
+    /// Topi: Sliding window
+    func lengthOfLongestConsecutiveSubstring(_ s: String = "aaabbbbaaaa") {
+        let array = Array(s)
+        var maxLength = 0
+        
+        var left = 0
+        var right = 0
+        
+        while right < array.count {
+            if array[left] == array[right] { // ** important
+                /// Length Calculation
+                let length = right - left + 1
+                if length >= maxLength {
+                    maxLength = length
+                    // substring can be found ehre
+                }
+                right += 1
+            } else {
+                left = right
+            }
+        }
     }
 }
 

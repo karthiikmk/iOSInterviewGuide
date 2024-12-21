@@ -36,6 +36,7 @@
 		25998C872CF07CEA002C615E /* SD+URLShortner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25998C862CF07CEA002C615E /* SD+URLShortner.swift */; };
 		25998C892CF0AB48002C615E /* SD+Messaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25998C882CF0AB48002C615E /* SD+Messaging.swift */; };
 		259AB43B2CB41394000A46FD /* SystemDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259AB43A2CB41394000A46FD /* SystemDesign.swift */; };
+		259F018D2D14072900EF08C0 /* iOSQuestions+Coredata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259F018C2D14072900EF08C0 /* iOSQuestions+Coredata.swift */; };
 		25AA49972CFA217B00BB0922 /* DS+FileStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AA49962CFA217B00BB0922 /* DS+FileStorage.swift */; };
 		25B714582C9C28880095BC70 /* Leetcode+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B714572C9C28880095BC70 /* Leetcode+Sort.swift */; };
 		25BA9FB12CDE5B5E008C425D /* iOSQuestions+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */; };
@@ -117,6 +118,7 @@
 		25998C862CF07CEA002C615E /* SD+URLShortner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SD+URLShortner.swift"; sourceTree = "<group>"; };
 		25998C882CF0AB48002C615E /* SD+Messaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SD+Messaging.swift"; sourceTree = "<group>"; };
 		259AB43A2CB41394000A46FD /* SystemDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemDesign.swift; sourceTree = "<group>"; };
+		259F018C2D14072900EF08C0 /* iOSQuestions+Coredata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+Coredata.swift"; sourceTree = "<group>"; };
 		25AA49962CFA217B00BB0922 /* DS+FileStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DS+FileStorage.swift"; sourceTree = "<group>"; };
 		25B714572C9C28880095BC70 /* Leetcode+Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Leetcode+Sort.swift"; sourceTree = "<group>"; };
 		25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOSQuestions+Combine.swift"; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				258C6E692BA1BA9A004DBB00 /* iOSQuestions+DesignPattern.swift */,
 				259452F52CB5229500495031 /* iOSQuestions+SwiftUI.swift */,
 				25BA9FB02CDE5B5E008C425D /* iOSQuestions+Combine.swift */,
+				259F018C2D14072900EF08C0 /* iOSQuestions+Coredata.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				25EE9BF12BA4D9D2008F7DF1 /* Graph.swift in Sources */,
 				25EE9BE92BA46EF0008F7DF1 /* PriorityQueue.swift in Sources */,
 				2564A7EB257403C200C7065C /* ViewController.swift in Sources */,
+				259F018D2D14072900EF08C0 /* iOSQuestions+Coredata.swift in Sources */,
 				25ED79432CA02AF5001A2347 /* iOSQuestions+Swift.swift in Sources */,
 				258C6E612BA0E65A004DBB00 /* 2DArray.swift in Sources */,
 				25EE9C602BAE1B15008F7DF1 /* Leetcode+LinkedList.swift in Sources */,
