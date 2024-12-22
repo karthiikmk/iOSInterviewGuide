@@ -41,7 +41,12 @@ for i in 0..<array.count {
 ## Queue
 - **Queue** - First In, First Out (FIFO) data structure.
 
-## Prefix Sum 
+## Two Pointers 
+- Use **fast and slow** pointer approach to detect the cycles  
+
+## Prefix Sum
+Prefix sum also known as cumulative sum, where each element represents the **sum of all preceding elements** in the array upto the index.  
+> map, runningSum, difference 
 ```swift
 var array = [1,2,3,4,5] 
 /// The prefix sum of the above array can be build like this. 
@@ -51,12 +56,33 @@ prefixSum[i] = a[1]+a[2]+...a[i]
 prefixSum[2..4] = prefixSum[4] - prefixSum[1] 
 prefixSum[2..4] = 15 - 3 = 12 (3+4+5 = 12) 
 ```
+The following template can be used to solve most of the prefix sum problems. 
+```swift
+var map = [Int: Int]() // difference map
+map[0] = 1 // for calculating count
+map[0] = -1 // for calculating length 
+var runningSum = 0
+var i = 0 
+while i < array.count { 
+    runningSum += array[i]
+    let diff = runningSum - k // where k is target
+    if let j = map[diff] { 
+        let length = i-j
+        // work with the lenght
+    } else {
+        map[runningSum] = i 
+    }
+    i+=1 
+}
+```
 
 - To calculate **MinLength or MaxLength** of subarray/substring
 - Problem where we findout the difference 
 - func frequencySort(_ s: String) -> String 
 
 ## Sliding Window
+To solve most of the sliding window problems, first we need **Target/Size**
+> left, right, runningSum (enlarge window), length calculation, shrinking window
  
 ```swift
 // A Sample template for approaching sliding window 
@@ -79,3 +105,34 @@ while right < array.count {
 ```
 - Use to find out substring/subarray sums, products inside an array
 - To calculate **MinLength or MaxLength** of subarray/substring 
+
+## Dynamic Programming 
+
+```swift
+// Diagnal Iteration: a difference to iterate and fill the dp table diagnolly.
+for diff in 0..<n {
+    for i in 0..<(n-diff) {
+        let j = i+diff
+        print("(\(i), \(j))")
+    }
+}
+```
+
+Dp Table: 1D
+> Clone array with 0, dp table, including previous + current, excluding previous
+- `func findMaxConsecutiveOnces(_ nums: [Int]) -> Int`
+- `func findMaxSubArraySum(_ array: [Int])`
+- `func longestIncreasingSubSequence(_ nums: [Int]) -> Int` [LeetCode](https://leetcode.com/problems/longest-increasing-subsequence) | [Youtube](https://www.youtube.com/watch?v=CE2b_-XfVDk)
+
+Dp Table 2D: 
+- `func longestPalindromeSubstring(_ s: String) -> String`
+- `func longestPalindromeSubsequce(_ s: String) -> String`
+- `func longestCommonSubstring(_ text1: String, _ text2: String) -> Int`
+- `func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int`
+- `func longestConsecutiveSubsequence(_ nums: [Int]) -> [Int]`
+
+## LinkedList 
+- Use three pointers to reverse a single linked list
+- On another way to reverse single linked list is to use stack. 
+    - Traverse the list, append it in the stack, then pop it. which will give the nodes in reverse order
+    - Use that to construct new linked list

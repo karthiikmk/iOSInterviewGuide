@@ -432,7 +432,6 @@ extension LeetCode {
     /// Idea: Use sum of natural numbers
     /// nums array should contains values from `0 to n`
     func missingNumber(_ nums: [Int]) -> Int {
-        let n = nums.count
         let expectedSum = nums.toNaturalNumbersSum()
         let actualSum = nums.reduce(0, +)
         return expectedSum-actualSum // will the give missing number.
@@ -1266,12 +1265,16 @@ extension LeetCode {
         
         while i < nums.count {
             runningSum += nums[i]
-            let remainingSum = runningSum - k // important
-            if let j = map[remainingSum] {
+            let difference = runningSum - k // important
+            if let j = map[difference] { // first occurance
+                let length = i - j
                 maxLength = max(maxLength, i - j)
                 minLength = min(minLength, i - j)
+                if length > maxLength {
+                    let start = i - length + 1
+                    print("subarray: \(nums[start...i])")
+                }
             } else {
-                /// If the sum is new, it’s added to the map along with its index.
                 map[runningSum] = i
             }
             i += 1
@@ -1372,7 +1375,7 @@ extension LeetCode {
 // - MARK: Subsequence
 extension LeetCode {
  
-    /// NOTE: A subset is any selection of elements from the array.
+    /// NOTE: A subset is any `selection of elements` from the array.
     /// The elements of a subset `need not to be contiguous .
     func subsets(_ nums: [Int]) -> [[Int]] {
         var result = [[Int]]()

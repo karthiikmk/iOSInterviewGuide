@@ -11,7 +11,6 @@ class MyPlayground {
     
     func run() {
         print("start")
-        
         print("end")
     }
 }
