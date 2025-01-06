@@ -158,6 +158,12 @@ extension LeetCode {
     /// https://leetcode.com/problems/longest-increasing-subsequence/
     /// Input: nums = [10,9,2,5,3,7,101,18]
     /// Output: 4
+    ///
+    /// Idea:
+    /// 1.Check elements in backward. so that we can get increasing order easily.
+    /// 2.Iterating from i = 1, and j from 0 to i
+    /// 3.Condition: arr[j] < arr[i] then that is in increasing order
+    /// 4.Update: Update the dp table only if the new value is greater
     func longestIncreasingSubSequence(_ array: [Int]) -> Int {
         
         // DP array to store the length of LIS at each index
@@ -167,26 +173,25 @@ extension LeetCode {
         
         for i in 1..<array.count {
             for j in 0..<i { // j starts from 0 and goes till i, reset again from start.
-                if array[j] < array[i] {
-                    /// Length alone
+                if array[j] < array[i] && (dp[j]+1) > dp[i] {
                     /// dp[i] = max(dp[i], array[j]+1)
-                    if (dp[j] + 1) >= dp[i] {
-                        dp[i] = dp[j] + 1
-                        idx[i] = j
-                    }
+                    dp[i] = dp[j] + 1
+                    idx[i] = j // ** catching the j position
                 }
             }
         }
+        
+        // Find the index of the maximum value in dp
+        guard let maxIndex = dp.maxElementIndex() else { return 0 }
+        
         /// Calculating the sequence.
         /// Traversing from right to left
-        var index = array.count-1
+        var index = maxIndex
         var result = [Int]()
         
         while index != -1 {
-            let goToIndex = idx[index]
-            let value = array[index]
-            result.append(value)
-            index = goToIndex
+            result.append(array[index])
+            index = idx[index] // go to index
         }
         print("idx: \(idx)")
         print("subseq: \(Array(result.reversed()))")
@@ -200,14 +205,14 @@ extension LeetCode {
     /// then check the number set for the consective numbers using counter.
     /// if there is previous number then its not fresh start.
     func longestConsecutiveSubsequence(_ nums: [Int]) -> [Int] {
+        var result = [Int]()
         
-        var maxLength: Int = Int.min
-        var sequence = [Int]()
         let numberSet = Set(nums)
-        var index = 0
+        var maxLength: Int = Int.min
         
-        while index < nums.count {
-            let number = nums[index]
+        var i = 0
+        while i < nums.count {
+            let number = nums[i]
             /// Looking for the fresh start.
             if !numberSet.contains(number-1) {
                 var runningNumber = number // why becoz we cant say its always 1. it can be any number, from there the sequence.
@@ -219,13 +224,13 @@ extension LeetCode {
                 
                 if length > maxLength {
                     maxLength = length
-                    sequence = Array(number...runningNumber) // ** creating sequence using `running number` not with lenght.
+                    result = Array(number...runningNumber) // ** creating sequence using `running number` not with lenght.
                 }
             }
             /// Next loop
-            index += 1
+            i += 1
         }
-        return sequence
+        return result
     }
 }
 
@@ -245,6 +250,18 @@ extension LeetCode {
      */
     /// Eg: aabaa
     /// In a string, every char is a palindrome (so in diagnal, setting 1 for single char by default)
+    /// Pre:
+    /// - Single character is valid palindrome
+    /// - Two char with same char is valid palindrome (diff == 2)
+    ///
+    /// Idea:
+    /// 1. Use 2D DP table with 0's
+    /// 2. Traverse diagonally && fill vertically
+    /// 3. Update the table using following Condition:
+    ///     - i == j (single char)
+    ///     - diff == 1 (two char)
+    ///     - i & j char are equal & dp[i+1][j-1] > 0 (diagonal value), then update by 2
+    /// 4. Length calculation
     func longestPalindromeSubstring(_ s: String) -> String {
         
         var longestPalindrome = ""
@@ -255,10 +272,8 @@ extension LeetCode {
         let n = array.count
         var dp = Array(repeating: Array(repeating: 0, count: n), count: n)
         
-        /// using diff, we can easily iterate diagnally
-        /// if diff == 1, then its 2 chars check.
-        for diff in 0..<n { // 0, 1, 2, 3, 4
-            for i in 0..<(n-diff) { // 0, 1, 2, 3, 4
+        for diff in 0..<n {
+            for i in 0..<(n-diff) {
                 let j = i+diff
                 
                 /// array: aabaa
@@ -288,6 +303,11 @@ extension LeetCode {
     /// NOTE: palindrom `need not to be contagious`
     /// https://www.youtube.com/watch?v=_nCsPn7_OgI
     /// Eg: agbdba
+    /// Idea:
+    /// The only diff with above substring is how table is filled
+    /// if char are not equal, then take whichever max value
+    ///    - max(dp[i + 1][j], dp[i][j - 1])
+    /// same follow while creating the sequence back.
     func longestPalindromeSubsequce(_ s: String) -> String {
         
         /// we gonna fill the array diagnoly
@@ -342,7 +362,14 @@ extension LeetCode {
     
     /// NOTE: Given two text, find the common longest `substring` (should be contagious)
     /// Eg: abcdaf, gbcdf, Op: bcd
-    /// Topic: Dynamic programming
+    ///
+    /// Topic:
+    /// 1. Create dp table with length+1, filled with 0's'
+    /// 2. Traverse and fill the table `horizontally` (starting with 1)
+    /// 3. Condition
+    ///     - if first array element is == second array element, then dp[i - 1][j - 1] + 1
+    ///     - if not update by 0
+    /// 4. Calculate the length
     func lengthOfLongestCommonSubstring(_ text1: String, _ text2: String) -> Int {
         
         let m = text1.count
@@ -396,6 +423,15 @@ extension LeetCode {
     /// if not, then max of the dp[i-1][j] or dp[i][j-1]
     /// Input: text1 = "abcde", text2 = "ace"
     /// Output: 3
+    ///
+    /// Topic:
+    /// 1. Create dp table with length+1, filled with 0's'
+    /// 2. Traverse and fill the table `horizontally` (starting with 1)
+    /// 3. Condition
+    ///     - if first array element is == second array element, then dp[i - 1][j - 1] + 1
+    ///     - if not update by 0
+    /// 4. Calculate the length
+    /// 5. [Only for subsequence] Traverse array from right to left to find the common sequence
     func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int {
         
         let m = text1.count
@@ -405,6 +441,7 @@ extension LeetCode {
         let firstArray = Array(text1)
         let secondArray = Array(text2)
         
+        var maxLength = 0
         var dp = Array(repeating: Array(repeating: 0, count: n+1), count: m+1)
         
         /// filling the table
@@ -415,13 +452,19 @@ extension LeetCode {
                 } else {
                     dp[i][j] = max(dp[i-1][j], dp[i][j-1]) // max of left or up value
                 }
+                // Length Calculation
+                if dp[i][j] > maxLength {
+                    maxLength = dp[i][j]
+                }
             }
         }
         
+        /// Traversing from `right to left`
         var i = m
         var j = n
         var result: [Character] = []
         
+        /// Same as palindrome, but here with 2 text arrays rather one array.
         /// Start comparing bacwards in both text
         /// Now lets find out the sequence by iterating from right.
         while i > 0 && j > 0 {
@@ -429,17 +472,100 @@ extension LeetCode {
                 result.append(firstArray[i-1])
                 i -= 1
                 j -= 1
-            } else if dp[i-1][j] > dp[i][j-1] {
-                // Move up if the value above is larger
+            } else if dp[i-1][j] > dp[i][j-1] { // Move up if the value above is larger
                 i -= 1
-            } else {
-                // Move left if the value on the left is larger or equal
+            } else { // Move left if the value on the left is larger or equal
                 j -= 1
             }
         }
         let sequence = String(result.reversed())
         print("subsequence: \(sequence)")
-        return dp[m][n]
+        return maxLength
+    }
+    
+    /// NOTE: Make sure the weight is sorted
+    /// Iterating from 1
+    /// Weights, profits are index based, so we should subtract by 1 to get the previous value
+    func knapsack(weights: [Int], profit: [Int], knapsack: Int) -> (maxProfit: Int, selectedItems: [Int]) {
+        // Initialize the DP table with zero values
+        var dp = Array(repeating: Array(repeating: 0, count: knapsack + 1), count: weights.count + 1)
+        
+        // Fill the DP table
+        for i in 1...weights.count {
+            let weight = weights[i - 1]
+            for j in 1...knapsack {
+                if j < weight { // current capacity is less than the item's weight, can't take this item (so taking previous)
+                    dp[i][j] = dp[i - 1][j]
+                } else { // profit [i-1] as array is 0 based
+                    let currentWeightProfit = profit[i - 1]
+                    let remainingWeightProfit = dp[i - 1][j - weight]
+                    dp[i][j] = max(dp[i - 1][j], currentWeightProfit + remainingWeightProfit)
+                }
+            }
+        }
+        
+        // Find out the maximum profit
+        let maxProfit = dp[weights.count][knapsack]
+        
+        // Trace back to find the items included in the optimal solution
+        // Tracing from bottom to top, so from max i to min i (where i is weight)
+        var selectedItems = [Int]()
+        var i = weights.count
+        var j = knapsack
+        
+        // right to left 
+        while i > 0 { // Strictly from 1 as 0 is empty in our case
+            if dp[i][j] != dp[i - 1][j] {  // (look top) This item is included
+                selectedItems.append(i - 1)  // Store the index of the included item
+                j -= weights[i - 1]  // Reduce the remaining capacity
+            }
+            i -= 1  // Move to the previous item
+        }
+        
+        // Reverse to get the order of selection
+        selectedItems.reverse()
+        
+        return (maxProfit, selectedItems)
+    }
+    
+    // Profilt/Weight ratio
+    // Convert the collection into Item struct (both profit and wight should be double)
+    // Sort(desc) the struct by profilt/wight ratio
+    // Calculate the maxWeight using runningWeight
+    func fractionalKnapsack(weights: [Double], profilt: [Double], knapsack: Double) -> Double {
+        
+        struct Item: CustomDebugStringConvertible {
+            let profit: Double
+            let weight: Double
+            
+            var ratio: Double { profit/weight }
+            var debugDescription: String { "\(ratio)" }
+        }
+        
+        /// Constructing Item using given weight and profit to sort desc order
+        var items = [Item]()
+        for (index, weight) in weights.enumerated() {
+            items.append(.init(profit: profilt[index], weight: weight))
+        }
+        /// Sorting items (desc) by their profile/weight ratio
+        /// So that max ratio elements can be taken first to maximize the profits
+        items.sort { $0.ratio > $1.ratio }
+        
+        var maxProfit: Double = 0
+        var runningWeight = 0.0
+        for i in 0..<items.count {
+            /// Adding each items into the bag and see if we are exceeding the limit
+            if runningWeight + items[i].weight <= knapsack {
+                runningWeight += items[i].weight
+                maxProfit += items[i].profit
+            } else { // if exceeding, go for remaining.
+                let remaningWeight = knapsack-runningWeight
+                let profit = remaningWeight * items[i].ratio 
+                maxProfit += profit
+                break // important. we should nto continue further
+            }
+        }
+        return maxProfit
     }
     
     /// https://leetcode.com/problems/number-of-longest-increasing-subsequence/description/

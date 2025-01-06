@@ -121,14 +121,87 @@ for diff in 0..<n {
 Dp Table: 1D
 > Clone array with 0, dp table, including previous + current, excluding previous
 - `func findMaxConsecutiveOnces(_ nums: [Int]) -> Int`
-- `func findMaxSubArraySum(_ array: [Int])`
+```swift
+/// Use dp table to track the maximum sum at each cell.
+/// Condition: 
+/// - if array[i] > previous sum (dp[i-1]+array[i]), that can be considered fresh start 
+/// - Otherwise it just enlarging the sum window.
+/// Length Calculation: Calculate the max length whenever updating the dp table. 
+func findMaxSubArraySum(_ array: [Int]) { }
+```
 - `func longestIncreasingSubSequence(_ nums: [Int]) -> Int` [LeetCode](https://leetcode.com/problems/longest-increasing-subsequence) | [Youtube](https://www.youtube.com/watch?v=CE2b_-XfVDk)
 
 Dp Table 2D: 
-- `func longestPalindromeSubstring(_ s: String) -> String`
-- `func longestPalindromeSubsequce(_ s: String) -> String`
-- `func longestCommonSubstring(_ text1: String, _ text2: String) -> Int`
-- `func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int`
+```swift
+/// 1. Create 2D dp table with 0's
+/// 2. Traverse diagonally && fill vertically
+/// 3. Condition:
+///     - i == j (single char)
+///     - diff == 1 (two char)
+///     - arr[i] == [j] => update by 2
+///     - arr[i] == [j] => max(dp[i + 1][j], dp[i][j - 1])
+/// 4. Length calculation: whenever updating the dp table
+func longestPalindromeSubstring(_ s: String) -> String { }
+```
+```swift
+/// 1. Create 2D dp table with 0's
+/// 2. Traverse diagonally && fill vertically
+/// 3. Condition:
+///     - i == j (single char)
+///     - diff == 1 (two char)
+///     - arr[i] == [j] => update by 2
+///     - arr[i] == [j] => max(dp[i + 1][j], dp[i][j - 1])
+/// 4. Length calculation
+/// 5. Construct palindrome text by traversing with start and end.
+///     - use dp table values (bottom || left)
+func longestPalindromeSubsequce(_ s: String) -> String { }
+```
+```swift
+/// 1. Create dp table with length+1, filled with 0's'
+/// 2. Traverse and fill the table `horizontally` (starting with 1)
+/// 3. Condition:
+///     - if A[i-1] == B[j-1] => dp[i - 1][j - 1] + 1
+///     - if not update by 0
+/// 4. Calculate the length (whenever updating the dp table)
+func longestCommonSubstring(_ text1: String, _ text2: String) -> Int { }
+```
+```swift
+/// 1. Create dp table with length+1, filled with 0's'
+/// 2. Traverse and fill the table `horizontally` (starting with 1)
+/// 3. Condition:
+///     - if A[i-1] == B[j-1] => dp[i - 1][j - 1] + 1
+///     - if not => max(dp[i-1][j], dp[i][j-1]) 
+/// 4. Calculate the length
+/// 5. Construct common string by traversing both arrays from right to left.
+///     - use dp table values (top || left) 
+func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int { }
+```
+```swift 
+/// 1. Create dp table with length+1, filled with 0's'
+/// 2. Traverse and fill the table `horizontally` (starting with 1)
+/// 3. Condition:
+///     - clone previous, if knapsack (bag) < current element
+///     - if not, max(dp[i - 1][j], profit[i - 1] + dp[i - 1][j - weights[i - 1]])
+/// 4. Result (weigth based)
+///     - Traverse each weight from last cell, to findout the items that were picked. 
+///     - if current != previous then that item is picked
+///     - subtract the picked item weigth will give the remaning weigth in the cell. 
+func knapSack(weights: [Int], profit: [Int], knapsack: Int) { }
+```
+
+```swift
+// Convert the collection into Item struct (both profit and wight should be double)
+// Sort(desc) the struct by profilt/wight ratio
+// Calculate the maxWeight using runningWeight (by adding each item into the bag)
+// Use knapsack as the max weight (bag limit)
+func fractionalKnapsack(weights: [Double], profilt: [Double], knapsack: Double) -> Double { }
+```
+
+```swift
+/// Approach 1: select the item with max profit first 
+/// Approach 2: select the which has minimum weight(help to select more items)
+/// Approach 3: Select the item which has max (profit/weight) ratio 
+```
 - `func longestConsecutiveSubsequence(_ nums: [Int]) -> [Int]`
 
 ## LinkedList 

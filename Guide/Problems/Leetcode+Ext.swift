@@ -48,6 +48,12 @@ extension Array where Element == Int {
         let n = self.count
         return n*(n+1)/2
     }
+    
+    /// Returns the index of the maximum element in the array.
+    func maxElementIndex() -> Int? {
+        guard !isEmpty else { return nil } // Return nil if the array is empty
+        return self.indices.max(by: { self[$0] < self[$1] })
+    }
 }
 
 public enum SortType {
