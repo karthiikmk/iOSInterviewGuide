@@ -42,7 +42,45 @@ for i in 0..<array.count {
 - **Queue** - First In, First Out (FIFO) data structure.
 
 ## Two Pointers 
-- Use **fast and slow** pointer approach to detect the cycles  
+- Use **fast and slow** pointer approach to detect the cycles
+
+## Modified Binary Search 
+```swift
+/// Next greater element
+while left <= right 
+    array[mid] <= target   
+        left = mid + 1; right = mid - 1
+
+/// Find min element 
+while left < right 
+    array[mid] > array[right]  
+        left = mid + 1, right = mid
+
+/// Find max element
+while left < right 
+    array[mid] > array[right]  
+        left = mid, right = mid - 1
+
+/// find peak element
+while left < right 
+    array[mid] < array[mid+1]
+        left = mid + 1, right = mid
+
+/// Search in cicular sorted array (including duplicates)
+while left <= right 
+    array[left] <= array[mid]
+        array[left] <= target && target <= array[mid]
+
+/// Find Occurance 
+while left <= right 
+    mid > 0, array[mid] == target && array[mid-1] != target 
+        array[mid] >= target; right = mid - 1 
+
+/// Find Last occurance
+while left <= right
+    mid < array.count && array[mid] == target && array[mid+1] != target 
+        array[mid] <= target; left = mid + 1 
+```
 
 ## Prefix Sum
 Prefix sum also known as cumulative sum, where each element represents the **sum of all preceding elements** in the array upto the index.  
@@ -104,7 +142,50 @@ while right < array.count {
 }
 ```
 - Use to find out substring/subarray sums, products inside an array
-- To calculate **MinLength or MaxLength** of subarray/substring 
+- To calculate **MinLength or MaxLength** of subarray/substring
+
+## Kth Element 
+```swift
+/// Grab prefix upto the k as heap. 
+/// Use min heap (asc sort)
+/// Traverse from the kth element as we grapped upto prefix 
+/// Override the heap[0] whenever seeing larger values 
+func kthLargest(_ array: [Int], _ k: Int) -> Int? { }
+```
+
+```swift
+/// Grab prefix upto the k as heap. 
+/// Use max heap (desc sort)
+/// Traverse from the kth element as we grapped upto prefix 
+/// Override the heap[0] whenever seeing smaller values then heap head. 
+func kthSmallest(_ array: [Int], _ k: Int) -> Int? { }
+```
+
+```swift
+/// Calculate the frequency 
+/// Use min heap (asc sort) - (kth largest element technique)
+/// Grab the values upto the limit (k)
+/// Override the heap whenever seeing larger frequency 
+func topKFrequent(_ nums: [Int], _ k: Int = 2) -> [Int] { } 
+```
+## Monotonic Stack 
+```swift
+/// Clone array to track the next/previous smaller/greater elements
+/// Use index stack to track index which didn't yet find the answer
+/// Traverse each element, lookup the stack to find the answer. 
+/// Update the stack with the current index, so that its result can be found later.
+func nextGreaterElements(_ nums: [Int]) -> [Int] { }
+func nextSmallerElements(_ nums: [Int]) -> [Int] { }
+```
+
+```swift
+/// Clone the array to track the result 
+/// Use index stack 
+/// Traverse each element, lookup the stack and remove the elements till smaller/greater as per our requirement 
+/// Update the index stack 
+func previousGreaterElements(_ nums: [Int]) -> [Int] { }
+func previousSmallerElements(_ nums: [Int]) -> [Int] { }
+```
 
 ## Dynamic Programming 
 

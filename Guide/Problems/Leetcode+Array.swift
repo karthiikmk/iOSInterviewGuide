@@ -272,18 +272,6 @@ extension LeetCode {
         return result
     }
     
-    func findMedianInSortedArrays(_ num1: [Int], _ num2: [Int]) -> Double {
-        let array = mergeTwoSortedArray(num1, num2)
-        /// findout the median (for odd length n is the median, for even the avg of n and n-1)
-        let n = array.count
-        let isEven = n % 2 == 0
-        if isEven {
-            return Double(array[(n/2)-1] + array[n/2]) / 2.0 // avg
-        } else {
-            return Double(array[n/2])
-        }
-    }
-    
     /// - NOTE: same thing we can do for the above as well.
     func mergeUnsortedArray(_ first: [Int], _ second: [Int]) -> [Int] {
         let array = first + second
@@ -735,6 +723,8 @@ extension LeetCode {
 
 // - MARK: Top-K Elements Pattern
 /// Sort - asc, Sort(by: >) - desc
+/// Min heap - asc sort
+/// Max heap - desc sort
 extension LeetCode {
     
     /// NOTE: if its already sorted, then
@@ -838,18 +828,23 @@ extension LeetCode {
         ? largest
         : k == 1 ? secondLargest : thirdLargest
     }
-
+    
+    // grap the prefix elements
+    // asc sort it
+    // traverse from the k element
+    // update the heap, whenever seeing bigger values than heap
     func kthLargestUsingHeap(_ array: [Int], _ k: Int) -> Int? {
-        var minHeap = array.prefix(k)
-        minHeap.sort(type: .asc)
+        var heap = array.prefix(k)
+        heap.sort(type: .asc) // min heap
 
         for index in k..<array.count {
-            if array[index] > minHeap[0] {
-                minHeap[0] = array[index]
-                minHeap.sort(type: .asc)
+            /// Overriding the heap if the current value is greater than the heap.
+            if array[index] > heap[0] {
+                heap[0] = array[index]
+                heap.sort(type: .asc)
             }
         }
-        return minHeap[0]
+        return heap[0]
     }
 
     /// By keeping the largest element at the top, we can quickly remove it if we encounter a smaller element in the array.
@@ -858,16 +853,16 @@ extension LeetCode {
         guard k > 0 && k <= array.count else { return nil }
 
         // Create a max-heap with the first `k` elements
-        var maxHeap = array.prefix(k)
-        maxHeap.sort(type: .desc)
+        var heap = array.prefix(k)
+        heap.sort(type: .desc) // max heap
 
         for i in k..<array.count {
-            if array[i] < maxHeap[0] { // ** update only if smaller number found than heap.
-                maxHeap[0] = array[i]
-                maxHeap.sort(type: .desc)
+            if array[i] < heap[0] { // ** update only if smaller number found than heap.
+                heap[0] = array[i]
+                heap.sort(type: .desc)
             }
         }
-        return maxHeap[0]
+        return heap[0]
     }
     
     /// Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
@@ -875,26 +870,27 @@ extension LeetCode {
     ///
     /// Idea:
     /// Brute Force: use a dictionary to count the frequency, then sort the keys of the dictionary based on their frequency.
-    /// Optimized: instead of sorting, use heap (apply same kth largest technique)
+    /// Optimized: instead of sorting, use min heap with k as limit, and override whenever larger freq comes.
     func topKFrequent(_ nums: [Int] = [1,1,1,2,2,3,3,3], _ k: Int = 2) -> [Int] {
-        var frequencyDict = [Int: Int]()
-        
-        // Count the frequency of each element
+        var frequency = [Int: Int]()
         for num in nums {
-            frequencyDict[num, default: 0] += 1
+            frequency[num, default: 0] += 1
         }
         // Using a min-heap to keep the top k elements
-        var heap = [(num: Int, freq: Int)]()  // (frequency, number)
-        for (num, freq) in frequencyDict {
+        struct Item {
+            let num: Int
+            let freq: Int
+        }
+        var heap = [Item]() // Min Heap
+        for (num, freq) in frequency {
             if heap.count < k {
-                heap.append((num, freq))
+                heap.append(.init(num: num, freq: freq))
                 heap.sort(by: { $0.freq < $1.freq }) // asc sort
             } else if freq > heap[0].freq {
-                heap[0] = (num, freq)
+                heap[0] = .init(num: num, freq: freq) // overriding the heap
                 heap.sort(by: { $0.freq < $1.freq }) // Re-sort to maintain min-heap order
             }
         }
-        // Extract the numbers from the heap
         return heap.map { $0.num }
     }
     
@@ -1163,19 +1159,21 @@ extension LeetCode {
 /// if count based, then init map with [0: 1]
 extension LeetCode {
 
-    /// prefixSum[i] = arr[0] + arr[1] + arr[2] . . . arr[i].
     func runningSum(_ array: [Int] = [10,20,10,5,15]) -> [Int] {
         guard !array.isEmpty else { return [] }
         var prefixSum = [Int]()
         prefixSum.append(array[0])
         
         for i in 1..<array.count {
-            let prev = prefixSum[i-1]
-            let current = array[i]
-            prefixSum.append(prev+current)
+            prefixSum.append(prefixSum[i-1]+array[i])
         }
         print("runningSum: \(prefixSum)")
         return prefixSum
+    }
+    
+    /// prefixSum[i] = arr[0] + arr[1] + arr[2] . . . arr[i].
+    func prefixSum(_ array: [Int]) -> [Int] {
+        runningSum(array)
     }
     
     /// https://leetcode.com/problems/find-the-highest-altitude/
@@ -1198,14 +1196,53 @@ extension LeetCode {
     func findMiddleIndex(_ nums: [Int]) -> Int {
         let prefixSum = runningSum(nums) // [2,5,4,12,16]
 
-        for index in 0..<nums.count {
-            let leftSum = index > 0 ? prefixSum[index-1] : 0 // upto previous index
-            let rightSum = prefixSum[nums.count-1] - prefixSum[index] // from endIndex - current = rest
+        for i in 0..<nums.count {
+            let leftSum = i > 0 ? prefixSum[i-1] : 0 // upto previous index
+            let rightSum = prefixSum[nums.count-1] - prefixSum[i] // from endIndex - current = rest
             if leftSum == rightSum {
-                return index
+                return i
             }
         }
         return -1
+    }
+    
+    /// Find number of ways to split an array into two subarrays with
+    /// the `sum of the first subarray` >= `sum of the second subarray`.
+    ///
+    /// Idea:
+    /// find the prefix sum
+    /// check each index sum is >= the remaining part
+    func numberOfWaysToSplitArray(_ array: [Int]) -> Int {
+            
+        var prefixSum = runningSum(array)
+        let totalSum = prefixSum[array.count-1]
+        var count: Int = 0
+        
+        for i in 0..<array.count {
+            let firstSubArray = prefixSum[i]
+            let secondSubArray = totalSum - prefixSum[i] // remaining part.
+            if firstSubArray >= secondSubArray {
+                count += 1
+            }
+        }
+        
+        /// Alternative way (No extraspace, without prefixSum)
+        var rightSum = 0
+        var leftSum = 0
+        
+        for i in 0..<array.count {
+            rightSum += array[i]
+        }
+        /// Increasing leftSum, Reducing the right sum.
+        /// so that it can find the first bigger part.
+        for i in 0..<array.count {
+            leftSum += array[i]
+            rightSum -= array[i]
+            if leftSum >= rightSum {
+                count += 1
+            }
+        }
+        return count
     }
     
     /// - NOTE: Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
@@ -1341,6 +1378,13 @@ extension LeetCode {
 extension LeetCode { }
 
 // - MARK: Monotonic stack
+/// next greater element, next smaller element, finding maximum areas
+/// Time Complexity: O(n) even though there is a loop inside a loop, no element is processed more than twice (push and pop)
+///
+/// Clone array to track the next/previous smaller/greater elements
+/// Use index stack to track index which didn't yet find the answer
+/// Traverse each element, and compare each element with stack to find the answer
+/// Update the stack with the current index, so that its result can be found later.
 extension LeetCode {
  
     /// Idea: if array maintained in decreasing order, which means that doesn't have any next greater numbers.
@@ -1348,28 +1392,315 @@ extension LeetCode {
     /// Eg: [2,1,2,4,3], result = [3,2,3,-1,-1]
     func nextGreaterElements(_ nums: [Int] = [2,1,2,4,3]) -> [Int] {
         var result = Array(repeating: -1, count: nums.count) // index
-        var stack = [Int]() // Maintains decreasing order (indices)
-        for (index, num) in nums.enumerated() {
-            while !stack.isEmpty && nums[stack.last!] < num { // value comparision
-                result[stack.removeLast()] = num // change to index if we required.
+        var indexStack = [Int]() // Maintains decreasing order (indices)
+        for (i, num) in nums.enumerated() {
+            while !indexStack.isEmpty && nums[indexStack.last!] < num { // value comparision
+                result[indexStack.removeLast()] = num
             }
-            stack.append(index)
+            indexStack.append(i)
         }
         print("result: \(result)")
+        return result
+    }
+    
+    /// Remove all the previous smaller elements, the remaining last item is what the previous greater one.
+    func previousGreaterElements(_ nums: [Int] = [2,1,2,4,3]) -> [Int] {
+        var result = Array(repeating: -1, count: nums.count)
+        var stack = [Int]() // Stack to hold indices of nums array
+        
+        for (i, num) in nums.enumerated() {
+            while !stack.isEmpty && nums[stack.last!] <= num { // (equal elements has to be removed)
+                stack.removeLast()
+            }
+            // If stack is not empty, the top element is the previous greater element
+            if let stackTop = stack.last {
+                result[i] = nums[stackTop]
+            }
+            stack.append(i)
+        }
+        print("Result with previous greater elements: \(result)")
+        return result
+    }
+    
+    func nextSmallerElements(_ nums: [Int] = [2,1,2,4,3]) -> [Int] {
+        var result = Array(repeating: -1, count: nums.count)
+        var indexStack = [Int]()
+        for (i, num) in nums.enumerated() {
+            while !indexStack.isEmpty && nums[indexStack.last!] > num {
+                result[indexStack.removeLast()] = num
+            }
+            indexStack.append(i) // important
+        }
+        return result
+    }
+    
+    func previousSmallerElements(_ nums: [Int] = [2,1,2,4,3]) -> [Int] {
+        var result = Array(repeating: -1, count: nums.count)
+        var stack  = [Int]()
+        for (i, num) in nums.enumerated() {
+            while stack.isEmpty && nums[stack.last!] >= num {
+                stack.removeLast()
+            }
+            // If stack is not empty, the top element is the previous smaller element
+            if let stackTop = stack.last {
+                result[i] = nums[stackTop]
+            }
+            stack.append(i)
+        }
+        return result
+    }
+    
+    /// Given an array of integers temperatures represents the daily temperatures,
+    /// return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature.
+    /// If there is no future day for which this is possible, keep answer[i] == 0 instead.
+    ///
+    /// Input: [73, 74, 75, 71, 69, 72, 76, 73]
+    /// Output: [1, 1, 4, 2, 1, 1, 0, 0]
+    ///
+    /// Idea: Use next greater element technique (warm)
+    func dailyTemperatures(_ temperatures: [Int]) -> [Int] {
+        var stack: [Int] = []
+        var result = Array(repeating: 0, count: temperatures.count)
+        for i in 0..<temperatures.count {
+            while !stack.isEmpty && temperatures[stack.last!] < temperatures[i] {
+                let stackTop = stack.removeLast()
+                result[stackTop] = i - stackTop // Need to find days (not temperature difference)
+            }
+            stack.append(i)
+        }
+        return result
+    }
+    
+    /// Number of visible people in the queue
+    /// https://leetcode.com/problems/number-of-visible-people-in-a-queue/description/
+    ///
+    /// Idea: Combination of next greater and previous greater.
+    /// 1. findout then next taller person to the right (next greater)
+    /// 2. also the person who is taller than the current persion (previous greater)
+    func canSeePersonsCount(_ heights: [Int]) -> [Int] {
+        var result = Array(repeating: 0, count: heights.count)
+        var stack  = [Int]()
+        for i in 0..<heights.count {
+            while !stack.isEmpty && heights[stack.last!] <= heights[i] {
+                let stackTop = stack.removeLast()
+                result[stackTop] += 1 // next greater
+            }
+            if let stackTop = stack.last {
+                result[i] += 1 // previous greater
+            }
+            stack.append(i)
+        }
         return result
     }
 }
 
 // - MARK: Modified binary search pattern ****
+
+/// Algorithm:
+///
+/// Find the middle element of the array.
+/// Check if the middle element is the minimum element
+/// If the middle element does not satisfy the minimum element condition then apply binary search on the unsorted half of the array.
 extension LeetCode {
     
-//    SEARCHING IN A NEARLY SORTED ARRAY
-//    SEARCHING IN A ROTATED SORTED ARRAY
-//    SEARCHING IN A LIST WITH UNKNOWN LENGTH
-//    SEARCHING IN AN ARRAY WITH DUPLICATES
-//    FINDING THE FIRST OR LAST OCCURRENCE OF AN ELEMENT
-//    FINDING THE SQUARE ROOT OF A NUMBER
-//    FINDING A PEAK ELEMENT
+    /// All the problems here are following *SORTED* inputs.
+    /// Without sorting, we couldn't apply modified binary search.
+    
+    /// Find Smallest Letter Greater Than Target (Next greater element)
+    /// https://leetcode.com/problems/find-smallest-letter-greater-than-target/
+    ///
+    /// Idea:
+    /// Character can be be compared with operators like (<,>, and =)
+    /// Apply modified binary search
+    /// modified binary search algorithm is to find the *leftmost occurrence* of an element in a sorted array
+    func nextGreatestLetter(_ array: [Character], _ target: Character) -> Character {
+        var left = 0
+        var right = array.count - 1
+        while left <= right {
+            let mid = left + (right - left) / 2
+            if array[mid] <= target {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        return array[left % array.count]
+    }
+    
+    /// Find Minimum in Rotated Sorted Array
+    /// https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description
+    ///
+    /// Input: [4, 5, 6, 7, 0, 1, 2] => 0
+    /// Input: [4, 5, 6, 0, 1, 2, 3] => 0
+    ///
+    /// Idea:
+    /// min element always found in the unsorted half.
+    /// find the *leftmost occurrence* of an element in a unsorted half
+    /// It doesn't mean, if we find left sorted array, the right is unsorted.
+    func findMin(_ array: [Int]) -> Int? {
+        guard !array.isEmpty else { return nil } // Return nil if the array is empty
+        var left = 0
+        var right = array.count - 1
+        
+        while left < right {
+            let mid = left + (right - left) / 2
+            if array[mid] > array[right] { // Minimum is in the right half
+                left = mid + 1
+            } else { // Minimum is in the left half (including mid)
+                right = mid
+            }
+        }
+        // At the end, left == right, which is the min index
+        return array[left]
+    }
+    
+    // Function to find the maximum element in a rotated sorted array
+    ///
+    /// Input: [4, 5, 6, 7, 0, 1, 2] => 7
+    /// Input: [4, 5, 6, 0, 1, 2, 3] => 6
+    func findMax(_ array: [Int]) -> Int? {
+        guard !array.isEmpty else { return nil } // Return nil if the array is empty
+        var left = 0
+        var right = array.count - 1
+        
+        while left < right {
+            let mid = left + (right - left) / 2
+            if array[mid] > array[right] { // Maximum is in the right half
+                left = mid
+            } else { // Maximum is in the left half (excluding mid)
+                right = mid - 1
+            }
+        }
+        return array[left]
+    }
+    
+    /// A peak element in an array is an element that is strictly greater than its neighbors
+    ///
+    /// array[i] is peak if
+    /// 1. array[i] > array[i-1] (if i > 0)
+    /// 2. array[i] > array[i+1] (if i < array.count-1)
+    ///
+    /// Input: [1, 2, 3, 4, 5] (Asc)
+    /// Input: [5, 4, 3, 2, 1] (Desc)
+    /// Input: [1, 2, 1, 3, 1] (Mulitiple Peaks)
+    func findPeak(_ array: [Int]) -> Int {
+        var left = 0
+        var right = array.count - 1
+        while left < right {
+            let mid = left + (right - left) / 2
+            if array[mid] < array[mid+1] { // Peak is in the right half
+                left = mid + 1
+            } else { // Peak is in the left half (including mid)
+                right = mid
+            }
+        }
+        // At the end, left == right, which is the peak index
+        return array[left]
+    }
+    
+    /// Array is circular. Array can contain duplicates.
+    ///
+    /// Input: nums = [2, 5, 6, 0, 0, 1, 2], target = 0
+    /// Input: nums = [2, 5, 6, 0, 0, 1, 2], target = 3
+    ///
+    /// Idea:
+    /// 1. Find if its left sorted or right sorted
+    /// 2. Check target lies bw range
+    func searchElement(_ array: [Int], target: Int) -> Int {
+        var left = 0
+        var right = array.count - 1
+        while left <= right {
+            let mid = left + (right - left) / 2
+            /// Check if the target is found
+            if array[mid] == target {
+                return mid
+            }
+            // Handle duplicates: Skip if both ends and mid are equal
+            if array[left] == array[mid] && array[mid] == array[right] {
+                left += 1
+                right -= 1
+                continue
+            }
+            /// Determine if the left half is sorted
+            if array[left] <= array[mid] {
+                /// Check if the target is in the sorted left half
+                if array[left] <= target && target <= array[mid] {
+                    right = mid - 1
+                } else { /// left is sorted, but the target is in the right sorted half.
+                    left = mid + 1
+                }
+            } else {
+                /// Otherwise, the right half is sorted
+                if array[mid] <= target && target <= array[right] {
+                    left = mid + 1
+                } else {
+                    right = mid - 1
+                }
+            }
+        }
+        return -1
+    }
+    
+    /// array[left] <= array[mid] -> left sorted
+    /// array[mid] <= array[right] -> right sorted
+    
+    /// Input: [2,3,3,4,4,4,6,8]
+    /// Target: 4
+    /// Idea: 4,4,4 => on this assume the middle is the second 4.
+    func findFirstOccuranceOfElement(_ array: [Int], _ target: Int) -> Int {
+        var left = 0
+        var right = array.count - 1
+        while left <= right {
+            let mid = left + (right - left) / 2
+            if mid > 0, array[mid] == target && array[mid-1] != target {
+                // found the first starting position (left)
+                break
+            }
+            /// If we are reaching here means, even target found,
+            /// that wasn't at the first position.
+            /// so inorder to go to the first half, we took mid >= target
+            /// only when mid > target, we can go to the first half by shrinking.
+            if array[mid] >= target {
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        return -1
+    }
+    
+    func findLastOccuranceOfElement(_ array: [Int], _ target: Int) -> Int {
+        var left = 0
+        var right = array.count - 1
+        while left <= right {
+            let mid = left + (right - left) / 2
+            if mid < array.count && array[mid] == target && array[mid+1] != target {
+                /// found the last poistion (right)
+                break
+            }
+            /// if we are reaching here, even target found,
+            /// that couln't be the last position.
+            /// so inorder to go to the second half, we took mid <= target
+            if array[mid] <= target {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        return -1
+    }
+    
+    func findMedianInSortedArrays(_ num1: [Int], _ num2: [Int]) -> Double {
+        let array = mergeTwoSortedArray(num1, num2)
+        /// findout the median (for odd length n is the median, for even the avg of n and n-1)
+        let n = array.count
+        let isEven = n % 2 == 0 // assume n = 4
+        if isEven {
+            return Double(array[(n/2)-1] + array[n/2]) / 2.0 // avg
+        } else {
+            return Double(array[n/2])
+        }
+    }
 }
 
 // - MARK: Subsequence
@@ -1387,3 +1718,7 @@ extension LeetCode {
         return result
     }
 }
+
+// K-way merge
+// merge intervals
+// bitwise manipulation
